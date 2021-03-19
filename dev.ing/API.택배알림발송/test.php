@@ -459,11 +459,11 @@ $test_date = date("Y-m-d", strtotime("+1 month", strtotime($today_date)));
 
             <script>
                 $(document).ready(function() {
-                    var myKey = "zh9uaKvUgxpF3P1nOlUQFQ"; // sweet tracker에서 발급받은 자신의 키 넣는다.
+                    var myKey = 'zh9uaKvUgxpF3P1nOlUQFQ'; // sweet tracker에서 발급받은 자신의 키 넣는다.
                     // 배송정보와 배송추적 tracking-api
                     var code_array = <?php echo json_encode($tracking_code) ?>;
                     var code_counter = <?php echo $tracking_counter ?>;
-                    var t_code = "04";
+                    var t_code = '04';
                     var invoice = new Array();
                     var kinds = [];
 
@@ -471,12 +471,12 @@ $test_date = date("Y-m-d", strtotime("+1 month", strtotime($today_date)));
 
                         var t_invoice = code_array[i];
                         $.ajax({
-                            type: "GET",
-                            dataType: "json",
-                            url: "http://info.sweettracker.co.kr/api/v1/trackingInfo?t_key=" + myKey + "&t_code=" + t_code + "&t_invoice=" + t_invoice,
+                            type: 'GET',
+                            dataType: 'json',
+                            url: 'http://info.sweettracker.co.kr/api/v1/trackingInfo?t_key=' + myKey + '&t_code=' + t_code + '&t_invoice=' + t_invoice,
                             success: function(data) {
                                 console.log(data);
-                                var myInvoiceData = "";
+                                var myInvoiceData = '';
                                 if (data.status == false) {
                                     myInvoiceData += ('<p>' + data.msg + '<p>');
                                 } else {
@@ -485,11 +485,7 @@ $test_date = date("Y-m-d", strtotime("+1 month", strtotime($today_date)));
 
                                 }
 
-                                var trackingDetails = data.trackingDetails;
-                                detailcount = Object.keys(trackingDetails).length;
-                                detailcounts = detailcount - 1;
-                                var details = data.trackingDetails[detailcounts];
-
+                                var details = data.lastDetail;
                                 kinds.push(details.kind);
                             }
                         });
@@ -503,8 +499,8 @@ $test_date = date("Y-m-d", strtotime("+1 month", strtotime($today_date)));
                         var kindsJson = JSON.stringify(kinds);
 
                         $.ajax({
-                            url: "/wp-content/themes/storefront-child/formtests.php",
-                            type: "POST",
+                            url: '/wp-content/themes/storefront-child/kakao_send_action.php',
+                            type: 'POST',
                             data: {
                                 count: code_counter,
                                 ars: invoiceJson,
@@ -512,7 +508,7 @@ $test_date = date("Y-m-d", strtotime("+1 month", strtotime($today_date)));
                             },
 
                             success: function(val) {
-                                console.log("hi");
+                                console.log('hi');
                             }
 
                         });

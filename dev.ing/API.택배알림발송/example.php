@@ -11,8 +11,6 @@ $knt = new TKakaoNotificationTalk\TKakaoNotificationTalk($key, $clientId, $defau
 
 // 메시지 발송.
 $body = [
-
-
     //"sendnumber" => "0518055957",
     //"comment" => "도담밀",
     //"pintype" => "SMS",
@@ -20,12 +18,12 @@ $body = [
 
     //"cmid" => "2021031814421428140801",
 
-    //"phone" => "01064399896",
-    //"callback" => "0518055957", // 발신번호 발신자번호등록 기능으로 먼저 등록해야 메시지발송이 가능합니다.
-    //"reqdate" => "", // 예약발송시 다음과같은 형식으로 일시를 지정한다. "20160517000000", 비워두면 즉시발송.
-    //"msg" => "안녕하세요. 도담밀입니다. 고객님의 소중한 택배가 배송이 완료되었습니다. 감사합니다.", // 변수부분을 제외하고 템플릿내용 동일해야합니다.
-    "template_code" => "", // 미리 APISTORE 카카오 알림톡 템플릿으로 등록승인된 템플릿의 코드값
-    "status" => "",
+    "phone" => "01064399896",
+    "callback" => "0518055957", // 발신번호 발신자번호등록 기능으로 먼저 등록해야 메시지발송이 가능합니다.
+    "reqdate" => "", // 예약발송시 다음과같은 형식으로 일시를 지정한다. "20160517000000", 비워두면 즉시발송.
+    "msg" => "안녕하세요. 도담밀입니다. 고객님의 소중한 택배가 배송이 완료되었습니다. 감사합니다.", // 변수부분을 제외하고 템플릿내용 동일해야합니다.
+    "template_code" => "DODAM01", // 미리 APISTORE 카카오 알림톡 템플릿으로 등록승인된 템플릿의 코드값
+    //"status" => "",
     //url => "https://dodammeal.com", // 알림톡 버튼에 연결할 URL 주소값.
     //url_button_txt => "상세보기",
     // 그외 추가 가능한 값들...
@@ -40,8 +38,8 @@ $body = [
 
 
 //$response = $knt->registSender($body);
-//$response = $knt->postMessage($body);
-$response = $knt->getTemplate($body);
+$response = $knt->postMessage($body);
+//$response = $knt->getTemplate($body);
 
 if ($response->body->result_message == "OK") {
     
