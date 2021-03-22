@@ -82,33 +82,38 @@ function banana_kakao_send_action()
 
 
             ////
-
-            add_filter('cron_schedules', 'isa_add_every_thrid_minutes'); // 크론에 스케줄 추가
-            function isa_add_every_thrid_minutes($schedules)
-            { // 스케줄생성
+            $testcode = "0";
+            add_filter( 'cron_schedules', 'isa_add_every_thrid_minutes' ); // 크론에 스케줄 추가
+            function isa_add_every_thrid_minutes( $schedules ) { // 스케줄생성
                 $schedules['every_thrid_minutes'] = array(
-                    'interval'  => 60, //초
-                    'display'   => __('Every 30 Minutes', 'textdomain') // 표시될문구
+                        'interval'  => 60, //초
+                        'display'   => __( 'Every 30 Minutes', 'textdomain' ) // 표시될문구
                 );
                 return $schedules;
             }
-
-            if (!wp_next_scheduled('isa_add_every_thrid_minutes')) { // 해당이름으로된 스케줄이 없을경우
-                wp_schedule_event(time(), 'every_thrid_minutes', 'isa_add_every_thrid_minutes'); // 해당 구문 실행, 조건은 위의 스케줄생성
+            
+            if ( ! wp_next_scheduled( 'isa_add_every_thrid_minutes' ) ) { // 해당이름으로된 스케줄이 없을경우
+                wp_schedule_event( time(), 'every_thrid_minutes', 'isa_add_every_thrid_minutes' ); // 해당 구문 실행, 조건은 위의 스케줄생성
             }
-
-            add_action('isa_add_every_thrid_minutes', 'banana_kakao_send_action'); // 해당 훅에서 실행될 함수
-
-            function banana_kakao_send_action()
-            { // 스케줄마다 실행될 함수
+            
+            add_action( 'isa_add_every_thrid_minutes', 'banana_kakao_send_action' ); // 해당 훅에서 실행될 함수
+            
+            function banana_kakao_send_action() { // 스케줄마다 실행될 함수
                 $mysqli = new mysqli('localhost', 'olivejnainc', 'Goyo5713**', 'olivejnainc');
                 $testz = date("h:i:s");
                 $mysqli_query = "INSERT INTO `userTest`(`userid`) VALUES ('$testz')";
-                mysqli_query($mysqli, $mysqli_query); ?>
-    <script>
-        $(document).ready(function() {
-            $("#query_test").val("10");
-        });
-    </script>
-<?php
+                mysqli_query($mysqli,$mysqli_query);
+                $testcode = "1";
+            }
+            
+            if ( $testcode == "1" ){
+            add_filter('wp-footer','banana_test');
+        }
+
+            function banana_test(){
+                echo "
+                <script>
+                $(document).ready(function(){
+                $('#query_test').val('10'); });
+                </script>";
             }
