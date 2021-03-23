@@ -9,6 +9,9 @@ $defaultCallBack = "0518055957"; // 발신자 전화번호
 
 $knt = new TKakaoNotificationTalk\TKakaoNotificationTalk($key, $clientId, $defaultCallBack);
 
+$qksksk = "권민지";
+$tesss = "123456789";
+
 // 메시지 발송.
 $body = [
     //"sendnumber" => "0518055957",
@@ -16,13 +19,19 @@ $body = [
     //"pintype" => "SMS",
     //"pincode" => "590744",
 
-    //"cmid" => "2021031814421428140801",
+    //"cmid" => "2021032314372163070801",
 
-    "phone" => "01064399896",
+    "phone" => "01050328526",
     "callback" => "0518055957", // 발신번호 발신자번호등록 기능으로 먼저 등록해야 메시지발송이 가능합니다.
     "reqdate" => "", // 예약발송시 다음과같은 형식으로 일시를 지정한다. "20160517000000", 비워두면 즉시발송.
-    "msg" => "안녕하세요. 도담밀입니다. 고객님의 소중한 택배가 배송이 완료되었습니다. 감사합니다.", // 변수부분을 제외하고 템플릿내용 동일해야합니다.
-    "template_code" => "DODAM01", // 미리 APISTORE 카카오 알림톡 템플릿으로 등록승인된 템플릿의 코드값
+    "msg" => "안녕하세요
+$qksksk 고객님
+고객님의 소중한 택배가 배송완료되었습니다.
+
+운송장번호 : $tesss
+
+감사합니다.", // 변수부분을 제외하고 템플릿내용 동일해야합니다.
+    "template_code" => "DODAM02", // 미리 APISTORE 카카오 알림톡 템플릿으로 등록승인된 템플릿의 코드값
     //"status" => "",
     //url => "https://dodammeal.com", // 알림톡 버튼에 연결할 URL 주소값.
     //url_button_txt => "상세보기",
@@ -54,7 +63,7 @@ if ($response->body->result_message == "OK") {
 
 
 // 발송결과 확인. (발송결과는 발송후 즉시받을 수 있는 것이 아니므로 5분에 한번씩이라든지 주기적으로 확인해야 합니다.)
-//$sendResponse = $knt->getReport(["cmid" => "2021031814421428140801"]);
+//$sendResponse = $knt->getReport(["cmid" => "2021032314372163070801"]);
 //if (isset($sendResponse) 
 //  && isset($sendResponse->body) 
 //  && isset($sendResponse->body->CMID) 
