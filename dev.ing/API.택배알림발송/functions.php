@@ -117,3 +117,6 @@ function banana_kakao_send_action()
                 $('#query_test').val('10'); });
                 </script>";
             }
+
+//
+

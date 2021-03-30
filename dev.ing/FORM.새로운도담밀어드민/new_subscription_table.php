@@ -15,8 +15,7 @@ function bana_new_subscription_action(){
         $new_user_date = get_post_meta ( $subid, 'dtwc_delivery_date', true);
 
         // 경우의수
-        $order_type = "";
-        $order_type_def = ["","","",""];
+        $table_category = "SELECT * FROM userbase WHERE userid = '$news_user_id'";
 
         // 시기
         $new_period = ["준비기","초기","중기","후기","완료기","유아기"];
