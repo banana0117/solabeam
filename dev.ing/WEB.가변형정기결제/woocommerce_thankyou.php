@@ -149,7 +149,7 @@ function banana_change_payment_subscription($order_id)
         }else{
             $insert_user = $news_user_id."-7";
             $weekend_insert_query = "INSERT INTO `shicktest` (userid, name, membership, deilday, opt, period, memo, water, delinum) VALUES '$insert_user','$new_user_name','$choice_table','$new_user_date','$total_opt','$choice_period','','$current_water')";
-            mysqli_query($mysqli, $shick_insert_weekend);
+            mysqli_query($mysqli, $weekend_insert_query);
         }
 
         $weekend_code = "END-";
@@ -164,7 +164,8 @@ function banana_change_payment_subscription($order_id)
             $weekend_code .= "Y";
         }
 
-        
+        $code_update_query = "UPDATE userbase SET `tablecode`='$table_code' WHERE userid = '$news_user_id'";
+        mysqli_query($mysqli, $code_update_query);
 
         $ns = 0;
         while($ns <= 3){
