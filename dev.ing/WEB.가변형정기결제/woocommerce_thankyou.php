@@ -28,6 +28,7 @@ function banana_change_payment_subscription($order_id)
 
         $limitdate = date("Y-m-d", strtotime("+1 month", strtotime($new_user_date)));
         $next_payday = date("Y-m-d", strtotime("+4 weeks", strtotime($new_user_date)));
+        $next_paydays = date("Y-m-d", strtotime("-3 days", strtotime($next_payday)));
 
         $reco_query = "SELECT meta_value FROM wp_postmeta WHERE post_id = '$subid' AND meta_key = 'recommedid'";
         $reco_result = mysqli_query($mysqli, $reco_query);
@@ -77,7 +78,7 @@ function banana_change_payment_subscription($order_id)
         //SELECT * FROM (SELECT * FROM wp_woocommerce_order_items WHERE order_id = '7581' AND order_item_type = 'line_item') AS wp_woocommerce_order_items WHERE NOT order_item_type = 'fee'
         
 
-        $new_user_query = "INSERT INTO userbase(userid, username,phone,address,firstperiod,membership,opt,delidate,deliday,postcode,message,limitday,nextpayment,nowperiod,recommend,tables,super,mate,beef,tenloin,water,weekend,care) VALUES ('$news_user_id','$new_user_name','$new_user_phone','$new_user_address','$choice_period','프리미엄','$total_opt','$new_user_date','$new_user_day','$new_user_postcode','$deli_message','$limitdate','$next_payday','$choice_period','$reco_id','$choice_table','$select_super','$select_mate','$select_beef','$select_tenloin','$select_water','$select_weekend','$select_care')";
+        $new_user_query = "INSERT INTO userbase(userid, username,phone,address,firstperiod,membership,opt,delidate,deliday,postcode,message,limitday,nextpayment,nowperiod,recommend,tables,super,mate,beef,tenloin,water,weekend,care) VALUES ('$news_user_id','$new_user_name','$new_user_phone','$new_user_address','$choice_period','프리미엄','$total_opt','$new_user_date','$new_user_day','$new_user_postcode','$deli_message','$limitdate','$next_paydays','$choice_period','$reco_id','$choice_table','$select_super','$select_mate','$select_beef','$select_tenloin','$select_water','$select_weekend','$select_care')";
         mysqli_query($mysqli, $new_user_query);
 
 
@@ -111,14 +112,18 @@ function banana_change_payment_subscription($order_id)
         }
 
 
-        $next_payday[0] = date("Y-m-d", strtotime("+7 days", strtotime($new_user_date)));
-        $next_payday[1] = date("Y-m-d", strtotime("+14 days", strtotime($new_user_date)));
-        $next_payday[2] = date("Y-m-d", strtotime("+21 days", strtotime($new_user_date)));
-        $next_payday[3] = date("Y-m-d", strtotime("+28 days", strtotime($new_user_date)));
+        $next_payday[0] = date("Y-m-d", strtotime($new_user_date));
+        $next_payday[1] = date("Y-m-d", strtotime("+7 days", strtotime($new_user_date)));
+        $next_payday[2] = date("Y-m-d", strtotime("+14 days", strtotime($new_user_date)));
+        $next_payday[3] = date("Y-m-d", strtotime("+21 days", strtotime($new_user_date)));
+        $next_post_circle = date("Y-m-d", strtotime("+28 days", strtotime($new_user_date)));
+
+        $next_deliday_query = "UPDATE userbase SET `nextdeliday` = '$next_post_circle' WHERE userid = '$news_user_id'";
+        mysqli_query($mysqli, $next_deliday_query);
 
         $np = 0;
 
-        while ($np <= 4){
+        while ($np <= 3){
             $next_postdays = $next_payday[$np];
             $next_postday = "SELECT * FROM tablebase where based = 'default'";
             $next_postday_result = mysqli_query($mysqli, $next_postday);

@@ -145,6 +145,15 @@ while ($count <= $weekly) {
     $swap_update = "UPDATE wp_actionscheduler_actions SET `schedule`='$time_swap' WHERE args LIKE '%$subscription_id%' ORDER BY scheduled_date_gmt DESC LIMIT 1";
     mysqli_query($mysqli, $swap_update);
 
+    $next_update = "UPDATE userbase SET `nextpayment` = '$next_days' WHERE userid = '$userid'";
+    mysqli_query($mysqli, $next_update);
+
+    $table_search_query = "SELECT * FROM userbase WHERE userid = '$userid'";
+    $table_search_result = mysqli_query($mysqli, $table_search_query);
+    $table_search_row = mysqli_fetch_array($table_search_result);
+    $table_insert_date = $table_search_row[nextdeliday];
+    $next_circle = date("Y-m-d", strtotime("+".$weeks." weeks", strtotime($table_insert_date)));
+
 ?>
 
 <div>
