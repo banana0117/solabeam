@@ -1,11 +1,14 @@
 <?php
-add_action('woocommerce_thankyou', 'banana_change_payment_subscription');
-function banana_change_payment_subscription($order_id)
-{
-    if (wcs_order_contains_subscription($order_id)) { // 주문내역에 정기배송 상품이 있을경우
-        $order = new WC_Order($order_id);
 
+    $order_id = $order->get_id();
+
+    if (wcs_order_contains_subscription($order_id)) { // 주문내역에 정기배송 상품이 있을경우   
         $subid = $order_id + 1;
+        $news = 1;
+    } else {
+        $subid = $order_id;
+        $news = 2;
+    }
 
         $mysqli = new mysqli('localhost', 'olivejnainc', 'Goyo5713**', 'olivejnainc');
 
@@ -53,61 +56,60 @@ function banana_change_payment_subscription($order_id)
         while ($dip_roop > $dip_count) {
             if (empty($select_opt[$dip_roop])) {
             } else {
-                
-                if(strpos($select_opt[$dip_roop],"슈퍼푸드1") !== false ){
+
+                if (strpos($select_opt[$dip_roop], "슈퍼푸드1") !== false) {
                     $select_super = $select_opt[$dip_roop];
-                } elseif(strpos($select_opt[$dip_roop],"슈퍼푸드2") !== false ) {
+                } elseif (strpos($select_opt[$dip_roop], "슈퍼푸드2") !== false) {
                     $select_mate = $select_opt[$dip_roop];
-                } elseif(strpos($select_opt[$dip_roop],"고기추가") !== false ) {
+                } elseif (strpos($select_opt[$dip_roop], "고기추가") !== false) {
                     $select_beef = $select_opt[$dip_roop];
-                } elseif(strpos($select_opt[$dip_roop],"안심소고기변경") !== false ) {
+                } elseif (strpos($select_opt[$dip_roop], "안심소고기변경") !== false) {
                     $select_tenloin = $select_opt[$dip_roop];
-                } elseif(strpos($select_opt[$dip_roop],"육수추가") !== false ) {
+                } elseif (strpos($select_opt[$dip_roop], "육수추가") !== false) {
                     $select_water = $select_opt[$dip_roop];
-                } elseif(strpos($select_opt[$dip_roop],"주말팩") !== false ) {
+                } elseif (strpos($select_opt[$dip_roop], "주말팩") !== false) {
                     $select_weekend = $select_opt[$dip_roop];
-                } elseif(strpos($select_opt[$dip_roop],"케어") !== false ) {
-                    $select_care = $select_opt[$dip_roop];    
+                } elseif (strpos($select_opt[$dip_roop], "케어") !== false) {
+                    $select_care = $select_opt[$dip_roop];
                 }
             }
             $total_opt .= $select_opt[$dip_roop];
             $dip_roop++;
-        
         }
 
         //SELECT * FROM (SELECT * FROM wp_woocommerce_order_items WHERE order_id = '7581' AND order_item_type = 'line_item') AS wp_woocommerce_order_items WHERE NOT order_item_type = 'fee'
-        
 
-        $new_user_query = "INSERT INTO userbase(userid, username,phone,address,firstperiod,membership,opt,delidate,deliday,postcode,message,limitday,nextpayment,nowperiod,recommend,tables,super,mate,beef,tenloin,water,weekend,care) VALUES ('$news_user_id','$new_user_name','$new_user_phone','$new_user_address','$choice_period','프리미엄','$total_opt','$new_user_date','$new_user_day','$new_user_postcode','$deli_message','$limitdate','$next_paydays','$choice_period','$reco_id','$choice_table','$select_super','$select_mate','$select_beef','$select_tenloin','$select_water','$select_weekend','$select_care')";
+
+        $new_user_query = "INSERT INTO userbase(userid, username,phone,address,firstperiod,membership,opt,delidate,deliday,postcode,message,limitday,nextpayment,nowperiod,recommend,tables,super,mate,beef,tenloin,water,weekend,care,news) VALUES ('$news_user_id','$new_user_name','$new_user_phone','$new_user_address','$choice_period','프리미엄','$total_opt','$new_user_date','$new_user_day','$new_user_postcode','$deli_message','$limitdate','$next_paydays','$choice_period','$reco_id','$choice_table','$select_super','$select_mate','$select_beef','$select_tenloin','$select_water','$select_weekend','$select_care','$news')";
         mysqli_query($mysqli, $new_user_query);
 
 
-        
+
         $table_code = "D";
-        
-        if(strpos($choice_period, "중기") !== false ){
+
+        if (strpos($choice_period, "중기") !== false) {
             $table_code .= "T";
-        } elseif (strpos($choice_period, "후기") !== false ){
+        } elseif (strpos($choice_period, "후기") !== false) {
             $table_code .= "H";
-        } elseif (strpos($choice_period, "완료") !== false ){
+        } elseif (strpos($choice_period, "완료") !== false) {
             $table_code .= "W";
-        } elseif (strpos($choice_period, "유아") !== false ){
+        } elseif (strpos($choice_period, "유아") !== false) {
             $table_code .= "Y";
         }
 
-        if(empty($select_tenloin)){
+        if (empty($select_tenloin)) {
             $table_code .= "A";
         } else {
             $table_code .= "B";
         }
 
-        if(strpos($choice_table,"균형") !== false ){
+        if (strpos($choice_table, "균형") !== false) {
             $table_code .= "N";
-        } elseif(strpos($choice_table,"안전") !== false ){
+        } elseif (strpos($choice_table, "안전") !== false) {
             $table_code .= "S";
-        } elseif(strpos($choice_table,"다양") !== false ){
+        } elseif (strpos($choice_table, "다양") !== false) {
             $table_code .= "C";
-        } elseif(strpos($choice_table,"단백질") !== false ){
+        } elseif (strpos($choice_table, "단백질") !== false) {
             $table_code .= "B";
         }
 
@@ -123,94 +125,151 @@ function banana_change_payment_subscription($order_id)
 
         $np = 0;
 
-        while ($np <= 3){
+        while ($np <= 3) {
             $next_postdays = $next_payday[$np];
             $next_postday = "SELECT * FROM tablebase where based = 'default'";
             $next_postday_result = mysqli_query($mysqli, $next_postday);
-            while ($next_postday_row = mysqli_fetch_array($next_postday_result)){
+            while ($next_postday_row = mysqli_fetch_array($next_postday_result)) {
                 $testday[$np] = $next_postday_row[$next_postdays];
             }
             $np++;
         }
 
         //INSERT INTO `shicktest`(`userid`, `name`, `membership`, `deliday`, `opt`, `period`, `memo`, `water`, `delinum`) VALUES ();
-        
-        if(empty($select_water)){
 
-        }else{
+        if (empty($select_water)) {
+        } else {
             $current_water = "육수팩1";
         }
 
-        for($qs=1; $qs=6; $qs=$qs+1){
+        for ($qs = 1; $qs = 6; $qs = $qs + 1) {
 
-            $insert_user = $news_user_id."-".$qs;
+            $insert_user = $news_user_id . "-" . $qs;
             $shick_insert_query = "INSERT INTO `shicktest` (userid, name, membership, deilday, opt, period, memo, water, delinum) VALUES '$insert_user','$new_user_name','$choice_table','$new_user_date','$total_opt','$choice_period','','$current_water')";
             mysqli_query($mysqli, $shick_insert_query);
-
         }
 
-        if(empty($select_weekend)){
-
-        }else{
-            $insert_user = $news_user_id."-7";
+        if (empty($select_weekend)) {
+        } else {
+            $insert_user = $news_user_id . "-7";
             $weekend_insert_query = "INSERT INTO `shicktest` (userid, name, membership, deilday, opt, period, memo, water, delinum) VALUES '$insert_user','$new_user_name','$choice_table','$new_user_date','$total_opt','$choice_period','','$current_water')";
             mysqli_query($mysqli, $weekend_insert_query);
         }
 
         $weekend_code = "END-";
 
-        if(strpos($choice_period, "중기") !== false ){
+        if (strpos($choice_period, "중기") !== false) {
             $weekend_code .= "T";
-        } elseif (strpos($choice_period, "후기") !== false ){
+        } elseif (strpos($choice_period, "후기") !== false) {
             $weekend_code .= "H";
-        } elseif (strpos($choice_period, "완료") !== false ){
+        } elseif (strpos($choice_period, "완료") !== false) {
             $weekend_code .= "W";
-        } elseif (strpos($choice_period, "유아") !== false ){
+        } elseif (strpos($choice_period, "유아") !== false) {
             $weekend_code .= "Y";
         }
 
         $code_update_query = "UPDATE userbase SET `tablecode`='$table_code' WHERE userid = '$news_user_id'";
         mysqli_query($mysqli, $code_update_query);
 
-        $ns = 0;
-        while($ns <= 3){
-            for($qs=1; $qs=6; $qs=$qs+1){
+        if (strpos($choice_period, "준비기") !== false) {
 
-                $load_codes = $table_code."-".$qs;
-                $load_query = "SELECT * FROM tablelist WHERE codes = '$load_codes'";
-                $load_result = mysqli_query($mysqli,$load_query);
-                $load_row = mysqli_fetch_array($load_result);
-                $load_menu[$qs] = $load_row[$testday[$ns]];
-                
-                $insert_user = $news_user_id."-".$qs;
+            $ns = 0;
+            for ($qs = 1; $qs = 4; $qs = $qs + 3) {
+
+                $loades_menu[1] = "쌀미음";
+                $loades_menu[4] = "찹쌀미음";
+
+                $insert_user = $news_user_id . "-" . $qs;
 
                 $update_query = "UPDATE `shicktest` SET `$next_payday[$ns]`='$load_menu[$qs]' where userid = '$insert_user'";
                 mysqli_query($mysqli, $update_query);
-
             }
 
-            if(empty($select_weekend)){
+            // 업데이트쿼리
 
-            } else {
-                $weekend_user = $news_user_id."-7";
-                $weekend_query = "SELECT * FROM tablelist WHERE codes = '$weekend_code'";
-                $weekend_result = mysqli_query($mysqli,$weekend_query);
-                $weekend_row = mysqli_fetch_array($weekend_result);
-                $weekend_menu[$qs] = $weekend_row[$testday[$ns]];
-                $update_week_query = "UPDATE `shicktest` SET `$next_payday[$ns]`='$load_menu[$qs]' where userid = '$weekend_user'";
-                mysqli_query($mysqli, $update_week_query);
+            $ns = 1;
+
+            while ($ns <= 3) {
+                for ($qs = 1; $qs = 6; $qs = $qs + 1) {
+
+                    $load_codes = $table_code . "-" . $qs;
+                    $load_query = "SELECT * FROM tablelist WHERE codes = '$load_codes'";
+                    $load_result = mysqli_query($mysqli, $load_query);
+                    $load_row = mysqli_fetch_array($load_result);
+                    $load_menu[$qs] = $load_row[$testday[$ns]];
+
+                    $insert_user = $news_user_id . "-" . $qs;
+
+                    $update_query = "UPDATE `shicktest` SET `$next_payday[$ns]`='$load_menu[$qs]' where userid = '$insert_user'";
+                    mysqli_query($mysqli, $update_query);
+                }
+
+                $ns++;
             }
 
-            $ns++;
+        } elseif (strpos($choice_period, "초기") !== false) {
+            $ns = 0;
+            for ($qs = 1; $qs = 4; $qs = $qs + 3) {
 
+                $loades_menu[1] = "한우미음";
+                $loades_menu[4] = "닭고기미음";
+
+                $insert_user = $news_user_id . "-" . $qs;
+
+                $update_query = "UPDATE `shicktest` SET `$next_payday[$ns]`='$load_menu[$qs]' where userid = '$insert_user'";
+                mysqli_query($mysqli, $update_query);
+            }
+
+            $ns = 1;
+
+            while ($ns <= 3) {
+                for ($qs = 1; $qs = 6; $qs = $qs + 1) {
+
+                    $table_code = str_replace("Z", "X", $table_code);
+                    $load_codes = $table_code . "-" . $qs;
+                    $load_query = "SELECT * FROM tablelist WHERE codes = '$load_codes'";
+                    $load_result = mysqli_query($mysqli, $load_query);
+                    $load_row = mysqli_fetch_array($load_result);
+                    $load_menu[$qs] = $load_row[$testday[$ns]];
+
+                    $insert_user = $news_user_id . "-" . $qs;
+
+                    $update_query = "UPDATE `shicktest` SET `$next_payday[$ns]`='$load_menu[$qs]' where userid = '$insert_user'";
+                    mysqli_query($mysqli, $update_query);
+                }
+
+                $ns++;
+            }
+        } else {
+
+            $ns = 0;
+            while ($ns <= 3) {
+                for ($qs = 1; $qs = 6; $qs = $qs + 1) {
+
+                    $load_codes = $table_code . "-" . $qs;
+                    $load_query = "SELECT * FROM tablelist WHERE codes = '$load_codes'";
+                    $load_result = mysqli_query($mysqli, $load_query);
+                    $load_row = mysqli_fetch_array($load_result);
+                    $load_menu[$qs] = $load_row[$testday[$ns]];
+
+                    $insert_user = $news_user_id . "-" . $qs;
+
+                    $update_query = "UPDATE `shicktest` SET `$next_payday[$ns]`='$load_menu[$qs]' where userid = '$insert_user'";
+                    mysqli_query($mysqli, $update_query);
+                }
+
+                if (empty($select_weekend)) {
+                } else {
+                    $weekend_user = $news_user_id . "-7";
+                    $weekend_query = "SELECT * FROM tablelist WHERE codes = '$weekend_code'";
+                    $weekend_result = mysqli_query($mysqli, $weekend_query);
+                    $weekend_row = mysqli_fetch_array($weekend_result);
+                    $weekend_menu[$qs] = $weekend_row[$testday[$ns]];
+                    $update_week_query = "UPDATE `shicktest` SET `$next_payday[$ns]`='$load_menu[$qs]' where userid = '$weekend_user'";
+                    mysqli_query($mysqli, $update_week_query);
+                }
+
+                $ns++;
+            }
         }
-
-    }
-
-
-
-}
-
-
-
-mysqli_close($mysqli);
+    } //if

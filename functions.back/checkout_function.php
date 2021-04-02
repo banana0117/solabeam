@@ -96,16 +96,7 @@ function bbloomer_checkout_radio_choice_fee_dis($cart)
         if(!$cart->find_product_in_cart ($product_cart_id)){
             $cart->empty_cart();
             $cart->add_to_cart( $selectedproduct );
-            //$cart->remove_cart_item( $selectedproducts );
         }
-
-//        $cart->empty_cart(); //Empty the cart
-        //foreach ( $cart->get_cart() as $cart_item ) {  
-            //$product_id = $cart_item['data']->get_id();
-            //$new_price = 7634;
-            //$cart_item['data']->set_id( $new_price ); 
-        //}
-
     } else {
         $selectedproduct = 7653;
         $selectedproducts = 7634;
@@ -113,16 +104,7 @@ function bbloomer_checkout_radio_choice_fee_dis($cart)
         if(!$cart->find_product_in_cart ($product_cart_id)){
             $cart->empty_cart();
             $cart->add_to_cart( $selectedproduct );
-            //$cart->remove_cart_item( $selectedproducts );
         }
-        //$cart->empty_cart(); //Empty the cart
- 
-
-        //foreach ( $cart->get_cart() as $cart_item ) {
-        //    $product_id = $cart_item['data']->get_id();
-        //    $new_price = 7653;
-        //    $cart_item['data']->set_id( $new_price ); 
-        //} 
     }
 
     $discount_total = absint($totalfee) * (absint($radioz) / 100);
@@ -146,3 +128,4 @@ function bbloomer_checkout_radio_choice_set_session_dis($posted_data)
 
 
 //
+
