@@ -154,6 +154,9 @@ while ($count <= $weekly) {
     $table_insert_date = $table_search_row[nextdeliday];
     $next_circle = date("Y-m-d", strtotime("+".$weeks." weeks", strtotime($table_insert_date)));
 
+    $circle_update = "UPDATE userbase SET `nextdeliday` = '$next_circle' WHERE userid = '$userid'";
+    mysqli_query($mysqli, $circle_update);
+
 ?>
 
 <div>

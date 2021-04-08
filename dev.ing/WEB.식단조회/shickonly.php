@@ -1242,7 +1242,7 @@ for($as=1; $as<=4; $as=$as+1) {
             </div>';
     }
 
-    if (empty($menu_step_tops[$as])){
+    if (empty($menu_step_tips[$as])){
 
     }else {
 
@@ -1264,13 +1264,8 @@ for($as=1; $as<=4; $as=$as+1) {
                 </div>
             </div>
         </div>
-    </div>
-    <div class="save_btn" style="height:100%; background-color:#fff;">
-        <div class="">
-            <button id="save">저장하기</button>
-        </div>
-    </div>
-</div>
+    
+
     ';
 }
 
@@ -1356,6 +1351,7 @@ echo '
 </div>
 <div class="maketext">
 <p>'.$menu_notice[$as].'</p>
+</div>
 </div>
 </div>
 ';

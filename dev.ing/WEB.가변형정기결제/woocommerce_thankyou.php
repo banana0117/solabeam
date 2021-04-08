@@ -89,12 +89,22 @@
 
         if (strpos($choice_period, "중기") !== false) {
             $table_code .= "T";
+            $pkg_counter = 3;
         } elseif (strpos($choice_period, "후기") !== false) {
             $table_code .= "H";
+            $pkg_counter = 3;
         } elseif (strpos($choice_period, "완료") !== false) {
             $table_code .= "W";
+            $pkg_counter = 3;
         } elseif (strpos($choice_period, "유아") !== false) {
             $table_code .= "Y";
+            $pkg_counter = 12;
+        } elseif (strpos($choice_period, "준비기") !== false) {
+            $table_code .= "Z";
+            $pkg_counter = 1;
+        } elseif (strpos($choice_period, "초기") !== false) {
+            $table_code .= "X";
+            $pkg_counter = 1;
         }
 
         if (empty($select_tenloin)) {
@@ -110,9 +120,14 @@
         } elseif (strpos($choice_table, "다양") !== false) {
             $table_code .= "C";
         } elseif (strpos($choice_table, "단백질") !== false) {
-            $table_code .= "B";
+            $table_code .= "M";
         }
 
+        if (empty($select_mate)) {
+            
+        } else {
+            $table_code .= "Q";
+        }
 
         $next_payday[0] = date("Y-m-d", strtotime($new_user_date));
         $next_payday[1] = date("Y-m-d", strtotime("+7 days", strtotime($new_user_date)));
@@ -120,8 +135,16 @@
         $next_payday[3] = date("Y-m-d", strtotime("+21 days", strtotime($new_user_date)));
         $next_post_circle = date("Y-m-d", strtotime("+28 days", strtotime($new_user_date)));
 
-        $next_deliday_query = "UPDATE userbase SET `nextdeliday` = '$next_post_circle' WHERE userid = '$news_user_id'";
+        $next_deliday_query = "UPDATE userbase SET `nextdeliday` = '$next_post_circle', `pkg` = '$pkg_counter' WHERE userid = '$news_user_id'";
         mysqli_query($mysqli, $next_deliday_query);
+
+        if ($news == "2"){
+            $update_news_query = "UPDATE userbase SET `pkg` = '$pkg_counter' WHERE userid = '$news_user_id'";
+            mysqli_query($mysqli, $update_news_query);
+        } else {
+            $update_subid_query = "UPDATE userbase SET `subid` = '$subid' WHERE userid = '$news_user_id'";
+            mysqli_query($mysqli, $update_subid_query);
+        }
 
         $np = 0;
 
@@ -272,4 +295,3 @@
                 $ns++;
             }
         }
-    } //if
