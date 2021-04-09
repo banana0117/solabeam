@@ -45,6 +45,7 @@
         while ($fee_option_row = mysqli_fetch_array($fee_option_result)) {
 
             $select_opt[$dip] = $fee_option_row[order_item_name];
+            $select_opts[] = $fee_option_row[order_item_name];
             $dip++;
         }
 
@@ -122,6 +123,7 @@
         } elseif (strpos($choice_table, "단백질") !== false) {
             $table_code .= "M";
         }
+        
 
         if (empty($select_mate)) {
             

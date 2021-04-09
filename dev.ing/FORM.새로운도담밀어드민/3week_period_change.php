@@ -20,6 +20,10 @@ $user_info_query = "SELECT * FROM userbase WHERE userid = '$userid'";
 $user_info_result = mysqli_query($mysqli, $user_info_query);
 $user_info_row = mysqli_fetch_array($deli_data_result);
 
+$period_str = array();
+$table_str = array();
+$side_str = array();
+
 $meta_name = $user_info_row[username];
 $meta_tables = $user_info_row[tables];
 $meta_super = $user_info_row[super];
@@ -29,73 +33,106 @@ $meta_tenloin = $user_info_row[tenloin];
 $meta_water = $user_info_row[water];
 $meta_weekend = $user_info_row[weekend];
 $meta_care = $user_info_row[care];
-$meta_nowperiod = $user_info_row[nowperiod];
+$meta_snack = $user_info_row[snack];
+$meta_safe = $user_info_row[safe];
+$meta_nowperiod = $user_info_row[periodstr];
 
-if (strpos($meta_tables, "T") !== false) {
-    $period = "중기";
-} elseif (strpos($meta_tables, "H") !== false) {
-    $period = "후기";
-} elseif (strpos($meta_tables, "W") !== false) {
-    $period = "완료기";
-} elseif (strpos($meta_tables, "Y") !== false) {
-    $period = "유아기";
-} elseif (strpos($meta_tables, "Z") !== false) {
+array_push($meta_name,$period_str);
+array_push($meta_super,$table_str);
+array_push($meta_mate,$table_str);
+array_push($meta_tables,$table_str);
+array_push($meta_beef,$table_str);
+array_push($meta_tenloin,$table_str);
+array_push($meta_safe,$table_str);
+
+array_push($meta_care,$sidestr);
+array_push($meta_weekend,$sidestr);
+array_push($meta_water,$sidestr);
+array_push($meta_snack,$sidestr);
+
+if(in_array("Z",$period_str)){
     $period = "준비기";
-} elseif (strpos($meta_tables, "X") !== false) {
+} elseif (in_array("X",$period_str)){
     $period = "초기";
+} elseif (in_array("T",$period_str)){
+    $period = "중기";
+} elseif (in_array("H",$period_str)){
+    $period = "후기";
+} elseif (in_array("W",$period_str)){
+    $period = "완료기";
+} elseif (in_array("Y",$period_str)){
+    $period = "유아기";
+} 
+
+if(in_array("U", $table_str)){
+    $table = "U"; // 균형
+} elseif(in_array("I", $table_str)){
+    $table = "I"; // 내맘
+} elseif(in_array("J", $table_str)){
+    $table = "J"; // 단백
+} elseif(in_array("D", $table_str)){
+    $table = "D"; // 다양
+} elseif(in_array("Q", $table_str)){
+    $table = "Q"; // 맞춤
+} elseif(in_array("E", $table_str)){
+    $table = "E"; // 안전
 }
 
-if (strpos($meta_tables, "N")) {
-    $table = "1"; // 균형
-} elseif (strpos($meta_tables, "S")) {
-    $table = "2"; // 안전
-} elseif (strpos($meta_tables, "C")) {
-    $table = "3"; // 다양
-} elseif (strpos($meta_tables, "M")) {
-    $table = "4"; // 단백질
-}
 
+if(in_array("S",$table_str)){
 
-if (empty($meta_super)) {
-    $super = 0;
-} else {
+    if(in_array("S",$table_str)){
     $super = 1;
+} else {
+    $super = 0;
 }
 
-if (empty($meta_mate)) {
-    $mate = 0;
-} else {
+if(in_array("Z",$table_str)){
     $mate = 1;
+} else {
+    $mate = 0;
 }
 
-if (empty($meta_beef)) {
-    $beef = 0;
-} else {
+if(in_array("A",$table_str)){
     $beef = 1;
+} else {
+    $beef = 0;
 }
 
-if (empty($meta_tenloin)) {
-    $tenloin = 0;
-} else {
+if(in_array("B",$table_str)){
     $tenloin = 1;
+} else {
+    $tenloin = 0;
 }
 
-if (empty($meta_water)) {
-    $water = 0;
-} else {
+if(in_array("R",$side_str)){
     $water = 1;
+} else {
+    $water = 0;
 }
 
-if (empty($meta_weekend)) {
-    $weekend = 0;
-} else {
+if(in_array("D",$side_str)){
     $weekend = 1;
+} else {
+    $weekend = 0;
 }
 
-if (empty($meta_care)) {
-    $care = 0;
-} else {
+if(in_array("C",$side_str)){
     $care = 1;
+} else {
+    $care = 0;
+}
+
+if(in_array("K",$side_str)){
+    $snack = 1;
+} else {
+    $snack = 0;
+}
+
+if(in_array("P",$side_str)){
+    $mega = 1;
+} else {
+    $mega = 0;
 }
 
 ?>
@@ -132,14 +169,18 @@ if (empty($meta_care)) {
             <p>현재 식단은?</p>
         </div>
         <div class="">
-            <input type="radio" name="table" id="table_1" value="1">
-            <label for="table_1">식단1</label>
-            <input type="radio" name="table" id="table_2" value="2">
-            <label for="table_2">식단2</label>
-            <input type="radio" name="table" id="table_3" value="3">
-            <label for="table_3">식단3</label>
-            <input type="radio" name="table" id="table_4" value="4">
-            <label for="table_4">식단4</label>
+            <input type="radio" name="table" id="table_1" value="U">
+            <label for="table_1">균형식단</label>
+            <input type="radio" name="table" id="table_2" value="E">
+            <label for="table_2">안전식단</label>
+            <input type="radio" name="table" id="table_3" value="J">
+            <label for="table_3">단백질식단</label>
+            <input type="radio" name="table" id="table_4" value="D">
+            <label for="table_4">다양다양식단</label>
+            <input type="radio" name="table" id="table_5" value="I">
+            <label for="table_5">내맘대로식단</label>
+            <input type="radio" name="table" id="table_6" value="Q">
+            <label for="table_6">맞춤형식단</label>
         </div>
 
         <div>
@@ -160,6 +201,10 @@ if (empty($meta_care)) {
             <label for="opt_weekend"></label>
             <input type="checkbox" name="opts[]" id="opt_care" value="R">
             <label for="opt_care"></label>
+            <input type="checkbox" name="opts[]" id="opt_snack" value="K">
+            <label for="opt_snack"></label>
+            <input type="checkbox" name="opts[]" id="opt_mega" value="P">
+            <label for="opt_mega"></label>
         </div>
     </div>
 </form>
@@ -174,29 +219,107 @@ if (empty($meta_care)) {
     var weekend = <?php echo $weekend ?>;
     var care = <?php echo $care ?>;
     var tables = <?php echo $table ?>;
+    var snack = <?php echo $snack ?>;
+    var mega = <?php echo $mega ?>;
 
-    if (period == "초기") {
+    if (period == "X") {
         $("#period_cho").prop('checked', true);
-    } else if (period == "준비기") {
+
+        var period_pay = "89000";
+        var super_pay = "15000";
+        var mate_pay = "25000";
+        var beef_pay = "15000";
+        var tenloin_pay = "50000";
+        var water_pay = "20000";
+        var weekend_pay = "0";
+        var care_pay = "35000";
+        var snack_pay = "0";
+        var mega_pay = "0";
+
+    } else if (period == "Z") {
         $("#period_jun").prop('checked', true);
-    } else if (period == "중기") {
+
+        var period_pay = "69000";
+        var super_pay = "0";
+        var mate_pay = "0";
+        var beef_pay = "0";
+        var tenloin_pay = "0";
+        var water_pay = "0";
+        var weekend_pay = "0";
+        var care_pay = "0";
+        var snack_pay = "0";
+        var mega_pay = "0";
+
+    } else if (period == "T") {
         $("#period_jung").prop('checked', true);
-    } else if (period == "후기") {
+
+        var period_pay = "169000";
+        var super_pay = "25000";
+        var mate_pay = "35000";
+        var beef_pay = "19000";
+        var tenloin_pay = "59000";
+        var water_pay = "40000";
+        var weekend_pay = "30000";
+        var care_pay = "45000";
+        var snack_pay = "98000";
+        var mega_pay = "0";
+
+    } else if (period == "H") {
         $("#period_hu").prop('checked', true);
-    } else if (period == "완료기") {
+
+        var period_pay = "239000";
+        var super_pay = "35000";
+        var mate_pay = "45000";
+        var beef_pay = "29000";
+        var tenloin_pay = "109000";
+        var water_pay = "60000";
+        var weekend_pay = "40000";
+        var care_pay = "55000";
+        var snack_pay = "98000";
+        var mega_pay = "0";
+
+    } else if (period == "W") {
         $("#period_wan").prop('checked', true);
+
+        var period_pay = "249000";
+        var super_pay = "35000";
+        var mate_pay = "45000";
+        var beef_pay = "40000";
+        var tenloin_pay = "109000";
+        var water_pay = "60000";
+        var weekend_pay = "45000";
+        var care_pay = "55000";
+        var snack_pay = "98000";
+        var mega_pay = "0";
+
     } else {
         $("#period_yoo").prop('checked', true);
+
+        var period_pay = "199000";
+        var super_pay = "15000";
+        var mate_pay = "25000"
+        var beef_pay = "25000";
+        var tenloin_pay = "109000";
+        var water_pay = "0";
+        var weekend_pay = "35000";
+        var care_pay = "45000";
+        var snack_pay = "98000";
+        var mega_pay = "0";
+
     }
 
-    if (tables == "1") {
+    if (tables == "U") {
         $("#table_1").prop('checked', true);
-    } else if (tables == "2") {
+    } else if (tables == "E") {
         $("#table_2").prop('checked', true);
-    } else if (tables == "3") {
+    } else if (tables == "J") {
         $("#table_3").prop('checked', true);
-    } else if (tables == "4") {
+    } else if (tables == "D") {
         $("#table_4").prop('checked', true);
+    } else if (tables == "I") {
+        $("#table_5").prop('checked', true);
+    } else if (tables == "Q") {
+        $("#table_6").prop('checked', true);
     }
 
     if (supers == "1") {
@@ -220,6 +343,16 @@ if (empty($meta_care)) {
     if (care == "1") {
         $("#opt_care").prop('checked', true);
     }
+
+    if (snack == "1") {
+        $("#opt_snack").prop('checked', true);
+    }
+
+    if (mega == "1") {
+        $("#opt_mega").prop('checked', true);
+    }
+
+
 
     $("input[name=table").click(function() {
 
@@ -248,4 +381,11 @@ if (empty($meta_care)) {
         }
         
     });
+
+    var allpay = 
+
+    $("input").change(function(){
+        $("#allpay").html(allpay);
+    });
+
 </script>

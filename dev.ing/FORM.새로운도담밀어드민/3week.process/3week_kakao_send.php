@@ -6,7 +6,7 @@ $mysqli = new mysqli('localhost', 'olivejnainc', 'Goyo5713**', 'olivejnainc');
     $today = date("Y-m-d");
     $last_week_day = date("Y-m-d", strtotime("+7 days", strtotime($today)));
 
-    $day_query = "SELECT * FROM userbase WHERE nextpayment = '$last_week_day' AND news = '1'";
+    $day_query = "SELECT * FROM userbase WHERE nextpayment = '$today' AND news = '1'";
     $day_result = mysqli_query($mysqli, $day_query);
     while($day_row = mysqli_fetch_array($day_result)){
         $select_users[] = $day_row[phone];
