@@ -223,10 +223,10 @@ for ($qs = 1; $qs = 6; $qs = $qs + 1) {
 }
 
 if (in_array("D", $side_opt)) {
-} else {
     $insert_user = $news_user_id . "-7";
     $weekend_insert_query = "INSERT INTO `shicktest` (userid, name, deilday, opt, period, memo, water, delinum) VALUES ('$insert_user','$new_user_name','$get_post_day','$total_opt','$choice_period','','$current_water','$get_post_num')";
     mysqli_query($mysqli, $weekend_insert_query);
+} else {
 }
 
 if (in_array("Z", $period_opt)) {
@@ -248,7 +248,7 @@ if (in_array("Z", $period_opt)) {
         for ($qs = 1; $qs <= 6; $qs = $qs + 1) {
 
             $load_codes = $table_code . "-" . $qs;
-            $load_query = "SELECT * FROM tablelist WHERE periods = '$period_str' AND safe = '$safe' AND super = '$super' AND beef = '$beef' AND tenloin = '$tenloin' AND codes LIKE '%-$qs'";
+            $load_query = "SELECT * FROM tablelist WHERE periods = '$period_str' AND safe = '$safe' AND super = '$super' AND beef = '$beef' AND tenloin = '$tenloin' AND mate = '$mate' AND codes LIKE '%-$qs'";
             $load_result = mysqli_query($mysqli, $load_query);
             $load_row = mysqli_fetch_array($load_result);
             $load_menu[$qs] = $load_row[$testday[$ns]];
@@ -278,7 +278,7 @@ if (in_array("Z", $period_opt)) {
     while ($ns <= 3) {
         for ($qs = 1; $qs = 6; $qs = $qs + 1) {
 
-            $load_query = "SELECT * FROM tablelist WHERE periods = '$period_str' AND safe = '$safe' AND super = '$super' AND beef = '$beef' AND tenloin = '$tenloin' AND codes LIKE '%-$qs'";
+            $load_query = "SELECT * FROM tablelist WHERE periods = '$period_str' AND safe = '$safe' AND super = '$super' AND beef = '$beef' AND tenloin = '$tenloin' AND mate = '$mate' AND codes LIKE '%-$qs'";
             $load_result = mysqli_query($mysqli, $load_query);
             $load_row = mysqli_fetch_array($load_result);
             $load_menu[$qs] = $load_row[$testday[$ns]];
@@ -296,7 +296,7 @@ if (in_array("Z", $period_opt)) {
     while ($ns <= 3) {
         for ($qs = 1; $qs = 6; $qs = $qs + 1) {
 
-            $load_query = "SELECT * FROM tablelist WHERE periods = '$period_str' AND safe = '$safe' AND super = '$super' AND beef = '$beef' AND tenloin = '$tenloin' AND codes LIKE '%-$qs'";
+            $load_query = "SELECT * FROM tablelist WHERE periods = '$period_str' AND safe = '$safe' AND super = '$super' AND beef = '$beef' AND tenloin = '$tenloin' AND mate = '$mate' AND codes LIKE '%-$qs'";
             $load_result = mysqli_query($mysqli, $load_query);
             $load_row = mysqli_fetch_array($load_result);
             $load_menu[$qs] = $load_row[$testday[$ns]];
@@ -308,7 +308,6 @@ if (in_array("Z", $period_opt)) {
         }
 
         if (in_array("D", $side_opt)) {
-        } else {
             $weekend_user = $news_user_id . "-7";
             $weekend_query = "SELECT * FROM tablelist WHERE periods = '$period_str' AND weekend = 'D'";
             $weekend_result = mysqli_query($mysqli, $weekend_query);
@@ -316,6 +315,7 @@ if (in_array("Z", $period_opt)) {
             $weekend_menu[$qs] = $weekend_row[$testday[$ns]];
             $update_week_query = "UPDATE `shicktest` SET `$next_payday[$ns]`='$load_menu[$qs]' where userid = '$weekend_user'";
             mysqli_query($mysqli, $update_week_query);
+        } else {
         }
 
         $ns++;

@@ -5,7 +5,7 @@ $today_date = date("Y-m-d");
 ?>
 
 
-
+<link rel="stylesheet" href="/wp-content/themes/storefront-child/css/form_admin.css?ver=<?php echo date('YmdHis')?>" />
 <script type="text/javascript" src="/wp-content/themes/storefront-child/jquery/jquery-3.4.1.min.js"></script>
 
 <?php

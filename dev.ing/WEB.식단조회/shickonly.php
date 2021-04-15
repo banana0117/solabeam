@@ -973,6 +973,7 @@ for($az=1; $az<=6; $az=$az+1){
 
     $meal_step_name[$az] = $meal_make_row[menu];
     $meal_step_period[$az] = $meal_make_row[period];
+    $plus_mates[$az] = $meal_make_row[plusmate];
     $meal_step_1[$az] = $meal_make_row[recipe1];
     $meal_step_2[$az] = $meal_make_row[recipe2];
     $meal_step_3[$az] = $meal_make_row[recipe3];
@@ -989,7 +990,18 @@ for($az=1; $az<=6; $az=$az+1){
         <div class="title">
             <p style="font-weight:bold; font-size:20px; color:#f8b62d;">'.$meal_step_period[$az].' 이유식</p>
             <h3>'.$meal_step_name[$az].'</h3>
-        </div>
+        </div>';
+        if(empty($plus_mates[$az])){
+    }else{
+        echo'
+        <div class="plusmate">
+        <p style="text-align:center; color:#666; font-size:20px;">추가 준비물</p>
+        <p style="text-align:center; color:#999; font-size:18px;">'.$plus_mates[$az].'</p>
+        </div>';
+    }
+
+
+        echo '
         <div>
             <div class="makestep">
                 <div class="makenumber">
@@ -1149,6 +1161,7 @@ for($as=1; $as<=4; $as=$as+1) {
     $menu_step_name[$as] = $snack_make_row[menu];
     $menu_step_period[$as] = $snack_make_row[period];
     $menu_step_category[$as] = $snack_make_row[category];
+    $plus_mate[$as] = $snack_make_row[plusobject];
     $menu_step_1[$as] = $snack_make_row[recipe1];
     $menu_step_2[$as] = $snack_make_row[recipe2];
     $menu_step_3[$as] = $snack_make_row[recipe3];
@@ -1171,7 +1184,19 @@ for($as=1; $as<=4; $as=$as+1) {
         <div class="title">
             <p style="font-weight:bold; font-size:20px; color:#f8b62d;">'.$menu_step_period[$as].' '.$menu_step_category[$as].'</p>
             <h3>'.$menu_step_name[$as].'</h3>
-        </div>
+        </div>';
+
+    if(empty($plus_mate[$as])){
+
+    }else{
+        echo'
+        <div class="plusmate">
+        <p style="text-align:center; color:#666; font-size:20px;">추가 준비물</p>
+        <p style="text-align:center; color:#999; font-size:18px;">'.$plus_mate[$as].'</p>
+        </div>';
+    }
+
+    echo'
         <div>
             <div class="makestep">
                 <div class="makenumber">

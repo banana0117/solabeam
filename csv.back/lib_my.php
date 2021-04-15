@@ -126,8 +126,8 @@ function print_rows($rows) {
 }
 
 
-//DB import update query임
-function insert_rows($arr, $table_name, $mode='APPLY') {
+//DB import query임 : 송장용
+function post_insert_rows($arr, $table_name, $mode='APPLY') {
     global $mysqli;
     foreach($arr as $rows) {
 
@@ -138,19 +138,18 @@ function insert_rows($arr, $table_name, $mode='APPLY') {
         $values = array_map(array($mysqli,'real_escape_string'),$values); // 내용값 string 보안처리
         $values = array_map('single_quotes', $values); // values 에 대한 insert 구문 콜백
 
- 
 
         $keys_str = implode(',', $keys); // 각 키값 구분
         $values_str = implode(',', $values); // 각 values값 구분
 
+
+
         if($mode == 'TEST') echo "INSERT INTO $table_names ($keys_str) VALUES ($values_str);<br/>"; // mode가 TEST mode 일때 query 텍스트 출력
-        else query("UPDATE `$table_name` SET ($keys_str) VALUES ($values_str);"); // mode가 APPLY 일때 query 구문 입력
+        else query("INSERT INTO `$table_name`($keys_str,`status`) VALUES ($values_str,'배송접수');"); // mode가 APPLY 일때 query 구문 입력
     }
 
 mysqli_close($mysqli);
 
 }
-
-
 
 ?>
