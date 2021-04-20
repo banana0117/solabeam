@@ -14,6 +14,13 @@
  * @see https://docs.woocommerce.com/document/template-structure/
  * @package WooCommerce/Templates
  * @version 3.5.0
+ * 
+ * @banana custom
+ * 
+ * wp-content/plugins/woocommerce/checkout/form-checkout.php 에 덮어씌우면 됩니다
+ * 결제페이지에서 ridio 버튼들의 jquery 동작이 포함된 파일입니다
+ * 딱히 수정하고 건드릴건 없지만 jquery 동작이 이상하면 수정해야하는 파일입니다
+ * 
  */
 if (!defined('ABSPATH')) {
     exit;
@@ -42,9 +49,11 @@ if (!$checkout->is_registration_enabled() && $checkout->is_registration_required
     <h3 id="order_review_heading"><?php esc_html_e('Your order', 'woocommerce'); ?></h3>
     <?php do_action('woocommerce_checkout_before_order_review'); ?>
 
+<!--
     <div style="text-align:center; padding:10px;">
         <p>금요일을 배송출발일로 선택할 경우,<br>다음날 수령이 불가할 수있습니다.<br>배송문제 발생시 도담밀에 말씀해주세요.</p>
     </div>
+-->
 
     <div id="order_review" class="woocommerce-checkout-review-order">
         <!-- <a href="#" onclick="history.go(-1)" class="muhan_loop" id="imsi_loop" style="display:block;">결제창이 로딩되지 않으면<br><b>여기</b>를 눌러주세요!</a>-->
@@ -74,6 +83,7 @@ $periodcodes = $_POST['periodcode'];
     $("input[name='radio_choice_opt_pot']").prop("checked", false);
     $("input[name='radio_choice_opt_multipot']").prop("checked", false);
     $("input[name='radio_choice_opt_snack']").prop("checked", false);
+    $("input[name='radio_choice_opt_snacke']").prop("checked", false);
     $("input[name='radio_choice_dis']").val('0').prop("selected", true);
 
     var tables = "<?php echo $tablecodes; ?>";
@@ -165,31 +175,119 @@ $periodcodes = $_POST['periodcode'];
         $("#radio_choice_pop_69000").trigger("click");
         $(".checkout-period-btn").removeClass("checked");
         $(this).addClass("checked");
+        $("input[name='radio_choice_dis']").val('0').prop("selected", true);
+        $("input[name='radio_choice_dis'").val('1').prop("disabled", false);
+        $("input[name='radio_choice_dis'").val('2').prop("disabled", false);
+        $("input[name='radio_choice_dis'").val('3').prop("disabled", false);
+        $("input[name='radio_choice_dis'").val('4').prop("disabled", true);
+        $("input[name='radio_choice_dis'").val('5').prop("disabled", true);
+        $("input[name='radio_choice_dis'").val('6').prop("disabled", true);
+        $("input[name='radio_choice_dis'").val('7').prop("disabled", true);
+        $("input[name='radio_choice_dis'").val('8').prop("disabled", true);
+        $("input[name='radio_choice_dis'").val('9').prop("disabled", true);
+        $("input[name='radio_choice_dis'").val('10').prop("disabled", true);
+        $("input[name='radio_choice_dis'").val('11').prop("disabled", true);
+        $("input[name='radio_choice_dis'").val('12').prop("disabled", true);
+        $("input[name='radio_choice_dis'").val('13').prop("disabled", true);
     });
     $("#cho_btn").on('click', function() {
         $("#radio_choice_pop_89000").trigger("click");
         $(".checkout-period-btn").removeClass("checked");
         $(this).addClass("checked");
+        $("input[name='radio_choice_dis']").val('0').prop("selected", true);
+        $("input[name='radio_choice_dis'").val('1').prop("disabled", true);
+        $("input[name='radio_choice_dis'").val('2').prop("disabled", true);
+        $("input[name='radio_choice_dis'").val('3').prop("disabled", true);
+        $("input[name='radio_choice_dis'").val('4').prop("disabled", false);
+        $("input[name='radio_choice_dis'").val('5').prop("disabled", false);
+        $("input[name='radio_choice_dis'").val('6').prop("disabled", false);
+        $("input[name='radio_choice_dis'").val('7').prop("disabled", true);
+        $("input[name='radio_choice_dis'").val('8').prop("disabled", true);
+        $("input[name='radio_choice_dis'").val('9').prop("disabled", true);
+        $("input[name='radio_choice_dis'").val('10').prop("disabled", true);
+        $("input[name='radio_choice_dis'").val('11').prop("disabled", true);
+        $("input[name='radio_choice_dis'").val('12').prop("disabled", true);
+        $("input[name='radio_choice_dis'").val('13').prop("disabled", true);
     });
     $("#jung_btn").on('click', function() {
         $("#radio_choice_pop_169000").trigger("click");
         $(".checkout-period-btn").removeClass("checked");
         $(this).addClass("checked");
+        $("input[name='radio_choice_dis']").val('0').prop("selected", true);
+        $("input[name='radio_choice_dis']").val('0').prop("selected", true);
+        $("input[name='radio_choice_dis'").val('1').prop("disabled", true);
+        $("input[name='radio_choice_dis'").val('2').prop("disabled", true);
+        $("input[name='radio_choice_dis'").val('3').prop("disabled", true);
+        $("input[name='radio_choice_dis'").val('4').prop("disabled", true);
+        $("input[name='radio_choice_dis'").val('5').prop("disabled", true);
+        $("input[name='radio_choice_dis'").val('6').prop("disabled", true);
+        $("input[name='radio_choice_dis'").val('7').prop("disabled", false);
+        $("input[name='radio_choice_dis'").val('8').prop("disabled", false);
+        $("input[name='radio_choice_dis'").val('9').prop("disabled", false);
+        $("input[name='radio_choice_dis'").val('10').prop("disabled", true);
+        $("input[name='radio_choice_dis'").val('11').prop("disabled", true);
+        $("input[name='radio_choice_dis'").val('12').prop("disabled", true);
+        $("input[name='radio_choice_dis'").val('13').prop("disabled", true);
     });
     $("#hu_btn").on('click', function() {
         $("#radio_choice_pop_239000").trigger("click");
         $(".checkout-period-btn").removeClass("checked");
         $(this).addClass("checked");
+        $("input[name='radio_choice_dis']").val('0').prop("selected", true);
+        $("input[name='radio_choice_dis']").val('0').prop("selected", true);
+        $("input[name='radio_choice_dis'").val('1').prop("disabled", true);
+        $("input[name='radio_choice_dis'").val('2').prop("disabled", true);
+        $("input[name='radio_choice_dis'").val('3').prop("disabled", true);
+        $("input[name='radio_choice_dis'").val('4').prop("disabled", true);
+        $("input[name='radio_choice_dis'").val('5').prop("disabled", true);
+        $("input[name='radio_choice_dis'").val('6').prop("disabled", true);
+        $("input[name='radio_choice_dis'").val('7').prop("disabled", true);
+        $("input[name='radio_choice_dis'").val('8').prop("disabled", true);
+        $("input[name='radio_choice_dis'").val('9').prop("disabled", true);
+        $("input[name='radio_choice_dis'").val('10').prop("disabled", false);
+        $("input[name='radio_choice_dis'").val('11').prop("disabled", false);
+        $("input[name='radio_choice_dis'").val('12').prop("disabled", true);
+        $("input[name='radio_choice_dis'").val('13').prop("disabled", true);
     });
     $("#wan_btn").on('click', function() {
         $("#radio_choice_pop_249000").trigger("click");
         $(".checkout-period-btn").removeClass("checked");
         $(this).addClass("checked");
+        $("input[name='radio_choice_dis']").val('0').prop("selected", true);
+        $("input[name='radio_choice_dis']").val('0').prop("selected", true);
+        $("input[name='radio_choice_dis'").val('1').prop("disabled", true);
+        $("input[name='radio_choice_dis'").val('2').prop("disabled", true);
+        $("input[name='radio_choice_dis'").val('3').prop("disabled", true);
+        $("input[name='radio_choice_dis'").val('4').prop("disabled", true);
+        $("input[name='radio_choice_dis'").val('5').prop("disabled", true);
+        $("input[name='radio_choice_dis'").val('6').prop("disabled", true);
+        $("input[name='radio_choice_dis'").val('7').prop("disabled", true);
+        $("input[name='radio_choice_dis'").val('8').prop("disabled", true);
+        $("input[name='radio_choice_dis'").val('9').prop("disabled", true);
+        $("input[name='radio_choice_dis'").val('10').prop("disabled", true);
+        $("input[name='radio_choice_dis'").val('11').prop("disabled", true);
+        $("input[name='radio_choice_dis'").val('12').prop("disabled", false);
+        $("input[name='radio_choice_dis'").val('13').prop("disabled", true);
     });
     $("#yoo_btn").on('click', function() {
         $("#radio_choice_pop_199000").trigger("click");
         $(".checkout-period-btn").removeClass("checked");
         $(this).addClass("checked");
+        $("input[name='radio_choice_dis']").val('0').prop("selected", true);
+        $("input[name='radio_choice_dis']").val('0').prop("selected", true);
+        $("input[name='radio_choice_dis'").val('1').prop("disabled", true);
+        $("input[name='radio_choice_dis'").val('2').prop("disabled", true);
+        $("input[name='radio_choice_dis'").val('3').prop("disabled", true);
+        $("input[name='radio_choice_dis'").val('4').prop("disabled", true);
+        $("input[name='radio_choice_dis'").val('5').prop("disabled", true);
+        $("input[name='radio_choice_dis'").val('6').prop("disabled", true);
+        $("input[name='radio_choice_dis'").val('7').prop("disabled", true);
+        $("input[name='radio_choice_dis'").val('8').prop("disabled", true);
+        $("input[name='radio_choice_dis'").val('9').prop("disabled", true);
+        $("input[name='radio_choice_dis'").val('10').prop("disabled", true);
+        $("input[name='radio_choice_dis'").val('11').prop("disabled", true);
+        $("input[name='radio_choice_dis'").val('12').prop("disabled", true);
+        $("input[name='radio_choice_dis'").val('13').prop("disabled", false);
     });
     $("#a_btn").on('click', function() {
 
@@ -503,9 +601,27 @@ $periodcodes = $_POST['periodcode'];
                 $("#radio_choice_opt_snack_0").trigger("click");
             } else {
                 $("#radio_choice_opt_snack_15000").trigger("click");
+                $("#radio_choice_opt_snacke_0").trigger("click");
             }
         }
         if ($("#radio_choice_opt_snack_15000").prop("checked")) {
+            $(this).addClass("checked");
+        } else {
+            $(this).removeClass("checked");
+        }
+    });
+
+    $("#snacke_btn").on('click', function() {
+        if ($(this).hasClass("disabled")) {} else {
+            if ($("#radio_choice_opt_snacke_15000").is(":checked")) {
+                $("#radio_choice_opt_snacke_0").trigger("click");
+                
+            } else {
+                $("#radio_choice_opt_snacke_15000").trigger("click");
+                $("#radio_choice_opt_snack_0").trigger("click");
+            }
+        }
+        if ($("#radio_choice_opt_snacke_15000").prop("checked")) {
             $(this).addClass("checked");
         } else {
             $(this).removeClass("checked");
@@ -579,5 +695,73 @@ $periodcodes = $_POST['periodcode'];
             $(this).removeClass("checked");
         }
     });
+
+</script>
+
+<script>
+
+	$("#order_comments").hide();
+    $("#recommendid").hide();
+
+	$(".js-order-detail-btn").click(function() {
+		var name = $("#detail_new_name").val();
+		var phone = $("#detail_new_phone").val();
+		var postcode = $("#detail_new_postcode").val();
+		var post = $("#detail_new_post").val();
+		var sidepost = $("#detail_new_sidepost").val();
+
+		$("#billing_first_name").val(name);
+		$("#billing_first_phone").val(phone);
+		$("#billing_postcode").val(postcode);
+		$("#billing_address_1").val(post);
+		$("#billing_address_2").val(sidepost);
+
+		$("#name").html(name);
+		$("#phone").html(phone);
+		$("#postcode").html(postcode);
+		$("#post").html(post);
+		$("#sidepost").html(sidepost);
+
+	});
+
+	$(document).ready(function() {
+
+		var names = $("#billing_first_name").val();
+		var phones = $("#billing_first_phone").val();
+		var postcodes = $("#billing_postcode").val();
+		var posts = $("#billing_address_1").val();
+		var sideposts = $("#billing_address_2").val();
+
+		$("#name").html(names);
+		$("#phone").html(phones);
+		$("#postcode").html(postcodes);
+		$("#post").html(posts);
+		$("#sidepost").html(sideposts);
+
+	});
+
+	$("#selboxDirect").hide();
+	
+	$("#selbox").change(function() {
+
+		var selbox = $("#selbox").val();
+		$("#order_comments").val(selbox);
+
+		if ($("#selbox").val() == "text") {
+			$("#selboxdirect").show();
+		} else {
+			$("#selboxdirect").hide();
+		}
+	});
+
+	$("#selboxdirect").change(function(){
+		var selboxdirect = $("#selboxdirect").val();
+		$("#order_comments").val(selboxdirect);
+	});
+
+	$("#recommend").change(function(){
+		var rocommendid = $("#recommend").val();
+		$("#recommendid").val(rocommendid);
+	});
 
 </script>

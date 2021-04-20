@@ -1,5 +1,22 @@
 <?php
 
+/*
+
+    * 카카오 알림톡
+    * Banana ver.01.2
+    * 완전 완성은 아니지만 어느정도의 완성본
+
+    * 3주가 된 연장고객에게 메시지를 전달하는 시스템
+    * 앞의 3week_kakao_send.php 의 내용으로 DB내용을 POST로 전달받아 사용된다
+
+    * KAKAO 알림톡 소스는 TKakaoNotificationTalk.php 와 항상 같은 디렉토리 내에 있어야 한다
+    * 템플릿이나 내용의 수정이 필요한 경우 api store에서 템플릿 수정이 가능하다
+
+    * 이파일은 홈페이지 페이지에 등록하는 것이 아닌 시스템의 일종이기에 페이지로 만들지 않아도 된다
+    * storefront-child/api 디렉토리 생성해서 넣어주세요
+
+*/
+
 require_once "TKakaoNotificationTalk.php";
 
 $mysqli = new mysqli('localhost', 'olivejnainc', 'Goyo5713**', 'olivejnainc');

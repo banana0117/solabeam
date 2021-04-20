@@ -1,4 +1,20 @@
 <?php
+
+/*
+
+    Banana ver 0.1.1
+    * 처음만든 API 이중 사용
+
+    * 데이터베이스에서 배달완료가아닌 송장데이터를 가져와서 조회 후
+    * JSON으로 엔코딩해서 kakao_send_action.php 로 데이터를 POST함
+    * 아래쪽 /wp-con.../kakao_send_action.php 의 url을 신경써야함
+
+    * 해당 소스는 주기적으로 들어가는 페이지에 들어가있어야함
+    
+    * 어드민페이지에 넣을 것
+
+*/
+
 $mysqli = new mysqli('localhost', 'olivejnainc', 'Goyo5713**', 'olivejnainc');
 $tracking_query = "SELECT code FROM tracking WHERE status NOT LIKE '%배달완료%'";
 $tracking_result = mysqli_query($mysqli, $tracking_query);
@@ -40,7 +56,7 @@ $tracking_counter = count($tracking_code);
             var invoiceJson = JSON.stringify(invoice);
             var kindsJson = JSON.stringify(kinds);
             $.ajax({
-                url: '/wp-content/themes/storefront-child/kakao_send_action.php',
+                url: '/wp-content/themes/storefront-child/api/kakao_send_action.php',
                 type: 'POST',
                 data: {
                     count: code_counter,

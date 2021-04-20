@@ -1,5 +1,18 @@
 <?php
 
+/*
+
+    Banana ver 0.1
+
+    * plugins/woocommerce/tmplate/checkout/thankyou.php 에 밑에 변경하면됨
+    * 기존에 개판쳐놓은거 지우고 하면됩니다
+
+    * 디비 연결이 끊기면 답이없긴한데, 조금 손봐야할 부분이 있을지도 모름
+
+    * 2021.04.19 이지키트 추가함
+
+*/
+
 $order_id = $order->get_id();
 
 if (wcs_order_contains_subscription($order_id)) { // 주문내역에 정기배송 상품이 있을경우   
@@ -84,8 +97,8 @@ if (in_array("슈퍼푸드1", $select_opts)) {
     $super = "S";
 }
 if (in_array("슈퍼푸드2", $select_opts)) {
-    array_push($table_opt, "Z");
-    $mate = "Z";
+    array_push($table_opt, "L");
+    $mate = "L";
 }
 
 if (in_array("내맘", $select_opts)) {
@@ -150,10 +163,16 @@ if (in_array("멀티", $select_opts)) {
 if (in_array("편수", $select_opts)) {
     array_push($side_opt, "F");
 }
-if (in_array("간식", $select_opts)) {
+if (in_array("간식키트", $select_opts)) {
     array_push($side_opt, "K");
     $snack = "K";
 }
+
+if (in_array("이지키트", $select_opts)) {
+    array_push($side_opt, "V");
+    $snacke = "V";
+}
+
 if (in_array("메가", $select_opts)) {
     array_push($side_opt, "P");
     $mega = "P";
@@ -285,7 +304,7 @@ if (in_array("Z", $period_opt)) {
 
             $insert_user = $news_user_id . "-" . $qs;
 
-            $update_query = "UPDATE `shicktest` SET `$next_payday[$ns]`='$load_menu[$qs]' where userid = '$insert_user'";
+            $update_query = "UPDATE `shicktest` SET `$next_payday[$ns]`='$load_menu[$qs]' WHERE userid = '$insert_user'";
             mysqli_query($mysqli, $update_query);
         }
 
@@ -303,7 +322,7 @@ if (in_array("Z", $period_opt)) {
 
             $insert_user = $news_user_id . "-" . $qs;
 
-            $update_query = "UPDATE `shicktest` SET `$next_payday[$ns]`='$load_menu[$qs]' where userid = '$insert_user'";
+            $update_query = "UPDATE `shicktest` SET `$next_payday[$ns]`='$load_menu[$qs]' WHERE userid = '$insert_user'";
             mysqli_query($mysqli, $update_query);
         }
 
@@ -313,7 +332,7 @@ if (in_array("Z", $period_opt)) {
             $weekend_result = mysqli_query($mysqli, $weekend_query);
             $weekend_row = mysqli_fetch_array($weekend_result);
             $weekend_menu[$qs] = $weekend_row[$testday[$ns]];
-            $update_week_query = "UPDATE `shicktest` SET `$next_payday[$ns]`='$load_menu[$qs]' where userid = '$weekend_user'";
+            $update_week_query = "UPDATE `shicktest` SET `$next_payday[$ns]`='$load_menu[$qs]' WHERE userid = '$weekend_user'";
             mysqli_query($mysqli, $update_week_query);
         } else {
         }
@@ -334,14 +353,39 @@ if (in_array("K", $side_opt)) {
     while ($ns <= 3) {
         for ($qs = 1; $qs = 2; $qs = $qs + 1) {
 
-            $snack_load_query = "SELECT * FROM tablelist WHERE periods = '' AND snack = '$snack' AND codes LIKE '%-$qs'";
+            $snack_load_query = "SELECT * FROM tablelist WHERE periods = '$period_str' AND snack = '$snack' AND codes LIKE '%-$qs'";
             $snack_load_result = mysqli_query($mysqli, $snack_load_query);
             $snack_load_row = mysqli_fetch_array($snack_load_result);
 
             $snack_menu[$qs] = $snack_load_row[$testday[$ns]];
 
             $insert_user = $news_user_id . "-" . $qs;
-            $snack_update_query = "UPDATE `snacktable` `$next_payday[$ns]` = '$snack_menu[$qs]' WHERE userid = '$insert_user'";
+            $snack_update_query = "UPDATE `snacktable` SET `$next_payday[$ns]` = '$snack_menu[$qs]' WHERE userid = '$insert_user'";
+            mysqli_query($mysqli, $snack_update_query);
+        }
+    }
+}
+
+if (in_array("V", $side_opt)) {
+
+    for ($qs = 1; $qs = 2; $qs = $qs + 1) {
+
+        $insert_user = $news_user_id . "-" . $qs;
+        $snack_insert_query = "INSERT INTO `shicktest` (userid, name, deilday, opt, period, memo, water, delinum) VALUES ('$insert_user','$new_user_name','$get_post_day','$total_opt','$choice_period','','','$get_post_num')";
+        mysqli_query($mysqli, $snack_insert_query);
+    }
+
+    while ($ns <= 3) {
+        for ($qs = 1; $qs = 2; $qs = $qs + 1) {
+
+            $snack_load_query = "SELECT * FROM tablelist WHERE periods = '$period_str' AND snacke = '$snacke' AND codes LIKE '%-$qs'";
+            $snack_load_result = mysqli_query($mysqli, $snack_load_query);
+            $snack_load_row = mysqli_fetch_array($snack_load_result);
+
+            $snack_menu[$qs] = $snack_load_row[$testday[$ns]];
+
+            $insert_user = $news_user_id . "-" . $qs;
+            $snack_update_query = "UPDATE `snacktable` SET `$next_payday[$ns]` = '$snack_menu[$qs]' WHERE userid = '$insert_user'";
             mysqli_query($mysqli, $snack_update_query);
         }
     }

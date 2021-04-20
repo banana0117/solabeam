@@ -1,5 +1,19 @@
 <?php
 
+/*
+
+  * Banana ver 0.1.1
+  * 처음 만든 카카오알림톡임
+  * 최대한 자동화를 해보려고 노력했음
+
+  * TKakaoNotificationTalk.php 파일과 같은 디렉토리에 있어야함
+  * POST 방식으로 전달받아 송장 결과값에 따라 기존 값이랑 데이터가 다를 경우 알림톡을 발송하는 방식
+  * 영양팀에서 송장을 입력해주면 적용됨
+  * 템플릿의 추가 및 수정은 api스토어에서 가능
+  * storefront-child/api 디렉토리 생성해서 넣어주세요
+
+*/
+
 require_once "TKakaoNotificationTalk.php";
 
 $mysqli = new mysqli('localhost', 'olivejnainc', 'Goyo5713**', 'olivejnainc');

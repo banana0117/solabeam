@@ -1,29 +1,34 @@
 <?php
+
+/*
+
+    * 일시정지 액티브 파일
+    * 일시정지 폼에서 이쪽으로 submit해올것임
+    * 맨 아래부분에 일시정지가 완료되었다~ 이런 내용 적으면 됩니다
+
+*/
+
 $mysqli = new mysqli('localhost', 'olivejnainc', 'Goyo5713**', 'olivejnainc');
 
-//if( current_user_can( 'subscriber' ) ){
-//    $userid = get_user_meta( $current_user -> ID, 'username', true );
-//    $username = get_user_meta( $current_user -> ID, 'first_name', true );
+if( current_user_can( 'subscriber' ) ){
+    $userid = get_user_meta( $current_user -> ID, 'username', true );
+    $username = get_user_meta( $current_user -> ID, 'first_name', true );
 
-//}
-//else
-//{ 
-//    echo "<script>alert('로그인 하지 않았거나, 대상자가 아닙니다.');location.href='/';</script>";
-//}
+}
+else
+{ 
+    echo "<script>alert('로그인 하지 않았거나, 대상자가 아닙니다.');location.href='/';</script>";
+}
 
 $rotationday = $_POST['rotationday'];
 $weeks = $_POST['weeks'];
 
-//$users_subscriptions = wcs_get_users_subscriptions($userid);
-//foreach ($users_subscriptions as $subscription){
-//   if ($subscription->has_status(array('active'))) {
-//      $subscription_id = $subscription->get_id(); 
-//   }
-// }
-
-$userid = "banana";
-$subscription_id = "7720";
-
+$users_subscriptions = wcs_get_users_subscriptions($userid);
+foreach ($users_subscriptions as $subscription){
+   if ($subscription->has_status(array('active'))) {
+      $subscription_id = $subscription->get_id(); 
+   }
+ }
 
 // 액션스케줄러 불러오기
 $schedule_query = "SELECT * FROM wp_actionscheduler_actions WHERE args LIKE '%$subscription_id%' ORDER BY scheduled_date_gmt DESC LIMIT 1";
@@ -60,6 +65,106 @@ $counts = 1;
 $weekly = $weeks;
 $weeklys = $weeks;
 
+$user_info_query = "SELECT * FROM userbase WHERE userid = '$userid'";
+$user_info_result = mysqli_query($mysqli, $user_info_query);
+$user_info_row = mysqli_fetch_array($deli_data_result);
+
+$period_str = array();
+$table_str = array();
+$side_str = array();
+
+$meta_name = $user_info_row[username];
+$meta_tables = $user_info_row[tables];
+$meta_super = $user_info_row[super];
+$meta_mate = $user_info_row[mate];
+$meta_beef = $user_info_row[beef];
+$meta_tenloin = $user_info_row[tenloin];
+$meta_water = $user_info_row[water];
+$meta_weekend = $user_info_row[weekend];
+$meta_care = $user_info_row[care];
+$meta_snack = $user_info_row[snack];
+$meta_snacke = $user_info_row[snacke];
+$meta_safe = $user_info_row[safe];
+$meta_nowperiod = $user_info_row[periodstr];
+
+array_push($meta_name, $period_str);
+array_push($meta_super, $table_str);
+array_push($meta_mate, $table_str);
+array_push($meta_tables, $table_str);
+array_push($meta_beef, $table_str);
+array_push($meta_tenloin, $table_str);
+array_push($meta_safe, $table_str);
+array_push($meta_snacke, $side_str);
+array_push($meta_care, $side_str);
+array_push($meta_weekend, $side_str);
+array_push($meta_water, $side_str);
+array_push($meta_snack, $side_str);
+
+if (in_array("Z", $period_str)) {
+    $period = "Z";
+} elseif (in_array("X", $period_str)) {
+    $period = "X";
+} elseif (in_array("T", $period_str)) {
+    $period = "T";
+} elseif (in_array("H", $period_str)) {
+    $period = "H";
+} elseif (in_array("W", $period_str)) {
+    $period = "W";
+} elseif (in_array("Y", $period_str)) {
+    $period = "Y";
+}
+
+if (in_array("U", $table_str)) {
+    $table = "U"; // 균형
+} elseif (in_array("I", $table_str)) {
+    $table = "I"; // 내맘
+} elseif (in_array("J", $table_str)) {
+    $table = "J"; // 단백
+} elseif (in_array("D", $table_str)) {
+    $table = "D"; // 다양
+} elseif (in_array("Q", $table_str)) {
+    $table = "Q"; // 맞춤
+} elseif (in_array("E", $table_str)) {
+    $table = "E"; // 안전
+}
+
+
+if (in_array("S", $table_str)) {
+    $super = "S";
+} 
+
+if (in_array("Z", $table_str)) {
+    $mate = "Z";
+} 
+
+if (in_array("A", $table_str)) {
+    $beef = "A";
+} 
+
+if (in_array("B", $table_str)) {
+    $tenloin = "B";
+} 
+
+if (in_array("R", $side_str)) {
+    $water = "R";
+} 
+
+if (in_array("D", $side_str)) {
+    $weekend = "D";
+} 
+
+if (in_array("C", $side_str)) {
+    $care = "C";
+} 
+if (in_array("K", $side_str)) {
+    $snack = "K";
+} 
+
+
+if (in_array("V", $side_str)) {
+    $snacke = "V";
+} 
+
 while ($counts <= $weeklys) {
     $i = 1;
 
@@ -68,6 +173,14 @@ while ($counts <= $weeklys) {
         $reset_query = "UPDATE shicktest SET `$remove_day`='' WHERE userid = '$userids'";
         mysqli_query($mysqli, $reset_query);
         $i++;
+    }
+
+    $j=1;
+    while ($j <= 4){
+        $userids = $userid . "-" . $j;
+        $reset_query = "UPDATE snacktable SET `$remove_day`='' WHERE userid = '$userids'";
+        mysqli_query($mysqli, $reset_query);
+        $j++;
     }
 
     $remove_day = date("Y-m-d", strtotime("+1 weeks", strtotime($remove_day)));
@@ -90,11 +203,6 @@ while ($count <= $weekly) {
 
     if (empty($push_empty)) {
 
-        $code_load_query = "SELECT * FROM userbase WHERE userid = '$userid'";
-        $code_load_result = mysqli_query($mysqli, $code_load_query);
-        $code_load_row = mysqli_fetch_array($code_load_result);
-        $user_code = $code_load_row[tablecode]; // 유저테이블코드
-
         $table_set_query = "SELECT * FROM tablebase WHERE based = 'default'";
         $table_set_result = mysqli_query($mysqli, $table_set_query);
         $table_set_row = mysqli_fetch_array($table_set_result);
@@ -104,9 +212,10 @@ while ($count <= $weekly) {
         $zx = 1;
 
         while ($zx <= 6) {
-            $users_code = $user_code . "-" . $zx;
+            
             $add_table_user = $userid . "-" . $zx;
-            $load_table_query = "SELECT * FROM tablelist WHERE codes = '$users_code'";
+            $load_table_query = "SELECT * FROM tablelist WHERE periods = '$period' AND safe = '$safe' AND super = '$super' AND beef = '$beef' AND tenloin = '$tenloin' AND mate = '$mate' AND snacke = '$snacke' AND codes LIKE '%-$zx'";
+            
             $load_table_result = mysqli_query($mysqli, $load_table_query);
             $load_table_row = mysqli_fetch_array($load_table_result);
 
@@ -116,6 +225,22 @@ while ($count <= $weekly) {
             mysqli_query($mysqli, $load_table_update);
             $zx++;
         }
+
+        while ($zd <= 4) {
+            
+            $add_table_user = $userid . "-" . $zd;
+            $load_table_query = "SELECT * FROM tablelist WHERE periods = '$period' AND snacke = '$snacke' AND snack='$snack' AND codes LIKE '%-$zd'";
+            
+            $load_table_result = mysqli_query($mysqli, $load_table_query);
+            $load_table_row = mysqli_fetch_array($load_table_result);
+
+            $load_menu[$zd] = $load_table_row[$week_part];
+
+            $load_table_update = "UPDATE `snacktable` SET `$push_day` = '$load_menu[$zd]' WHERE userid = '$add_table_user'";
+            mysqli_query($mysqli, $load_table_update);
+            $zd++;
+        }
+
     }
 
     $time_solution = date("Y-m-d 09:00:00", strtotime("+1 weeks", strtotime($time_solution)));
@@ -125,6 +250,8 @@ while ($count <= $weekly) {
     $counter = 1;
     
 } //while 끗
+
+    //로그남기기
     $rotas = date("Y-m-d", strtotime($rotationday));
 
     $log_query = "INSERT INTO stoplog (dates, userid, startday, weeks, endday ) VALUES ('$today', '$userid', '$rotas', '$weeks','$end_days')";
@@ -157,7 +284,14 @@ while ($count <= $weekly) {
     $circle_update = "UPDATE userbase SET `nextdeliday` = '$next_circle' WHERE userid = '$userid'";
     mysqli_query($mysqli, $circle_update);
 
+
+
+
 ?>
+
+<!--여기부터 html 적어서 사용하면 됩니다. 일시정지 완료창-->
+
+
 
 <div>
     <p>성공띠</p>

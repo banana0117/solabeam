@@ -1,4 +1,8 @@
 <?php
+
+// 이 부분은 storefront-child/functions.php 에 맨밑에 붙여넣기 하면됩니다
+// 맨 밑에 html 부분 편집해서 결제페이지 모양을 만들면 됩니다
+
 ///////////////////////
 ///////시기선택부분///////
 ///////////////////////
@@ -224,6 +228,37 @@ function bbloomer_checkout_radio_choice_set_session_opt_snack($posted_data)
     }
 }
 ///////////////////////
+//////옵션:간식이지추가///////
+///////////////////////
+add_action('woocommerce_review_order_before_payment', 'bbloomer_checkout_radio_choice_opt_snacke', 10, 1);
+function bbloomer_checkout_radio_choice_opt_snacke()
+{
+    $chosen = WC()->session->get('radio_chosen_opt_snacke');
+    $chosen = empty($chosen) ? WC()->checkout->get_value('radio_choice_opt_snacke') : $chosen;
+    $chosen = empty($chosen) ? '0' : $chosen;
+
+    $args = array(
+        'type' => 'radio',
+        'class' => array('form-row-wide', 'update_totals_on_change'),
+        'options' => array(
+            '0' => 'none',
+            '15000' => '이지키트',
+        ),
+        'default' => $chosen
+    );
+    woocommerce_form_field('radio_choice_opt_snacke', $args, $chosen);
+
+}
+add_action('woocommerce_checkout_update_order_review', 'bbloomer_checkout_radio_choice_set_session_opt_snacke', 10, 1);
+
+function bbloomer_checkout_radio_choice_set_session_opt_snacke($posted_data)
+{
+    parse_str($posted_data, $output);
+    if (isset($output['radio_choice_opt_snacke'])) {
+        WC()->session->set('radio_chosen_opt_snacke', $output['radio_choice_opt_snacke']);
+    }
+}
+///////////////////////
 //////옵션:주우말팩///////
 ///////////////////////
 add_action('woocommerce_review_order_before_payment', 'bbloomer_checkout_radio_choice_opt_weekend', 10, 1);
@@ -393,17 +428,29 @@ function bbloomer_checkout_radio_choice_dis()
         'type' => 'select',
         'class' => array('form-row-wide', 'update_totals_on_change'),
         'options' => array(
-            '0' => '패키지 선택하지 않음',
-            '20' => '패키지',
-            '30' => '패키지이',
+            '0' => '선택하지않음',
+            '1' => '준비기~후기까지(8개월/5%)',
+            '2' => '준비기~유아식준비기까지(11개월/7%)',
+            '3' => '준비기~유아식까지(14개월/10%)',
+            '4' => '초기~후기까지(7개월/5%)',
+            '5' => '초기~유아식준비기까지(10개월/7%)',
+            '6' => '초기~유아식까지(13개월/10%)',
+            '7' => '중기~후기까지(6개월/3%)',
+            '8' => '중기~유아식준비기까지(9개월/5%)',
+            '9' => '중기~유아식까지(12개월/7%)',
+            '10' => '후기~유아식준비기까지(6개월/3%)',
+            '11' => '후기~유아식까지(9개월/5%)',
+            '12' => '유아식준비기~유아식까지(6개월/3%)',
+            '13' => '유아식(6개월/3%)',
+
         ),
         'default' => $chosen
     );
 
-    echo '<div id="checkout-popup" class="js-checkout-popup">';
-    echo '<div id="checkout-radio">';
+    echo '<div id="checkout-select" class="js-checkout-select">';
+    echo '<div id="checkout-select">';
     woocommerce_form_field('radio_choice_dis', $args, $chosen);
-    echo '</div></div>';
+    echo '</div></div><div class=""><div class=""><p>추천인 아이디</p></div><div class=""><input type="text" id="recommend"></div>';
 }
 
 add_action('woocommerce_checkout_update_order_review', 'bbloomer_checkout_radio_choice_set_session_dis');
@@ -437,6 +484,8 @@ function bbloomer_checkout_radio_choice_fee($cart)
     $radio_opt_tenloin = WC()->session->get('radio_chosen_opt_tenloin'); // 안심변경
     $radio_opt_weekend = WC()->session->get('radio_chosen_opt_weekend'); // 주말팩
     $radio_opt_care = WC()->session->get('radio_chosen_opt_care'); // 케어프로그램
+    $radio_opt_snack = WC()->session->get('radio_chosen_opt_snack'); // 간식
+    $radio_opt_snacke = WC()->session->get('radio_chosen_opt_snacke'); // 간식이지
     $radio_opt_multipot = WC()->session->get('radio_chosen_opt_multipot'); // 올인원냄비
     $radio_opt_pot = WC()->session->get('radio_chosen_opt_pot'); // 편수냄비
     $radioz = WC()->session->get('radio_chosen_dis');
@@ -479,6 +528,7 @@ function bbloomer_checkout_radio_choice_fee($cart)
         $tenloin_pay = "0";
         $weekend_pay = "0";
         $snack_pay = "0";
+        $snacke_pay = "0";
         $care_pay = "0";
     } elseif ($radio == "89000") {
         $super_pay = "15000";
@@ -488,6 +538,7 @@ function bbloomer_checkout_radio_choice_fee($cart)
         $tenloin_pay = "50000";
         $weekend_pay = "0";
         $snack_pay = "0";
+        $snacke_pay = "0";
         $care_pay = "35000";
     } elseif ($radio == "169000") {
         $super_pay = "25000";
@@ -495,8 +546,9 @@ function bbloomer_checkout_radio_choice_fee($cart)
         $beef_pay = "19000";
         $water_pay = "40000";
         $tenloin_pay = "59000";
-        $weekend_pay = "0";
-        $snack_pay = "0";
+        $weekend_pay = "30000";
+        $snack_pay = "98000";
+        $snacke_pay = "98000";
         $care_pay = "45000";
     } elseif ($radio == "239000") {
         $super_pay = "35000";
@@ -504,8 +556,9 @@ function bbloomer_checkout_radio_choice_fee($cart)
         $beef_pay = "29000";
         $water_pay = "60000";
         $tenloin_pay = "109000";
-        $weekend_pay = "0";
+        $weekend_pay = "40000";
         $snack_pay = "98000";
+        $snacke_pay = "98000";
         $care_pay = "55000";
     } elseif ($radio == "249000") {
         $super_pay = "35000";
@@ -513,8 +566,9 @@ function bbloomer_checkout_radio_choice_fee($cart)
         $beef_pay = "40000";
         $water_pay = "60000";
         $tenloin_pay = "109000";
-        $weekend_pay = "0";
+        $weekend_pay = "45000";
         $snack_pay = "98000";
+        $snacke_pay = "98000";
         $care_pay = "55000";
     } elseif ($radio == "199000") {
         $super_pay = "15000";
@@ -522,8 +576,9 @@ function bbloomer_checkout_radio_choice_fee($cart)
         $beef_pay = "25000";
         $water_pay = "0";
         $tenloin_pay = "0";
-        $weekend_pay = "0";
+        $weekend_pay = "35000";
         $snack_pay = "98000";
+        $snacke_pay = "98000";
         $care_pay = "45000";
     }
 
@@ -546,21 +601,165 @@ function bbloomer_checkout_radio_choice_fee($cart)
         }
     }
 
-    if ($radioz == '3'){
-        if ($radio == "69000") {
-            $radio = 0;
-        } elseif ($radio == "89000") {
-            $radio = 0;
-        } elseif ($radio == "169000") {
-            $radio = 0;
-        } elseif ($radio == "239000") {
-            $radio = 0;
-        } elseif ($radio == "249000") {
-            $radio = 0;
-        } elseif ($radio == "199000") {
-            $radio = 0;
-        }
-    }
+   
+        
+  if ($radioz == '1'){// 준후패키지
+        $radio = "1372000";
+        $super_pay = "195000";
+        $mate_pay = "255000";
+        $beef_pay = "159000";
+        $water_pay = "320000";
+        $tenloin_pay = "554000";
+        $weekend_pay = "210000";
+        $snack_pay = "588000";
+        $snacke_pay = "588000";
+        $care_pay = "335000";
+        $disopt = "5";
+    } elseif ($radioz == '2'){
+        $radio = "2119000";
+        $super_pay = "300000";
+        $mate_pay = "390000";
+        $beef_pay = "279000";
+        $water_pay = "500000";
+        $tenloin_pay = "881000";
+        $weekend_pay = "345000";
+        $snack_pay = "882000";
+        $snacke_pay = "882000";
+        $care_pay = "500000";
+        $disopt = "7";
+    } elseif ($radioz == '3'){
+        $radio = "2716000";
+        $super_pay = "345000";
+        $mate_pay = "465000";
+        $beef_pay = "354000";
+        $water_pay = "500000";
+        $tenloin_pay = "881000";
+        $weekend_pay = "450000";
+        $snack_pay = "1176000";
+        $snacke_pay = "1176000";
+        $care_pay = "635000";
+        $disopt = "10";
+    } elseif ($radioz == '4'){
+        $radio = "1303000";
+        $super_pay = "195000";
+        $mate_pay = "255000";
+        $beef_pay = "159000";
+        $water_pay = "320000";
+        $tenloin_pay = "554000";
+        $weekend_pay = "210000";
+        $snack_pay = "588000";
+        $snacke_pay = "588000";
+        $care_pay = "335000";
+        $disopt = "5";
+    } elseif ($radioz == '5'){
+        $radio = "2050000";
+        $super_pay = "300000";
+        $mate_pay = "390000";
+        $beef_pay = "279000";
+        $water_pay = "500000";
+        $tenloin_pay = "881000";
+        $weekend_pay = "345000";
+        $snack_pay = "882000";
+        $snacke_pay = "882000";
+        $care_pay = "500000";
+        $disopt = "7";
+    } elseif ($radioz == '6'){
+        $radio = "2647000";
+        $super_pay = "345000";
+        $mate_pay = "465000";
+        $beef_pay = "354000";
+        $water_pay = "500000";
+        $tenloin_pay = "881000";
+        $weekend_pay = "450000";
+        $snack_pay = "1176000";
+        $snacke_pay = "1176000";
+        $care_pay = "635000";
+        $disopt = "10";
+    } elseif ($radioz == '7'){
+        $radio = "1104000";
+        $super_pay = "180000";
+        $mate_pay = "240000";
+        $beef_pay = "144000";
+        $water_pay = "300000";
+        $tenloin_pay = "504000";
+        $weekend_pay = "210000";
+        $snack_pay = "588000";
+        $snacke_pay = "588000";
+        $care_pay = "300000";
+        $disopt = "3";
+    } elseif ($radioz == '8'){
+        $radio = "1851000";
+        $super_pay = "285000";
+        $mate_pay = "375000";
+        $beef_pay = "264000";
+        $water_pay = "480000";
+        $tenloin_pay = "831000";
+        $weekend_pay = "345000";
+        $snack_pay = "882000";
+        $snacke_pay = "882000";
+        $care_pay = "465000";
+        $disopt = "5";
+    } elseif ($radioz == '9'){
+        $radio = "2448000";
+        $super_pay = "330000";
+        $mate_pay = "450000";
+        $beef_pay = "339000";
+        $water_pay = "480000";
+        $tenloin_pay = "831000";
+        $weekend_pay = "450000";
+        $snack_pay = "1176000";
+        $snacke_pay = "1176000";
+        $care_pay = "600000";
+        $disopt = "7";
+    } elseif ($radioz == '10'){
+        $radio = "1344000";
+        $super_pay = "210000";
+        $mate_pay = "270000";
+        $beef_pay = "207000";
+        $water_pay = "360000";
+        $tenloin_pay = "654000";
+        $weekend_pay = "255000";
+        $snack_pay = "588000";
+        $snacke_pay = "588000";
+        $care_pay = "330000";
+        $disopt = "3";
+    } elseif ($radioz == '11'){
+        $radio = "1941000";
+        $super_pay = "255000";
+        $mate_pay = "345000";
+        $beef_pay = "282000";
+        $water_pay = "360000";
+        $tenloin_pay = "654000";
+        $weekend_pay = "360000";
+        $snack_pay = "882000";
+        $snacke_pay = "882000";
+        $care_pay = "465000";
+        $disopt = "5";
+    } elseif ($radioz == '12'){
+        $radio = "1344000";
+        $super_pay = "150000";
+        $mate_pay = "210000";
+        $beef_pay = "195000";
+        $water_pay = "180000";
+        $tenloin_pay = "327000";
+        $weekend_pay = "240000";
+        $snack_pay = "588000";
+        $snacke_pay = "588000";
+        $care_pay = "300000";
+        $disopt = "3";
+    } elseif ($radioz == '13'){
+        $radio = "1194000";
+        $super_pay = "90000";
+        $mate_pay = "150000";
+        $beef_pay = "150000";
+        $water_pay = "0";
+        $tenloin_pay = "0";
+        $weekend_pay = "210000";
+        $snack_pay = "588000";
+        $snacke_pay = "588000";
+        $care_pay = "270000";
+        $disopt = "3";
+    } else {}
 
     //시기별식단//
     if ($radio) {
@@ -602,6 +801,11 @@ function bbloomer_checkout_radio_choice_fee($cart)
         $cart->add_fee('간식키트', $snack_pay);
     }
 
+    //간식추가금액//
+    if ($radio_opt_snacke) {
+        $cart->add_fee('이지키트', $snacke_pay);
+    }
+
     //주말팩추가금액//
     if ($radio_opt_weekend) {
         $cart->add_fee('주말팩추가', $weekend_pay);
@@ -623,8 +827,6 @@ function bbloomer_checkout_radio_choice_fee($cart)
     }
 
     //패키지계산
-    
-
     $fee_object = $cart->fees_api();
     $allfeedata = $fee_object->get_fees();
     $totalfee = array_sum(array_column($allfeedata, 'amount'));
@@ -638,7 +840,7 @@ function bbloomer_checkout_radio_choice_fee($cart)
     }
 
 
-    $discount_total = absint($totalfee) * (absint($radioz) / 100);
+    $discount_total = absint($totalfee) * (absint($disopt) / 100);
 
 
     if ($radioz) {
@@ -714,6 +916,7 @@ function banana_dodam_new_order_form(){
             <div class="flex">
                 <span id="care_btn" class="checkout-opt-btn">케어프로그램</span>
                 <span id="tenloin_btn" class="checkout-opt-btn">한우안심변경</span>
+                <span id="snacke_btn" class="checkout-opt-btn">이지간식키트</span>
             </div>
             <div class="flex">
                 <span id="snack_btn" class="checkout-opt-btn">간식키트</span>

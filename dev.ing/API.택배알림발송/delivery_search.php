@@ -42,7 +42,7 @@ $order_price = $order_row[meta_value];
 $order_price = number_format($order_price);
 
 
-$post_search = "SELECT * FROM tracking WHERE phone = '$user_phone' AND NOT status LIKE '배달완료' ORDER BY date DESC";
+$post_search = "SELECT * FROM tracking WHERE phone = '$user_phone' ORDER BY date DESC";
 $post_result = mysqli_query($mysqli, $post_search);
 
 while ($post_row = mysqli_fetch_array($post_result)) {

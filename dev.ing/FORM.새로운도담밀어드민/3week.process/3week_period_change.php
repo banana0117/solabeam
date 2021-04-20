@@ -1,5 +1,16 @@
 <?php
 
+/*
+
+    * 사용자 정보를 받아와서 시기변경을 해주는 페이지, 템플릿으로 만들어서 
+    * /periodchange 라는 링크로 만들어주면 됨
+    * submit 만들어서 form>action 을 3week_period_action.php 파일을 템플릿으로 사용한 시기변경 완료 페이지로 액션을 걸어주면 됩니다
+    * submit 꼭 추가해야함!!
+
+    * 실사용시 userid 에 banana 되어있는걸 삭제하고 진행하면됨
+    * 위에 if문의 주석 제거하고 사용
+*/
+
 //if( current_user_can( 'subscriber' ) ){
 //$userid = get_user_meta( $current_user -> ID, 'username', true );
 //$username = get_user_meta( $current_user -> ID, 'first_name', true );
@@ -131,6 +142,12 @@ if (in_array("P", $side_str)) {
     $mega = 0;
 }
 
+if (in_array("V", $side_str)) {
+    $snacke = 1;
+} else {
+    $snacke = 0;
+}
+
 ?>
 
 <style>
@@ -199,6 +216,8 @@ if (in_array("P", $side_str)) {
             <label for="opt_care"></label>
             <input type="checkbox" name="opts[]" id="opt_snack" value="K">
             <label for="opt_snack"></label>
+            <input type="checkbox" name="opts[]" id="opt_snacke" value="V">
+            <label for="opt_snacke"></label>
             <input type="checkbox" name="opts[]" id="opt_mega" value="P">
             <label for="opt_mega"></label>
         </div>
@@ -217,6 +236,7 @@ if (in_array("P", $side_str)) {
     var care = <?php echo $care ?>;
     var tables = <?php echo $table ?>;
     var snack = <?php echo $snack ?>;
+    var snacke = <?php echo $snacke ?>;
     var mega = <?php echo $mega ?>;
 
 
@@ -232,6 +252,7 @@ if (in_array("P", $side_str)) {
         var weekend_pay = "0";
         var care_pay = "35000";
         var snack_pay = "0";
+        var snacke_pay = "0";
         var mega_pay = "0";
 
     } else if (period == "Z") {
@@ -246,6 +267,7 @@ if (in_array("P", $side_str)) {
         var weekend_pay = "0";
         var care_pay = "0";
         var snack_pay = "0";
+        var snacke_pay = "0";
         var mega_pay = "0";
 
     } else if (period == "T") {
@@ -260,6 +282,7 @@ if (in_array("P", $side_str)) {
         var weekend_pay = "30000";
         var care_pay = "45000";
         var snack_pay = "98000";
+        var snacke_pay = "98000";
         var mega_pay = "0";
 
     } else if (period == "H") {
@@ -274,6 +297,7 @@ if (in_array("P", $side_str)) {
         var weekend_pay = "40000";
         var care_pay = "55000";
         var snack_pay = "98000";
+        var snacke_pay = "98000";
         var mega_pay = "0";
 
     } else if (period == "W") {
@@ -288,6 +312,7 @@ if (in_array("P", $side_str)) {
         var weekend_pay = "45000";
         var care_pay = "55000";
         var snack_pay = "98000";
+        var snacke_pay = "98000";
         var mega_pay = "0";
 
     } else {
@@ -302,6 +327,7 @@ if (in_array("P", $side_str)) {
         var weekend_pay = "35000";
         var care_pay = "45000";
         var snack_pay = "98000";
+        var snacke_pay = "98000";
         var mega_pay = "0";
 
     }
@@ -344,6 +370,10 @@ if (in_array("P", $side_str)) {
 
     if (snack == "1") {
         $("#opt_snack").prop('checked', true);
+    }
+
+    if (snacke == "1") {
+        $("#opt_snacke").prop('checked', true);
     }
 
     if (mega == "1") {
@@ -412,6 +442,7 @@ if (in_array("P", $side_str)) {
         care = $("#opt_care:checked").val();
         tables = $("input[name='table']:checked").val();
         snack = $("#opt_snack:checked").val();
+        snacke = $("#opt_snacke:checked").val();
         mega = $("#opt_mega:checked").val();
 
         if (period == "X") {
@@ -425,6 +456,7 @@ if (in_array("P", $side_str)) {
             var weekend_pay = "0";
             var care_pay = "35000";
             var snack_pay = "0";
+            var snacke_pay = "0";
             var mega_pay = "0";
 
         } else if (period == "Z") {
@@ -438,6 +470,7 @@ if (in_array("P", $side_str)) {
             var weekend_pay = "0";
             var care_pay = "0";
             var snack_pay = "0";
+            var snacke_pay = "0";
             var mega_pay = "0";
 
         } else if (period == "T") {
@@ -464,6 +497,7 @@ if (in_array("P", $side_str)) {
             var weekend_pay = "40000";
             var care_pay = "55000";
             var snack_pay = "98000";
+            var snacke_pay = "98000";
             var mega_pay = "0";
 
         } else if (period == "W") {
@@ -477,6 +511,7 @@ if (in_array("P", $side_str)) {
             var weekend_pay = "45000";
             var care_pay = "55000";
             var snack_pay = "98000";
+            var snacke_pay = "98000";
             var mega_pay = "0";
 
         } else {
@@ -490,6 +525,7 @@ if (in_array("P", $side_str)) {
             var weekend_pay = "35000";
             var care_pay = "45000";
             var snack_pay = "98000";
+            var snacke_pay = "98000";
             var mega_pay = "0";
 
         }
@@ -542,6 +578,13 @@ if (in_array("P", $side_str)) {
             snack_pay = 0;
         }
 
+        if ($("#opt_snacke").is(":checked")) {
+            snacke_pay = snack_pay;
+        } else {
+            snacke_pay = 0;
+        }
+
+
         if ($("#opt_mega").is(":checked")) {
             mega_pay = mega_pay;
         } else {
@@ -558,8 +601,9 @@ if (in_array("P", $side_str)) {
         var sum8 = parseInt(snack_pay);
         var sum9 = parseInt(mega_pay);
         var sum10 = parseInt(super_pay);
+        var sum11 = parseInt(snacke_pay);
 
-        var allpay = sum1 + sum2 + sum3 + sum4 + sum5 + sum6 + sum7 + sum8 + sum9 + sum10;
+        var allpay = sum1 + sum2 + sum3 + sum4 + sum5 + sum6 + sum7 + sum8 + sum9 + sum10 + sum11;
 
         $("#allpay").html(allpay);
 

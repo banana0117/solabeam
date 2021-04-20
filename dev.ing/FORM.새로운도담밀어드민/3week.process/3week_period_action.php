@@ -2,14 +2,22 @@
 
 /*
 
-    POST로 넘겨받은 값을 통해
-    새로운 식단 입력
+    * 식단변경, 단계변경 완료페이지
 
-    주 작동원리
+    * 3주마다 알림받아서 연장 및 시기, 요금제를 변경하는 시스템
+    * 연장시 자동으로 식단이 업데이트 된다
+
+    * POST로 넘겨받은 값을 통해
+    * 새로운 식단 입력
+
+    * 주 작동원리
     1. wp_woocommerce_order_item에 있는 sub_id의 fee를 모두 삭제
     2. wp_woocommerce_order_itemmeta에 있는 위 fee들에 대한 정보 제거 ( order_item_meta 서칭 )
     3. 새로운 order_item > sub_id의 fee 생성
     4. 새로 생성된 fee의 가격 및 정보를 itemmeta에 생성
+
+    * 맨 아래 html부분에 html 모양 만들어주면 됨
+    * 실사용시 banana 지우고 위에거 쓰면됩니다
 
 */
 
@@ -22,7 +30,11 @@
 //{ 
 //echo "<script>alert('로그인 하지 않았거나, 대상자가 아닙니다.');location.href='/';</script>";
 //}
+
+$userid = "banana";
+
 $news_user_id = $userid;
+
 $mysqli = new mysqli('localhost', 'olivejnainc', 'Goyo5713**', 'olivejnainc');
 //POST
 $post_period = $_POST['period'];
@@ -75,9 +87,9 @@ if (in_array("S", $select_opts)) {
     array_push($table_opt, "S");
     $super = "S";
 }
-if (in_array("Z", $select_opts)) {
-    array_push($table_opt, "Z");
-    $mate = "Z";
+if (in_array("L", $select_opts)) {
+    array_push($table_opt, "L");
+    $mate = "L";
 }
 
 if (in_array("I", $select_opts)) {
@@ -109,6 +121,8 @@ if (in_array("Q", $select_opts)) {
     $table_box = "Q";
     $table_message = "맞춤형";
 }
+
+
 
 if (in_array("E", $select_opts)) {
     array_push($table_opt, "E");
@@ -146,6 +160,11 @@ if (in_array("K", $select_opts)) {
     array_push($side_opt, "K");
     $snack = "K";
 }
+if (in_array("V", $select_opts)) {
+    array_push($side_opt, "V");
+    $snacke = "V";
+}
+
 if (in_array("P", $select_opts)) {
     array_push($side_opt, "P");
     $mega = "P";
@@ -339,7 +358,25 @@ if (in_array("K", $select_opts)) {
     while ($ns <= 3) {
         for ($qs = 1; $qs = 2; $qs = $qs + 1) {
 
-            $snack_load_query = "SELECT * FROM tablelist WHERE periods = '' AND snack = '$snack' AND codes LIKE '%-$qs'";
+            $snack_load_query = "SELECT * FROM tablelist WHERE periods = '$period_str' AND snack = '$snack' AND codes LIKE '%-$qs'";
+            $snack_load_result = mysqli_query($mysqli, $snack_load_query);
+            $snack_load_row = mysqli_fetch_array($snack_load_result);
+
+            $snack_menu[$qs] = $snack_load_row[$testday[$ns]];
+
+            $insert_user = $news_user_id . "-" . $qs;
+            $snack_update_query = "UPDATE `snacktable` `$next_payday[$ns]` = '$snack_menu[$qs]' WHERE userid = '$insert_user'";
+            mysqli_query($mysqli, $snack_update_query);
+        }
+    }
+}
+
+if (in_array("V", $select_opts)) {
+
+    while ($ns <= 3) {
+        for ($qs = 1; $qs = 2; $qs = $qs + 1) {
+
+            $snack_load_query = "SELECT * FROM tablelist WHERE periods = '$period_str' AND snacke = '$snacke' AND codes LIKE '%-$qs'";
             $snack_load_result = mysqli_query($mysqli, $snack_load_query);
             $snack_load_row = mysqli_fetch_array($snack_load_result);
 
@@ -358,7 +395,7 @@ $subid_result = mysqli_query($mysqli, $subid_query);
 $subid_row = mysqli_fetch_array($subid_result);
 $subid = $subid_row[subid];
 
-$fee_del_query = "DELETE FROM `wp_woocommerce_order_items` WHERE order_id = '$subid' AND order_item_type";
+$fee_del_query = "DELETE FROM `wp_woocommerce_order_items` WHERE order_id = '$subid' AND order_item_type = 'fee'";
 mysqli_query($mysqli, $fee_del_query);
 
 $opt_all_array = array_merge($post_opt, $post_other_opt);
@@ -487,6 +524,7 @@ while ($qq <= $opt_all_count - 1) {
         }
     }
 
+    $all_pay = $all_pay + $item_price[$qq];
 
     $new_fee_query = "INSERT INTO `wp_woocommerce_order_items`(`order_item_name`, `order_item_type`, `order_id`) VALUES ('$item_name[$qq]','fee','$subid')";
     mysqli_query($mysqli, $new_fee_query);
@@ -507,8 +545,15 @@ while ($qq <= $opt_all_count - 1) {
         $new_fee_amount_query = "INSERT INTO `wp_woocommerce_order_itemmeta`(`order_item_id`, `meta_key`, `meta_value`) VALUES ('$order_item_id[$qq]','$fee_meta_key[$jk]','$fee_meta_val[$jk]')";
         mysqli_query($mysqli, $new_fee_amount_query);
     }
+
     $qq++;
 }
+
+//로그남기기
+$log_date = date("Y-m-d");
+$log_opt = implode("/", $opt_all_array);
+
+$log_query = "INSERT INTO `periodlog`(`date`,`selectopt`,`allpay`) VALUES ('$log_date','$log_opt','$all_pay')";
 
 // 여기 이후에 html 만들면 됩니다
 ?>

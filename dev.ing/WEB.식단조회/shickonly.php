@@ -6,78 +6,6 @@
 
 get_header(); ?>
 
-<style>
-
-    table { position:relative; }
-    .hentry { margin:0; display:none; }
-    .shickdan { padding-left:30px;}
-    .shickdan h1 { font-weight:normal; font-family:'210gullim'; font-size:28px; color:#333; }
-    .shickp { font-weight:normal; font-family:'210gullim'; font-size:20px; color:#333; padding-left:30px; margin-bottom:10px;}
-    .shick_table td { text-align:center; }
-    .shick_table td { width:50%; font-size:1.1rem; font-weight:bold; vertical-align:middle; text-align:center; }
-    .today_day { padding:0 30px; margin: 0 auto; text-align:center; }
-    .today_day div { display:inline-block; }
-
-    .prev_shick input[type="submit"] { background-color:#fff !important; color:#427ac7 !important; padding-left:60px;
-        background-image:url(/wp-content/themes/storefront-child/image/icon/left_arrow_green.png); background-position:5% 50%; background-size:20px; background-repeat:no-repeat; border-top-left-radius:9px; border-bottom-left-radius:9px; box-shadow:0px 0px 2px #666; }
-
-    .next_shick input[type="submit"] { background-color:#427ac7 !important; color:#fff; padding-right:60px;
-        background-image:url(/wp-content/themes/storefront-child/image/icon/right_arrow_new.png); background-position:95% 50%; background-size:20px; background-repeat:no-repeat; border-top-right-radius:9px; border-bottom-right-radius:9px; box-shadow:0px 0px 2px #666; }
-
-    .under_table { text-align:center; font-size:0.5rem; }
-    .under_table td { width:16.66%; height:40px; text-align:center; vertical-align:middle; }
-
-    @media only screen and (min-width: 1070px) {
-        .pop_up { left:50%; max-width:418px; }
-    }
-
-    #auth_snack tbody { overflow:hidden; position:relative; }
-    #auth_snack.authoff tbody:after { content:'간식옵션을 선택하지 않았습니다.'; border-radius:9px; position:absolute; top:0; left:0; width:100%; height:100%; display:block; background-color:#e7e7e7; overflow:hidden; line-height:8.5; text-align:center; }
-
-    .after_snack { text-align:center; font-weight:bold; padding-bottom:30px; }
-
-    .pop_up { box-shadow:0 -7px 10px 0 rgba(0,0,0,.18); background-color:#fff; border-top-right-radius:50px; border-top-left-radius:50px; width:100%; height:100%; margin:0; padding:0; transition:all 600ms cubic-bezier(0.86, 0, 0.07, 1); top:105%; position:fixed; z-index:300; }
-    .pop_up.on { top:15%; overflow:scroll; }
-    .close { background-color:#202020; z-index:999; border-radius:100%; display:none; position:fixed; right:20px; top:20%; background-image:url(/wp-content/themes/storefront-child/image/x_btn.png); width:30px; height:30px; text-align:center; background-size:cover; background-position:center; background-repeat:no-repeat; }
-    .makebox .title { margin-top:30px; margin-bottom:30px; text-align:center; }
-    .makebox .title h3 { margin-top:0; }
-    .makebox { padding-bottom:200px; }
-    .makebox .makestep { padding:8px 20px; }
-    .makebox .makestep .maketext p { font-size:20px; }
-    .makebox .makestep .makenumber { font-size:25px; font-weight:800; }
-    .save_btn { margin-top:10px; display:none; }
-
-
-     .back_header .back_head .title h2:after { content:'\25B6'; padding:0 5px; position:absolute; font-size:12px; padding-top:4px; transform:rotate(90deg); -wekkit-transform:rotate(90deg); }
-    .back_header .back_head .title .ons:after { transform:rotate(270deg); -wekkit-transform:rotate(270deg); }
-
-    #auth_snack.snack_bloom tbody { display:block; }
-
-    .sample:after { background-image:linear-gradient(40deg,rgba(255,255,255,.15) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.15) 50%,rgba(255,255,255,.15) 75%,transparent 75%,transparent); background-size:50px; content:'Sample'; background-color:#999; width:100%; height:40px; position:absolute; display:block; left:0; opacity:0.9; vertical-align:middle; color:#fff; font-weight:800; line-height:2; text-align:center; font-size:22px; top:50%; z-index:2; }
-
-</style>
-<div class="period_choice">
-<div class="choice_tab flex">
-    <div class="flexible choice_tabs open">
-        <p><a href="/menucheck">식단 확인하기</a></p>
-    </div>
-    <div class="flexible choice_tabs">
-        <p><a href="/dodamreport">보고서 확인하기</a></p>
-    </div>
-</div>
-</div>
-
-<div class="back_header">
-    <div class="back_head">
-        <li class="back">
-            <a href="javascript:window.history.back();"></a>
-        </li>
-        <li class="title" id="move_paycheck_click">
-            <h2 id="name_toggle">식단 확인하기</h2>
-        </li>
-    </div>
-</div>
-
 <div id="primary" class="content-area login-auth-on">
     <main id="main" class="site-main" role="main">
 
@@ -88,13 +16,13 @@ get_header(); ?>
             $mysqli = new mysqli('localhost', 'olivejnainc', 'Goyo5713**', 'olivejnainc');
             if($mysqli->connect_errno) die('Connect failed: '.$mysqli->connect_error);
             if(!$mysqli->set_charset('utf8')) die('Error loading character set utf8: '.$mysqli->error);
-        }
-        
-        else
-        { 
-            
+        } else { 
+            $userid = get_user_meta( $current_user -> ID, 'username', true );
+            $username = get_user_meta( $current_user -> ID, 'first_name', true );
             $user_auth = 2;
-            
+            $mysqli = new mysqli('localhost', 'olivejnainc', 'Goyo5713**', 'olivejnainc');
+            if($mysqli->connect_errno) die('Connect failed: '.$mysqli->connect_error);
+            if(!$mysqli->set_charset('utf8')) die('Error loading character set utf8: '.$mysqli->error);
         } ?>
 
 
@@ -102,36 +30,6 @@ get_header(); ?>
             <input type="hidden" name="userid" id="userid" value="<?php echo $userid ?>">
             <input type="hidden" name="user_auth" id="login_auth" value="<?php echo $user_auth ?>">
         </form>
-
-
-        <script>
-            var userInput = "";
-            userInput = $("#userid").val();
-
-            window.onload = function() {
-                var viewsikdan = document.getElementById("<?php echo $userid ?>");
-                viewsikdan.style.display="block";
-
-            }
-
-        </script>
-        <?php
-        while ( have_posts() ) :
-            the_post();
-
-            do_action( 'storefront_page_before' );
-
-            get_template_part( 'content', 'page' );
-
-            /**
-             * Functions hooked in to storefront_page_after action
-             *
-             * @hooked storefront_display_comments - 10
-             */
-            do_action( 'storefront_page_after' );
-
-        endwhile; // End of the loop.
-        ?>
 
         <?php
 
@@ -141,6 +39,13 @@ get_header(); ?>
             return implode('', $match[0]);
         }
 
+        $user_date_query = "SELECT * FROM shicktest WHERE userid = '$userid'";
+        $user_date_result = mysqli_query($mysqli, $user_date_query);
+        $user_date_row = mysqli_fetch_array($user_date_result);
+
+        $user_date = $user_date_row[nextdeliday];
+
+    
 
         //echo "$userid","-1";
 

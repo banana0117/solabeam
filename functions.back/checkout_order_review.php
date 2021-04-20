@@ -22,6 +22,11 @@
  * 주석을 왠만하면 달아놨지만 부족할 수도 있음
  * 가급적 html이나 class 명정도만 수정해서 사용하면 될듯
  * 
+ * 필요한 부분에 class명을 넣고 사용하세요
+ * 아래 스타일은 테스트를 위해서 넣어뒀는데 나중에 지우시면 됩니다
+ * 
+ * wp-content/plugins/woocommerce/template/checkout/ 에 덮어씌우면됩니다
+ * 
  */
 
 defined('ABSPATH') || exit;
