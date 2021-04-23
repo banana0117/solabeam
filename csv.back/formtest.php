@@ -364,9 +364,28 @@ $test_date = date("Y-m-d", strtotime("+1 month", strtotime($today_date)));
                 <p>다른 고객님들은 <a href="https://www.dodammeal.com/wp-content/themes/storefront-child/dodamform.php">이쪽</a> 으로가세요</p>
                 <p><?php echo $test_date ?></p>
             </div>
+            <?php echo $todayz = date("Y-m-d");
+            $baby_birth = "2020-08-15";
+            $baby_after_q = strtotime($todayz) - strtotime($baby_birth);
+            $baby_after_y = floor($baby_after_q / 31536000);
+            $baby_after_w = floor($baby_after_q / 86400);
+            $baby_after = ($baby_after_w - (365 * $baby_after_y)) + 1;
+            $baby_after_m = $baby_after / 30;
+            ?>
+            <input type="date" id="date" min="2019-01-01" max="<?php echo $todayz ?>">
+            <p id="newdate"></p>
+            <?php echo $baby_after ?>
+            <?php echo $baby_after_m ?>
+            <?php echo round($baby_after_m) ?>
 
         </div>
 
+        <script>
+            $("#date").change(function() {
+                var tsz = $("#date").val();
+                $("#newdate").html(tsz);
+            });
+        </script>
 
         <div class="tab_box tab1">
 

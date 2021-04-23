@@ -22,12 +22,15 @@ $add_day = "(SELECT * FROM shicktest WHERE ifnull($today,0) > ' ') UNION (SELECT
 $day_result = mysqli_query($mysqli, $add_day);
 while ($user_row = mysqli_fetch_array($day_result)) {
 
-    if (empty($user_row[$today])) {
+    if ( empty($user_row[$today])) {
+
     } else {
 
         if ($user_row[period] == "준비기") {
             $useridz[$z] = str_replace("-1", "", $user_row[userid]);
         } elseif ($user_row[period] == "초기") {
+            $useridz[$z] = str_replace("-1", "", $user_row[userid]);
+        } elseif ($user_row[period] == "중기1") {
             $useridz[$z] = str_replace("-1", "", $user_row[userid]);
         } else {
             $useridz[$z] = str_replace("-2", "", $user_row[userid]);
@@ -53,6 +56,11 @@ $z = 0;
 $user_list = array_unique($user_list);
 
 while ($z <= 3000) {
+
+    if (empty($user_list[$z])) {
+        
+    } else {
+ 
     $sql = "select * from userbase where userid = '$user_list[$z]'";
     $sql_result = mysqli_query($mysqli, $sql);
     while ($row = mysqli_fetch_array($sql_result)) {
@@ -73,6 +81,7 @@ while ($z <= 3000) {
                 $array[] = $useridz[$z];
             }
         }
+    }
     }
     $z++;
 }
@@ -114,8 +123,6 @@ while ($az <= $count) {
         $norder_postcode[$az] = $normalorder_row[postcode];
         $norder_address[$az] = $normalorder_row[address];
 
-
-
         $csv_dump .= "도담밀,";
         $csv_dump .= $norder_per[$az] . " : " . $norder_qua[$az] . ",";
         $csv_dump .= $normalorder_row[username] . ",";
@@ -124,8 +131,6 @@ while ($az <= $count) {
         $csv_dump .= $norder_address[$az] . ",";
         $csv_dump .= " ,";
         $csv_dump .= "\r\n";
-
-
 
         $az++;
     }
