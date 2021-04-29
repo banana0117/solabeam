@@ -78,7 +78,7 @@ $mysqli = new mysqli('localhost', 'olivejnainc', 'Goyo5713**', 'olivejnainc');
 
             $.ajax({
                 type: "POST",
-                url: "dbget.php",
+                url: "/wp-content/themes/storefront-child/adminform/active/dbget.php",
                 dataType: "json",
                 data: $("#table_form").serialize(),
             }).done(function(data) {
@@ -143,7 +143,7 @@ $mysqli = new mysqli('localhost', 'olivejnainc', 'Goyo5713**', 'olivejnainc');
         $("#table_refresh").click(function() {
             $.ajax({
                 type: "POST",
-                url: "table_refresh.php",
+                url: "/wp-content/themes/storefront-child/adminform/active/table_refresh.php",
                 dataType: "json",
                 data: $("#test_form").serialize(),
             }).done(function(data) {

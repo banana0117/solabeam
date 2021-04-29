@@ -65,12 +65,12 @@
     <form method="POST" action="/wp-content/themes/storefront-child/csv_down/test/stop_schedule_active.php">
         <input type="hidden" name="rotationday" value="<?php echo $rotationday ?>">
         
-        <select name="weeks" id="weeksto">
-            <option value="1">1주</option>
-            <option value="2">2주</option>
-            <option value="3">3주</option>
-            <option value="4">4주</option>
-        </select>
+        <!--라벨은 알아서 넣어줘요 ㅠㅠ -->
+        <input name="weeks" type="radio" value="1">
+        <input name="weeks" type="radio" value="2">
+        <input name="weeks" type="radio" value="3">
+        <input name="weeks" type="radio" value="4">
+
         <input type="submit" value="신청하기">
     </form>
 </div>
@@ -97,9 +97,9 @@
 
 <script>
 
-        $("#weeksto").change(function(){
+        $("input[name=weeksto]").change(function(){
             
-            var weeks = $("#weeksto").val(); 
+            var weeks = $("input[name=weeksto]").val(); 
 
             if(weeks == "1"){
                 $("#week1").html('일시중지');
@@ -143,10 +143,23 @@
 
             echo '
             <div class="">
-            <p>'.$log_row[dates].'</p>
+            <div class="">
+            <p>일시정지 신청일 | '.$log_row[dates].'</p>
+</div>
+<div class="">
+<p></p>
+</div>
+            <div class="">
+            <p>일시정지 시작일</p>
+            <p>기간</p>
+            <p>일시정지 종료일</p>
+            </div>
+          
+            <div class="">
             <p>'.$log_row[startday].'</p>
             <p>'.$log_row[weeks].'</p>
             <p>'.$log_row[endday].'</p>
+            </div>
             </div>
             ';
 
