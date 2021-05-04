@@ -1,32 +1,6 @@
 <?php
 
-/**
- * Template Name: hongsigraphtest
- */
-get_header(); ?>
-
-<?php
-
-if (is_user_logged_in()) {
-    $loginid = get_user_meta($current_user->ID, 'username', true);
-    $mysqli = new mysqli('localhost', 'olivejnainc', 'Goyo5713**', 'olivejnainc');
-} else {
-    //to 부분 뒤에 보고서 페이지 링크 넣어주세요
-    echo "<script>alert('로그인이 필요합니다.');location.href='/login?redirect_to=/';</script>";
-}
-
-//$snack_auth_query = "SELECT userid FROM userbase WHERE opt LIKE '%간식%'";
-//$snack_auth_result = mysqli_query($mysqli, $snack_auth_query);
-//$snack_auth_array = array();
-//while ($snack_auth_row = mysqli_fetch_array($snack_auth_result)) {
-//    $snack_auth_array[] = $snack_auth_row[userid];
-//}
-
-//if (in_array("$loginid", $snack_auth_array)) {
-//    $snack_auth_code = 1;
-//} else {
-//    $snack_auth_code = 2;
-//}
+$loginid = $_POST['userid'];
 
 ?>
 
@@ -43,23 +17,6 @@ $user_date = $userrow[date];
 $user_username = $userrow[username];
 $user_babyname = $userrow[babyname];
 $user_gender = $userrow[gender];
-
-$user_base_query = "SELECT * FROM userbase WHERE userid = '$loginid'";
-$user_base_result = mysqli_query($mysqli, $user_base_query);
-$user_base_row = mysqli_fetch_array($user_base_result);
-
-if($user_mem == "퍼스트"){
-    $first_query = "SELECT * FROM babycomment WHERE userid = '$loginid' ORDER BY date DESC";
-    $first_result = mysqli_query($mysqli, $first_query);
-    $first_row = mysqli_fetch_array($first_result);
-
-    $comment_1 = $first_row[one];
-    $comment_2 = $first_row[two];
-    $comment_3 = $first_row[thr];
-    $comment_4 = $first_row[four];
-    $comment_5 = $first_row[five];
-
-}
 
 if ($user_gender == "man") {
     $user_gender = "남아";
@@ -3149,6 +3106,16 @@ if ($baby_period == "유아기") {
                     <div class="outline" style="margin-top:15px; padding:10px; border-radius:9px; overflow:hidden;">
                         <div class="inline">
                             <div class="cont">
+                                <div class="star_texts">
+                                    <p><?php echo $now_precautions ?></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="outline" style="margin-top:15px; padding:10px; border-radius:9px; overflow:hidden;">
+                        <div class="inline">
+                            <div class="cont">
                                 <div class="number">
                                     <p><span></span><?php echo $user_babyname ?>이의 식사계획</p>
                                 </div>
@@ -5090,6 +5057,3 @@ if ($baby_period == "유아기") {
 <?php
 mysqli_close($mysqli);
 ?>
-<?php
-do_action('storefront_sidebar');
-get_footer();

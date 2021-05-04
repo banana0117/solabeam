@@ -94,7 +94,9 @@ function dtwc_delivery_info_checkout_fields( $checkout ) {
     ), $checkout->get_value( 'dtwc_delivery_time' ) );
 
 }
-add_action( 'woocommerce_review_order_before_payment', 'dtwc_delivery_info_checkout_fields' , 20, 1 );
+//바나나 수정본
+//add_action( 'woocommerce_review_order_before_payment', 'dtwc_delivery_info_checkout_fields' , 20, 1 );
+add_action( 'woocommerce_after_checkout_billing_form', 'dtwc_delivery_info_checkout_fields' , 20, 1 );
 
 
 /**

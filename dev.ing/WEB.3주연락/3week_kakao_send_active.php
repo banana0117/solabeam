@@ -30,24 +30,38 @@ $knt = new TKakaoNotificationTalk\TKakaoNotificationTalk($key, $clientId, $defau
 $count = $_REQUEST['count'];
 $ars = $_REQUEST['ars'];
 $today = date("Y-m-d");
-$last_week_day = date("Y-m-d");
+$last_week_day = date("Y-m-d", strtotime("+10 days", strtotime($today)));
+$last_week_days = date("Y-m-d", strtotime("+6 days", strtotime($today)));
+$last_week_dayss = date("Y-m-d", strtotime("+3 days", strtotime($today)));
 
 $arsd = preg_replace("/[ #\&\+\-%@=\/\\\:;\.'\"\^`~\_|\!\?\*$#<>()\[\]\{\}]/i", "", $ars);
 
 $ars_row = explode(',', $arsd);
 
-$day_query = "SELECT * FROM userbase WHERE nextpayment = '$last_week_day' AND news = '1'";
+$day_query = "SELECT * FROM userbase WHERE nextdeliday = '$last_week_day' AND news = '1'";
 $day_result = mysqli_query($mysqli, $day_query);
 while($day_row = mysqli_fetch_array($day_result)){
-    $select_users[] = $day_row[userid];
+    $select_users[] = $day_row[phone];
 }
 
-$select_counter = count($select_users);
+$days_query = "(SELECT * FROM userbase WHERE nextdeliday = '$last_week_days' AND news = '1') UNION (SELECT * FROM userbase WHERE nextdeliday = '$last_week_dayss' AND news='1')";
+$days_result = mysqli_query($mysqli, $days_query);
+while ($days_row = mysqli_fetch_array($days_result)){
+    $selects_users[] = $days_row[phone];
+}
+
+$del_user = "SELECT * FROM userbase WHERE nextdeliday = '$today' AND news = '1'";
+$del_user_result = mysqli_query($mysqli_query);
+while ($del_user_row = mysqli_fetch_array($del_user_result)){
+    $del_users[] = $del_user_row[phone];
+}
+
+$all_counter = count($ars_row);
 $i = 0;
 
-while ($i < $select_counter){
+while ($i < $all_counter){
 
-    $user_search = "SELECT * FROM userbase WHERE phone = '$ars_row[$i]'";
+    $user_search = "(SELECT * FROM userbase WHERE phone = '$ars_row[$i]') UNION (SELECT * FROM canclebase WHERE phone = '$ars_row[$i]')";
     $user_result = mysqli_query($mysqli, $user_search);
     $user_row = mysqli_fetch_array($user_result);
 
@@ -57,29 +71,75 @@ while ($i < $select_counter){
     $data_name[$i] = preg_replace("/[ #\&\+\-%@=\/\\\:;\.'\"\^`~\_|\!\?\*$#<>()\[\]\{\}]/i", "", $user_name[$i]);
     $data_name[$i] = preg_replace("/[0-9]/","",$data_name[$i]);
 
-    $body = [
-        "phone" => $ars_row[$i],
-        "callback" => "0518055957", // 발신번호 발신자번호등록 기능으로 먼저 등록해야 메시지발송이 가능합니다.
-        "reqdate" => "", // 예약발송시 다음과같은 형식으로 일시를 지정한다. "20160517000000", 비워두면 즉시발송.
-        "msg" => "안녕하세요 $data_name[$i] 고객님
-도담밀입니다.
-        
-다음 이유식 시기를 선택해주세요!
-        
-아래 링크를 통해 접속한 후
-현재 시기 유지 및 다음 시기로 변경하실 수 있어요!
-        
-궁금하신 사항은
-도담밀 고객센터로 문의해주세요!
-        
-고객센터 : 051-805-5957", // 변수부분을 제외하고 템플릿내용 동일해야합니다.
-"template_code" => "DODAM07", // 미리 APISTORE 카카오 알림톡 템플릿으로 등록승인된 템플릿의 코드값
-    "btn_types" => "웹링크",
-    "btn_txts" => "시기선택하기",
-    "btn_urls1" => "https://dodammeal.com/login/?redirect_to=/periodchange",
-    "btn_urls2" => "https://dodammeal.com/login/?redirect_to=/periodchange",
-    ];
+    if(in_array($ars_row[$i], $select_users)){
+        $body = [
+            "phone" => $ars_row[$i],
+            "callback" => "0518055957", // 발신번호 발신자번호등록 기능으로 먼저 등록해야 메시지발송이 가능합니다.
+            "reqdate" => "", // 예약발송시 다음과같은 형식으로 일시를 지정한다. "20160517000000", 비워두면 즉시발송.
+            "msg" => "안녕하세요, $data_name[$i]님!
+아기가 도담밀과 함께한 지 벌써 3주가 지났네요.
+다음 달 보내 드릴 아기 식단을 신청해주세요.
+            
+*식단 발송을 잠시 미루고 싶다면? 
+마이페이지에서 일시정지 신청이 가능합니다.
+            
+*이제 식단을 받고 싶지 않다면?
+이유식 식단 변경 신청을 하지 않으면 자동으로 해지되어 다음 달부터 결제·배송이 이루어지지 않습니다.
+            
+▶고객센터: 051-805-5957", // 변수부분을 제외하고 템플릿내용 동일해야합니다.
+    "template_code" => "DN0006", // 미리 APISTORE 카카오 알림톡 템플릿으로 등록승인된 템플릿의 코드값
+        "btn_types" => "웹링크,웹링크",
+        "btn_txts" => "시기선택하기,도담밀홈페이지",
+        "btn_urls1" => "https://dodammeal.com/login/?redirect_to=/periodchange, https://dodammeal.com",
+        "btn_urls2" => "https://dodammeal.com/login/?redirect_to=/periodchange, https://dodammeal.com",
+        ];
+    
+    } elseif(in_array($ars_row[$i], $selects_users)){
+        $body = [
+            "phone" => $ars_row[$i],
+            "callback" => "0518055957", // 발신번호 발신자번호등록 기능으로 먼저 등록해야 메시지발송이 가능합니다.
+            "reqdate" => "", // 예약발송시 다음과같은 형식으로 일시를 지정한다. "20160517000000", 비워두면 즉시발송.
+            "msg" => "안녕하세요, $data_name[$i]님!
+아직 아기 식단 변경 신청을 하지 않으셨네요.
+혹시 깜박하셨다면 한 번 더 확인해주세요.
+            
+*식단 발송을 잠시 미루고 싶다면? 
+마이페이지에서 일시정지 신청이 가능합니다.
+            
+*이제 식단을 받고 싶지 않다면?
+이유식 식단 변경 신청을 하지 않으면 자동으로 해지되어 다음 달부터 결제·배송이 이루어지지 않습니다.
+            
+▶고객센터: 051-805-5957", // 변수부분을 제외하고 템플릿내용 동일해야합니다.
+    "template_code" => "DN0007", // 미리 APISTORE 카카오 알림톡 템플릿으로 등록승인된 템플릿의 코드값
+    "btn_types" => "웹링크,웹링크",
+    "btn_txts" => "시기선택하기,도담밀홈페이지",
+    "btn_urls1" => "https://dodammeal.com/login/?redirect_to=/periodchange, https://dodammeal.com",
+    "btn_urls2" => "https://dodammeal.com/login/?redirect_to=/periodchange, https://dodammeal.com",
+        ];
+    } elseif (in_array($ars_row[$i], $del_users)){
+        $body = [
+            "phone" => $ars_row[$i],
+            "callback" => "0518055957", // 발신번호 발신자번호등록 기능으로 먼저 등록해야 메시지발송이 가능합니다.
+            "reqdate" => "", // 예약발송시 다음과같은 형식으로 일시를 지정한다. "20160517000000", 비워두면 즉시발송.
+            "msg" => "$data_name[$i]님의 다음 결제가 정상적으로 해지 처리되었습니다.
 
+그동안 도담밀을 이용해 주셔서 감사드립니다.
+            
+간단한 설문조사에 참여해주시면 매월 추첨을 통해 스타벅스 기프티콘을 보내 드립니다.
+            
+앞으로 더욱 발전하는 도담밀이 되겠습니다.
+            
+감사합니다.
+            
+▶고객센터: 051-805-5957", // 변수부분을 제외하고 템플릿내용 동일해야합니다.
+    "template_code" => "DN0008", // 미리 APISTORE 카카오 알림톡 템플릿으로 등록승인된 템플릿의 코드값
+        "btn_types" => "웹링크",
+        "btn_txts" => "30초설문조사",
+        "btn_urls1" => "https://dodammeal.com/login/?redirect_to=/con3cancleresearch",
+        "btn_urls2" => "https://dodammeal.com/login/?redirect_to=/con3cancleresearch",
+        ];
+    }
+    
     $response = $knt->postMessage($body);
   
     if ($response->body->result_message == "OK") {

@@ -114,7 +114,7 @@ $new_date_row = mysqli_fetch_array($new_date_result);
 
 $new_user_date = $new_date_row[nextdeliday];
 
-$new_user_opt = "UPDATE `userbase` SET `nowperiod`='$now_period', `opt`='$snack', `membership`='$tables' WHERE userid = '$news_user_id'";
+$new_user_opt = "UPDATE `userbase` SET `nowperiod`='$now_period', `opt`='$snack', `membership`='$tables', `tables` = '$tables' WHERE userid = '$news_user_id'";
 mysqli_query($mysqli, $new_user_opt);
 
 $next_payday[0] = date("Y-m-d", strtotime($new_user_date));

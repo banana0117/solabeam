@@ -1,4 +1,5 @@
 <?php
+// functions.php 에 보면 이 파트가 있을텐데 그부분 지워주고 이걸 넣어주시면 됩니다
 // YJ 다음우편번호검색
 add_filter( 'woocommerce_checkout_fields' , 'checkout_fields_postcode_lookup' ,9999);
 function checkout_fields_postcode_lookup( $fields ) {

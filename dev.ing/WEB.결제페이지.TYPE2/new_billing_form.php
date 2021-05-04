@@ -20,7 +20,7 @@
  * 아래 div woocommerce-billing-fields__field-wrapper 안에 나타나는 친구들은 어쩔수없이
  * 개발자모드에서 css보고 css로만 수정해야할거같네요 
  * 
- * 필요한 스크립트가 있으면 new_billing_form.php 이쪽에다가 추가하면 됩니다
+ * 필요한 스크립트가 있으면 form-checkout.php 이쪽에다가 추가하면 됩니다
  * 
  */
 

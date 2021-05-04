@@ -100,9 +100,13 @@ defined('ABSPATH') || exit;
                 $opt_roop = 1;
                 while ($opt_roop <= $fee_name_count) {
                     // 원하는 클래스명 추가해서 사용하면 됩니다.
+                    if($fee_name[$opt_roop] == ""){
+                    } elseif(strpos($fee_price[$opt_roop], "-") !== true){
+                    } else {
                     echo "<div class=''>";
                     echo "<p>+ <span>" . number_format($fee_price[$opt_roop]) . "</span> 원 " . $fee_name[$opt_roop] . "</p>";
                     echo "</div>";
+                    }
                     $opt_roop++;
                 }
                 ?>
@@ -113,14 +117,14 @@ defined('ABSPATH') || exit;
                 while ($ft <= $fee_name_count) {
                     $fee_all_total = $fee_all_total + $fee_price[$ft];
 
-                    if (strpos($fee_price[$ft], "-") !== false) {
+                    if (strpos($fee_price[$ft], "-") != false) {
                         $discount_pay = $fee_price[$ft];
                     }
 
                     $ft++;
                 }
                 ?>
-                <p><?php echo number_format($fee_all_total) ?></p>
+                <p>상품 금액 <?php echo number_format($fee_all_total) ?></p>
                 <?php
                 if ($discount_pay == "") {
                 } else {
@@ -140,50 +144,117 @@ defined('ABSPATH') || exit;
             <div class="">
                 <?php //건드리지마세용
                 foreach (WC()->cart->get_fees() as $fee) : ?>
-                    <?php $fee_name[] = esc_html($fee->name); ?>
-                    <?php $fee_price[] = esc_html($fee->total); ?>
+                    <?php $fee_names[] = esc_html($fee->name); ?>
+                    <?php $fee_prices[] = esc_html($fee->total); ?>
                 <?php endforeach; ?>
                 <div class="">
-                    <p><?php echo $fee_name[0]; ?></p>
-                    <span><?php echo number_format($fee_price[0]); ?></span>
+                    <p><?php echo $fee_names[0]; ?></p>
+                    <span><?php echo number_format($fee_prices[0]); ?></span>
                 </div>
                 <div class="">
                     <p id="product_detail"></p>
                 </div>
                 <div class="">
-                    <p id="add_d"> < </p>
-                    <p id="add">1</p>
-                    <p id="add_p"> > </p>
+                    <?php
+                        $array = ['1','2','3','4','5','6','7','8','9'];
+
+                        if(strpos($fee_name[0], "편수") != false){
+                            $array_s = ['19900','39800','59700','79600','99500','119400','139300','159200','179100'];
+                        } elseif(strpos($fee_name[0], "세트") != false){
+                            $array_s = ['59000','118000','177000','236000','295000','354000','413000','472000','531000'];
+                        } elseif(strpos($fee_name[0], "메이커") != false){
+                            $array_s = ['1','2','3','4','5','6','7','8','9'];
+                        }
+
+                        $key = array_search($fee_prices[0], $array_s);
+
+                        $number = $array[$key];
+                    ?>
+                    <p id="add_d">-</p>
+                    <p id="add"><?php echo $number ?></p>
+                    <p id="add_p">+</p>
                 </div>
             </div>
-            <!--옵션라인-->
             <div class="">
-                <?php
-                $fee_name_count = count($fee_name);
-                $opt_roop = 1;
-                while ($opt_roop <= $fee_name_count) {
-                    // 원하는 클래스명 추가해서 사용하면 됩니다.
-                    echo "<div class=''>";
-                    echo "<p>+ <span>" . number_format($fee_price[$opt_roop]) . "</span> 원 " . $fee_name[$opt_roop] . "</p>";
-                    echo "</div>";
-                    $opt_roop++;
-                }
-                ?>
-            </div>
-            <div class="">
-                <?php
-                $ft = 0;
-                while ($ft <= $fee_name_count) {
-                    $fee_all_total = $fee_all_total + $fee_price[$ft];
-                    $ft++;
-                }
-                ?>
-                <p><?php echo number_format($fee_all_total) ?></p>
+                <p>상품 금액<?php echo number_format($fee_prices[0]) ?></p>
             </div>
         </div>
     </div>
 </div>
-
+<?php 
+ //건드리지마세용
+foreach (WC()->cart->get_fees() as $fee) : ?>
+    <?php $fee_name[] = esc_html($fee->name); ?>
+<?php endforeach; ?>
+<?php if(strpos($fee_name[0], ":") != false ){
+    echo '<script>$("#etc_detail").hide();</script>';
+} else {
+    echo '<script>$("#meal_detail").hide();</script>';
+    echo '<script>
+    $("#add_d").on("click", function() {
+        var counters = $("#add").text();
+        if (counters == 1) {
+            $("#add").text("1");
+            $("#radio_choice_opt_counter_1").trigger("click");
+        } else if (counters == 2) {
+            $("#add").text("1");
+            $("#radio_choice_opt_counter_1").trigger("click");
+        } else if (counters == 3) {
+            $("#add").text("2");
+            $("#radio_choice_opt_counter_2").trigger("click");
+        } else if (counters == 4) {
+            $("#add").text("3");
+            $("#radio_choice_opt_counter_3").trigger("click");
+        } else if (counters == 5) {
+            $("#add").text("4");
+            $("#radio_choice_opt_counter_4").trigger("click");
+        } else if (counters == 6) {
+            $("#add").text("5");
+            $("#radio_choice_opt_counter_5").trigger("click");
+        } else if (counters == 7) {
+            $("#add").text("6");
+            $("#radio_choice_opt_counter_6").trigger("click");
+        } else if (counters == 8) {
+            $("#add").text("7");
+            $("#radio_choice_opt_counter_7").trigger("click");
+        } else if (counters == 9) {
+            $("#add").text("8");
+            $("#radio_choice_opt_counter_8").trigger("click");
+        }
+    });
+    $("#add_p").on("click", function() {
+        var counters = $("#add").text();
+        if (counters == 1) {
+            $("#add").text("2");
+            $("#radio_choice_opt_counter_2").trigger("click");
+        } else if (counters == 2) {
+            $("#add").text("3");
+            $("#radio_choice_opt_counter_3").trigger("click");
+        } else if (counters == 3) {
+            $("#add").text("4");
+            $("#radio_choice_opt_counter_4").trigger("click");
+        } else if (counters == 4) {
+            $("#add").text("5");
+            $("#radio_choice_opt_counter_5").trigger("click");
+        } else if (counters == 5) {
+            $("#add").text("6");
+            $("#radio_choice_opt_counter_6").trigger("click");
+        } else if (counters == 6) {
+            $("#add").text("7");
+            $("#radio_choice_opt_counter_7").trigger("click");
+        } else if (counters == 7) {
+            $("#add").text("8");
+            $("#radio_choice_opt_counter_8").trigger("click");
+        } else if (counters == 8) {
+            $("#add").text("9");
+            $("#radio_choice_opt_counter_9").trigger("click");
+        } else if (counters == 9) {
+            alert("더 이상 추가할 수 없습니다.");
+        }
+    });
+</script>';
+}
+?>
 
 <?php //do_action('woocommerce_review_order_before_cart_contents'); 
 ?>

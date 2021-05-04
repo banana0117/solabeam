@@ -368,18 +368,18 @@ $test_date = date("Y-m-d", strtotime("+1 month", strtotime($today_date)));
             <?php
 
             $mysqli = new mysqli('localhost', 'olivejnainc', 'Goyo5713**', 'olivejnainc');
-            
+
             $query = "SELECT * FROM userTest WHERE userid = 'banana'";
             $result = mysqli_query($mysqli, $query);
-            while($row = mysqli_fetch_array($result)){
+            while ($row = mysqli_fetch_array($result)) {
                 $point[] = $row[opt];
             }
 
             $count = count($point);
-            
+
             $x = 0;
             $points = 0;
-            while($x <= $count){
+            while ($x <= $count) {
                 $points = $points + $point[$x];
                 $x++;
             }
@@ -392,11 +392,90 @@ $test_date = date("Y-m-d", strtotime("+1 month", strtotime($today_date)));
             <input type="text" id="ass">
             <input type="text" id="asd">
 
+            <select name="tdas" id="gsa">
+                <option value="1">fadf</option>
+                <option value="2">fadf</option>
+                <option value="3">fadf</option>
+                <option value="4">fadf</option>
+                <option value="5">fadf</option>
+            </select>
 
+            <div class="">
+                <p id="add_d">ㅁ</p>
+                        <p id="add">1</p>
+                        <p id="add_p">ㅌ</p>
+            </div>
 
         </div>
 
         <script>
+            $("#add_d").on('click', function() {
+                var counters = $("#add").text();
+
+                if (counters == 1) {
+                    $("#add").text('1');
+
+                } else if (counters == 2) {
+                    $("#add").text('1');
+
+                } else if (counters == 3) {
+                    $("#add").text('2');
+
+                } else if (counters == 4) {
+                    $("#add").text('3');
+
+                } else if (counters == 5) {
+                    $("#add").text('4');
+
+                } else if (counters == 6) {
+                    $("#add").text('5');
+
+                } else if (counters == 7) {
+                    $("#add").text('6');
+
+                } else if (counters == 8) {
+                    $("#add").text('7');
+
+                } else if (counters == 9) {
+                    $("#add").text('8');
+
+                }
+
+            });
+
+            $("#add_p").on('click', function() {
+                var counters = $("#add").text();
+                if (counters == 1) {
+                    $("#add").text('2');
+
+                } else if (counters == 2) {
+                    $("#add").text('3');
+
+                } else if (counters == 3) {
+                    $("#add").text('4');
+
+                } else if (counters == 4) {
+                    $("#add").text('5');
+
+                } else if (counters == 5) {
+                    $("#add").text('6');
+
+                } else if (counters == 6) {
+                    $("#add").text('7');
+
+                } else if (counters == 7) {
+                    $("#add").text('8');
+
+                } else if (counters == 8) {
+                    $("#add").text('9');
+
+                } else if (counters == 9) {
+                    alert('더 이상 추가할 수 없습니다.');
+                }
+            });
+
+            $("#gsa option[value='2']").prop("disabled", true);
+
             $("#asd").on('keyup change', function() {
                 $("#ass").val($(this).val());
             });
@@ -405,7 +484,7 @@ $test_date = date("Y-m-d", strtotime("+1 month", strtotime($today_date)));
         <div class="tab_box tab1">
 
 
-            <div class="title">                       
+            <div class="title">
                 <h3>데이터베이스 업로드</h3>
             </div>
 

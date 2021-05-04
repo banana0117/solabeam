@@ -3,7 +3,7 @@
 /*
 
     * 사용자 정보를 받아와서 시기변경을 해주는 페이지, 템플릿으로 만들어서 
-    * /periodchange 라는 링크로 만들어주면 됨
+    * /periodchange 라는 링크로 만들어주면 됨 ! 반드시 !
     * submit 만들어서 form>action 을 3week_period_action.php 파일을 템플릿으로 사용한 시기변경 완료 페이지로 액션을 걸어주면 됩니다
     * submit 꼭 추가해야함!!
 

@@ -12,7 +12,7 @@ if (is_user_logged_in()) {
     $mysqli = new mysqli('localhost', 'olivejnainc', 'Goyo5713**', 'olivejnainc');
 } else {
     //to 부분 뒤에 보고서 페이지 링크 넣어주세요
-    echo "<script>alert('로그인이 필요합니다.');location.href='/login?redirect_to=/';</script>";
+    echo "<script>alert('로그인이 필요합니다.');location.href='/login?redirect_to=/con3test';</script>";
 }
 
 //$snack_auth_query = "SELECT userid FROM userbase WHERE opt LIKE '%간식%'";
@@ -30,7 +30,9 @@ if (is_user_logged_in()) {
 
 ?>
 
-
+<style>
+    /* #move_paycheck_click { display:none !important; } */
+</style>
 
 
 <!--유저데이터-->
@@ -44,11 +46,27 @@ $user_username = $userrow[username];
 $user_babyname = $userrow[babyname];
 $user_gender = $userrow[gender];
 
+if ($user_gender == "man") {
+    $user_gender = "남아";
+    $user_gendera = "man";
+} elseif ($usre_gender == "girl") {
+    $user_gender = "여아";
+    $user_gendera = "girl";
+} else {
+    $user_gender = $user_gender;
+
+    if ($user_gender == "남아") {
+        $user_gendera = "man";
+    } else {
+        $user_gendera = "girl";
+    }
+}
+
 $user_base_query = "SELECT * FROM userbase WHERE userid = '$loginid'";
 $user_base_result = mysqli_query($mysqli, $user_base_query);
 $user_base_row = mysqli_fetch_array($user_base_result);
 
-if($user_mem == "퍼스트"){
+if ($user_mem == "퍼스트") {
     $first_query = "SELECT * FROM babycomment WHERE userid = '$loginid' ORDER BY date DESC";
     $first_result = mysqli_query($mysqli, $first_query);
     $first_row = mysqli_fetch_array($first_result);
@@ -58,16 +76,8 @@ if($user_mem == "퍼스트"){
     $comment_3 = $first_row[thr];
     $comment_4 = $first_row[four];
     $comment_5 = $first_row[five];
-
 }
 
-if ($user_gender == "man") {
-    $user_gender = "남아";
-} elseif ($usre_gender == "girl") {
-    $user_gender = "여아";
-} else {
-    $user_gender = $user_gender;
-}
 
 $user_birthday = $userrow[birthday];
 $user_monthly = $userrow[monthly];
@@ -582,7 +592,7 @@ $pers_pat = round($per_pat);
 
 $meal_schedule_query = "SELECT * FROM reportschedule WHERE period = '$baby_period'";
 $meal_schedule_result = mysqli_query($mysqli, $meal_schedule_query);
-$meal_schedult_row = mysqli_fetch_array($meal_schedule_result);
+$meal_schedule_row = mysqli_fetch_array($meal_schedule_result);
 
 $yamount = $meal_schedule_row[yamount];
 $ycount = $meal_schedule_row[ycount];
@@ -594,6 +604,7 @@ $etime2 = $meal_schedule_row[etime2];
 $texter = $meal_schedule_row[texter];
 $snack = $meal_schedule_row[snack];
 $formimg = $meal_schedule_row[formimg];
+$form = $meal_schedule_row[form];
 
 ?>
 <!--첫시작시기-->
@@ -1847,7 +1858,7 @@ if (in_array("테프가루",  $old_eating)) {
             },
             legend: 'none',
             height: 300,
-            width: 380,
+            width: 330,
             vAxis: {
                 viewWindow: {
                     min: 45,
@@ -1921,7 +1932,7 @@ if (in_array("테프가루",  $old_eating)) {
             },
             legend: 'none',
             height: 300,
-            width: 380,
+            width: 330,
             chartArea: {
                 width: '80%',
                 height: '80%'
@@ -1989,7 +2000,7 @@ if (in_array("테프가루",  $old_eating)) {
             },
             legend: 'none',
             height: 300,
-            width: 380,
+            width: 330,
             vAxis: {
                 viewWindow: {
                     min: 45,
@@ -2063,7 +2074,7 @@ if (in_array("테프가루",  $old_eating)) {
             },
             legend: 'none',
             height: 300,
-            width: 380,
+            width: 330,
             chartArea: {
                 width: '80%',
                 height: '80%'
@@ -2274,8 +2285,8 @@ if (in_array("테프가루",  $old_eating)) {
                 isHtml: true
             },
             legend: 'none',
-            height: 300,
-            width: 380,
+            height: 170,
+            width: 170,
             vAxis: {
                 viewWindow: {
                     min: 45,
@@ -2348,8 +2359,8 @@ if (in_array("테프가루",  $old_eating)) {
                 isHtml: true
             },
             legend: 'none',
-            height: 300,
-            width: 380,
+            height: 170,
+            width: 170,
             chartArea: {
                 width: '80%',
                 height: '80%'
@@ -2561,8 +2572,8 @@ if (in_array("테프가루",  $old_eating)) {
                 isHtml: true
             },
             legend: 'none',
-            height: 300,
-            width: 380,
+            height: 170,
+            width: 170,
             vAxis: {
                 viewWindow: {
                     min: 45,
@@ -2635,8 +2646,8 @@ if (in_array("테프가루",  $old_eating)) {
                 isHtml: true
             },
             legend: 'none',
-            height: 300,
-            width: 380,
+            height: 170,
+            width: 170,
             chartArea: {
                 width: '80%',
                 height: '80%'
@@ -2842,11 +2853,11 @@ if (in_array("테프가루",  $old_eating)) {
         ]);
         var options = {
             legend: 'none',
-            width: 380,
-            height: 220,
+            width: 340,
+            height: 200,
             chartArea: {
                 width: '80%',
-                height: '100%'
+                height: '80%'
             },
             focusTarget: 'category',
             annotations: {
@@ -2933,6 +2944,8 @@ if ($user_firstperiod == "준비기") {
 } else {
     $gazes = 90;
 }
+
+
 
 $login_weekend = $loginid . "-7";
 
@@ -3068,6 +3081,8 @@ if ($baby_period == "유아기") {
 <input name="gaze" type="hidden" value="<?php echo $gaze ?>">
 <!--시작시기퍼센트-->
 <input name="gazes" type="hidden" value="<?php echo $gazes ?>">
+<!-- <p>지금은 도담밀<br><?php //echo $baby_period
+                    ?>이용중</p>-->
 
 
 <input name="jungthree" type="hidden" value="<?php echo $jungthree ?>">
@@ -3084,16 +3099,16 @@ if ($baby_period == "유아기") {
                 <a href="javascript:window.history.back();"></a>
             </li>
             <li class="title" id="move_paycheck_click">
-                <h2>영양보고서</h2>
+                <h2>보고서 확인하기</h2>
             </li>
         </div>
     </div>
     <!--이유식파트-->
     <div class="box_out">
         <div class="fixedbox">
-            <div class="tab_menu_container">
+            <div class="tab_menu_container btn01">
                 <button class="tab_menu_btn on" id="top_btn01" type="button">기본정보</button>
-                <button class="tab_menu_btn" id="top_btn02" type="button">영양정보</button>
+                <button class="tab_menu_btn " id="top_btn02" type="button">영양정보</button>
                 <button class="tab_menu_btn" id="top_btn03" type="button">성장발달정보</button>
                 <button class="tab_menu_btn" id="top_btn04" type="button">교육자료</button>
                 <button class="tab_menu_btn" id="top_btn05" type="button">기본성장정보</button>
@@ -3108,26 +3123,22 @@ if ($baby_period == "유아기") {
             <div class="tab_box tab1 on">
                 <div id="tabbox1" class="tab-inner">
                     <div class="">
-                        <div class="">
-                            <div class="">
-                                <div class="">
-                                    <div class="">
+                        <div class="tabbox1-contents">
+                            <div class="tabbox1-box">
+                                <div class="tabbox1-fiex">
+                                    <div class="tabbox1-gender">
                                         <!--남자 man, 여자 girl 해서 폴더위치만 조정해주세요 -->
-                                        <img src="/wp-content/themes/storefront-child/?????/<?php echo $user_gender ?>.png">
+                                        <img src="/wp-content/themes/storefront-child/con3/image/<?php echo $user_gendera ?>.png">
                                     </div>
-                                    <div class="">
+                                    <div class="tabbox1-title">
                                         <p><?php echo $user_babyname ?></p>
                                     </div>
                                 </div>
-                                <div class="">
-                                    <div class="">
-                                        <p><?php echo $user_birthday ?> 출생</p>
-                                        <p>신장 <?php echo $user_height ?> cm</p>
-                                    </div>
-                                    <div class="">
-                                        <p><?php echo $user_monthly ?> 개월</p>
-                                        <p>체중 <?php echo $user_weight ?> kg</p>
-                                    </div>
+                                <div class="tabbox1-inner">
+                                    <p><?php echo $user_birthday ?> 출생</p>
+                                    <p><?php echo $user_monthly ?> 개월</p>
+                                    <p>신장 <?php echo $user_height ?> cm</p>
+                                    <p>체중 <?php echo $user_weight ?> kg</p>
                                 </div>
                                 <div class="">
                                     <!--임의로 추가한것 글자 작고 회색 -->
@@ -3137,22 +3148,38 @@ if ($baby_period == "유아기") {
                         </div>
                     </div>
 
-                    <div class="">
-                        <div class="">
+                    <div class="eat">
+                        <div class="eat-title">
                             <p><?php echo $user_babyname ?>이는 지금<br><?php echo $user_period ?> 이유식을 먹고있어요.
                         </div>
-                        <div class="">
+                        <div class="eat-inners">
                             <p><?php echo $now_precautions ?></p>
                         </div>
                     </div>
 
-                    <div class="outline" style="margin-top:15px; padding:10px; border-radius:9px; overflow:hidden;">
+                    <!--새로추가-->
+                    <?php
+                    if ($comment_1 || empty($comment_1)) {
+                    } else {
+                        echo '
+                            <div class="">
+                                <div class="">
+                                </div>
+                                <div class="">
+                                    <p>' . $comment_1 . '</p>
+                                </div>
+                            </div>
+                            ';
+                    }
+                    ?>
+
+                    <div class="outline bg-f2" style="margin-top:15px; padding:40px 20px; border-radius:9px; overflow:hidden;">
                         <div class="inline">
                             <div class="cont">
                                 <div class="number">
                                     <p><span></span><?php echo $user_babyname ?>이의 식사계획</p>
                                 </div>
-                                <div class="three-text ps20">
+                                <div class="three-text">
                                     <div class="three-head">
                                         <p>수유 스케줄</p>
                                         <div class="three-text">
@@ -3203,6 +3230,7 @@ if ($baby_period == "유아기") {
                                                         <div class="three-img_01">
                                                             <!-- 파일명 gujun, gucho, gujung, guhu, guwan, guyoo 해서 루트에 넣어두시기 바래요 -->
                                                             <img src="/wp-content/themes/storefront-child/con3/image/<?php echo $formimg ?>.png" alt="쌀알">
+
                                                         </div>
                                                         <p><?php echo $form ?></p>
                                                     </div>
@@ -3232,69 +3260,97 @@ if ($baby_period == "유아기") {
                                         </div>
                                     </div>
                                 </div>
+                                <div class="check-blue">
+                                    <p>섭취량과 횟수, 시간은 아이의 섭취정도와생활패턴에 따라 달라질 수 있습니다.</p>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="">
-                        <div class="">
+                    <div class="nr">
+                        <div class="nr-title">
                             <p>영양소 제공량</p>
                         </div>
                         <div class="">
                             <div id="nutr_graph"></div>
                         </div>
-                        <div class="">
+                        <div class="nr-text">
                             <p>이번달 도담밀의 <b>영양소 제공량</b>은</p>
-                            <p><b>권장 섭취량의 약 <span><?php echo (int)$pers_cal ?>%</span>수준으로 제공</b>되었습니다.</p>
+                            <p><b>권장 섭취량의 약 <span><?php echo (int)$pers_cal ?>% </span>수준으로 제공</b>되었습니다.</p>
                         </div>
-                        <div class="">
+                        <div class="btn nr-btn">
                             <p>자세히 보러가기 ></p>
                         </div>
                     </div>
-                    <div class="">
-                        <div class="">
+                    <div class="gray-bar">
+                        <div class="g-bar"></div>
+                    </div>
+                    <div class="grap-check">
+                        <div class="grap-check-title">
                             <p>성장척도 확인하기</p>
                         </div>
-                        <div class="">
+                        <div class="grap-check-inner">
                             <div id="man_h"></div>
                             <div id="man_w"></div>
                             <div id="girl_h"></div>
                             <div id="girl_w"></div>
+                            <div style="position:absolute; background-color:#fff; border-radius:9px; top: 2px; left:8%; padding:5px; border:2px solid #ea5514; font-size:5px;">
+                                <p style="color:#ea5514;"><span style="font-weight:bold;">빨간선</span>은 키 상위 <span style="font-weight:bold;">5%</span></p>
+                            </div>
+                            <div style="position:absolute; background-color:#fff; border-radius:9px; top:116px; left:15%; padding:5px; border:2px solid #ffc85a; font-size:5px;">
+                                <p style="color:#ffc85a;"><span style="font-weight:bold;">노란선</span>은 키 하위 <span style="font-weight:bold;">5%</span></p>
+                            </div>
+                            <div style="position:absolute; background-color:#fff; border-radius:9px; top: 2px; left:59%; padding:5px; border:2px solid #ea5514; font-size:5px;">
+                                <p style="color:#ea5514;"><span style="font-weight:bold;">빨간선</span>은 체중 상위 <span style="font-weight:bold;">5%</span></p>
+                            </div>
+                            <div style="position:absolute; background-color:#fff; border-radius:9px; top:116px; left:65%; padding:5px; border:2px solid #ffc85a; font-size:5px;">
+                                <p style="color:#ffc85a;"><span style="font-weight:bold;">노란선</span>은 체중 하위 <span style="font-weight:bold;">5%</span></p>
+                            </div>
                         </div>
-                        <div class="">
+                        <div class="chart-title-flex">
+                            <div class="chart-title-flex_01">
+                                <p>현재 신장 : <?php echo $user_height ?> cm</p>
+                            </div>
+                            <div class="chart-title-flex_01">
+                                <p>현재 체중 : <?php echo $user_weight ?> kg</p>
+                            </div>
+                        </div>
+                        <div class="grap-text">
                             <p><b><?php echo $user_babyname ?></b>(이)는 지난달보다<br><b>신장은 <span class="point_text"><?php echo $sum_height ?></span><span style="font-size:14px; color:#666;"> cm</span> 만큼</b>, <b>체중은 <span class="point_text"><?php echo $sum_weight ?></span><span> kg</span></b><br>더 늘어나 튼튼하게 잘 자라고있습니다.</p>
                         </div>
-                        <div class="">
+                        <div class="btn nr-btn ms20">
                             <p>자세히 보러가기 ></p>
                         </div>
                     </div>
                 </div>
                 <!--유아식은 이걸로 바뀔거에요-->
                 <div id="tabbox1-yoo" class="tab-inner">
-                    <div class="prograss">
-                        <progress class="progress" style="display:none;" value="<?php echo $gaze ?>" max="110"></progress>
+                    <div class="cont-progress">
+                        <div class="cont-progress">
+                            <div class="prograss">
+                                <p class="prograss-p-up" style="margin-left:<?php echo $gaze ?>%">지금은 도담밀<br><?php echo $baby_period ?>이용중</p>
+                                <div class="progress-bar" style="display:block; width:<?php echo $gaze ?>%" value="<?php echo $gaze ?>" max="110"></div>
+                                <p class="prograss-p-down" style="margin-left:<?php echo $gazes ?>%">도담밀과 <br>함께한 시기</p>
+                            </div>
+                        </div>
                     </div>
                     <div class="">
-                        <div class="">
-                            <div class="">
-                                <div class="">
-                                    <div class="">
+                        <div class="tabbox1-yoo-contents">
+                            <div class="tabbox1-yoo-box">
+                                <div class="tabbox1-yoo-fiex">
+                                    <div class="tabbox1-yoo-gender">
                                         <!--남자 man, 여자 girl 해서 폴더위치만 조정해주세요 -->
-                                        <img src="/wp-content/themes/storefront-child/?????/<?php echo $user_gender ?>.png">
+                                        <img src="/wp-content/themes/storefront-child/con3/image/<?php echo $user_gendera ?>.png">
                                     </div>
-                                    <div class="">
+                                    <div class="tabbox1-yoo-title">
                                         <p><?php echo $user_babyname ?></p>
                                     </div>
                                 </div>
-                                <div class="">
-                                    <div class="">
-                                        <p><?php echo $user_birthday ?> 출생</p>
-                                        <p>신장 <?php echo $user_height ?> cm</p>
-                                    </div>
-                                    <div class="">
-                                        <p><?php echo $user_monthly ?> 개월</p>
-                                        <p>체중 <?php echo $user_weight ?> kg</p>
-                                    </div>
+                                <div class="tabbox1-yoo-inner">
+                                    <p><?php echo $user_birthday ?> 출생</p>
+                                    <p>신장 <?php echo $user_height ?> cm</p>
+                                    <p><?php echo $user_monthly ?> 개월</p>
+                                    <p>체중 <?php echo $user_weight ?> kg</p>
                                 </div>
                                 <div class="">
                                     <!--임의로 추가한것 글자 작고 회색 -->
@@ -3303,16 +3359,18 @@ if ($baby_period == "유아기") {
                             </div>
                         </div>
                     </div>
-
-                    <div class="">
-                        <div class="">
+                    <div class="gray-bar">
+                        <div class="g-bar"></div>
+                    </div>
+                    <div class="ps20">
+                        <div class="grop-check-title">
                             <p><span></span>성장척도 확인하기</p>
                         </div>
                         <div class="">
                             <p>알려주신 신장과 체중정보를 바탕으로 우리아이의 성장 정보를 아래 그래프에 표기해 두었어요.</p>
                         </div>
                         <div class="">
-                            <div class="">
+                            <!-- <div class="">
                                 <p>성장도표 보는 방법</p>
                             </div>
                             <div class="">
@@ -3321,32 +3379,64 @@ if ($baby_period == "유아기") {
                                 <p>초록색 선에 가까우면 우리아이가 평균치에 맞게 잘 크고 있는 것이에요. 빨간색 선보다 위에있다면 노란색 선보다 아래에 있으면 성장이 느린 것이에요.</p>
                                 <p>오랫동안 평균치에서 벗어난다면 전문가와 상담해보시는 것이 좋아요.</p>
                                 <p>성장지표는 참고용 자료일 뿐이니 과도한 체중관리로 우리아이 성장에 방해가 되게해서는 안됩니다.</p>
-                            </div>
+                            </div> -->
                             <div>
-                                <div class="">
-                                    <p>현재 신장 : <?php echo $user_height ?> cm</p>
+
+                                <div class="chart-flex">
+                                    <div class="">
+                                        <div id="chart_one_y"></div>
+                                        <div id="chart_thr_y"></div>
+                                    </div>
+                                    <div class="">
+                                        <div id="chart_two_y"></div>
+                                        <div id="chart_fow_y"></div>
+                                    </div>
                                 </div>
-                                <div id="chart_one_y"></div>
-                                <div id="chart_thr_y"></div>
+                                <div class="chart-title-flex">
+                                    <div class="chart-title-flex_01">
+                                        <p>현재 신장 : <?php echo $user_height ?> cm</p>
+                                    </div>
+                                    <div class="chart-title-flex_01">
+                                        <p>현재 체중 : <?php echo $user_weight ?> kg</p>
+                                    </div>
+                                </div>
+
+                                <div class="grap-text">
+                                    <p><b><?php echo $user_babyname ?></b>(이)는 지난달보다<br><b>신장은 <span class="point_text"><?php echo $sum_height ?></span><span style="font-size:14px; color:#666;"> cm</span> 만큼</b>, <b>체중은 <span class="point_text"><?php echo $sum_weight ?></span><span> kg</span></b><br>더 늘어나 튼튼하게 잘 자라고있습니다.</p>
+                                </div>
+
+                                <!--새로추가-->
+                                <?php
+                                if ($comment_1 || empty($comment_1)) {
+                                } else {
+                                    echo '
+                            <div class="">
+                                <div class="">
+                                </div>
+                                <div class="">
+                                    <p>' . $comment_1 . '</p>
+                                </div>
+                            </div>
+                            ';
+                                }
+                                ?>
+
                                 <div style="position:absolute; background-color:#fff; border-radius:9px; top:800px; left:20%; padding:5px; border:2px solid #ea5514; font-size:15px;">
                                     <p style="color:#ea5514;"><span style="font-weight:bold;">빨간선</span>은 키 상위 <span style="font-weight:bold;">5%</span></p>
                                 </div>
                                 <div style="position:absolute; background-color:#fff; border-radius:9px; top:950px; left:50%; padding:5px; border:2px solid #ffc85a; font-size:15px;">
                                     <p style="color:#ffc85a;"><span style="font-weight:bold;">노란선</span>은 키 하위 <span style="font-weight:bold;">5%</span></p>
                                 </div>
-                                <p class="graph_center" style="text-align:center; font-size:13px;  color:#666;">만나이 (개월)</p>
-                                <div class="graph_title" style="padding-top:20px;">
-                                    <p>현재 체중 : <?php echo $user_weight ?> kg</p>
-                                </div>
-                                <div id="chart_two_y"></div>
-                                <div id="chart_fow_y"></div>
+
+
+
                                 <div style="position:absolute; background-color:#fff; border-radius:9px; top:1160px; left:15%; padding:5px; border:2px solid #ea5514; font-size:15px;">
                                     <p style="color:#ea5514;"><span style="font-weight:bold;">빨간선</span>은 체중 상위 <span style="font-weight:bold;">5%</span></p>
                                 </div>
                                 <div style="position:absolute; background-color:#fff; border-radius:9px; top:1320px; left:50%; padding:5px; border:2px solid #ffc85a; font-size:15px;">
                                     <p style="color:#ffc85a;"><span style="font-weight:bold; color:#ffc85a;">노란선</span>은 체중 하위 <span style="font-weight:bold;">5%</span></p>
                                 </div>
-                                <p class="graph_center" style="text-align:center; font-size:13px; color:#666; padding-bottom:20px;">만나이 (개월)</p>
+
                             </div>
                         </div>
                     </div>
@@ -3365,35 +3455,65 @@ if ($baby_period == "유아기") {
                     <div class="outline">
                         <div class="inline">
                             <div class="cont">
-                                <div class="prograss">
-                                    <progress class="progress" style="display:none;" value="<?php echo $gaze ?>" max="110"></progress>
+                                <div class="cont-progress">
+                                    <div class="prograss">
+                                        <p class="prograss-p-up" style="margin-left:<?php echo $gaze ?>%">지금은 도담밀<br><?php echo $baby_period ?>이용중</p>
+                                        <div class="progress-bar" style="display:block; width:<?php echo $gaze ?>%" value="<?php echo $gaze ?>" max="110"></div>
+                                        <p class="prograss-p-down" style="margin-left:<?php echo $gazes ?>%">도담밀과 <br>함께한 시기</p>
+                                    </div>
                                 </div>
-                                <div class="">
-                                    <p><?php echo $user_babyname ?>이는 지금<br><?php echo $baby_period ?> 이유식을 먹고있어요.</p>
+                                <div class="eat02">
+                                    <div class="eat-title">
+                                        <p><?php echo $user_babyname ?>이는 지금<br><?php echo $baby_period ?> 이유식을 먹고있어요.</p>
+                                    </div>
                                 </div>
-                                <div class="">
+                                <div class="eat-inner ">
                                     <div class="">
                                         <p><?php echo $now_menuinfo ?></p>
                                     </div>
                                 </div>
                             </div>
+                            <!--새로추가-->
+                            <?php
+                            if ($comment_1 || empty($comment_1)) {
+                            } else {
+                                echo '
                             <div class="">
                                 <div class="">
-                                    <p><span></span>지난달 제공된 식단</p>
                                 </div>
                                 <div class="">
+                                    <p>' . $comment_1 . '</p>
+                                </div>
+                            </div>
+                            ';
+                            }
+                            ?>
+                            <div class="bg-f2 mon-box">
+                                <div class="mon-food">
+                                    <p><span></span>지난달 제공된 식단</p>
+                                </div>
+                                <div class="mon-list-day">
+                                    <p></p>
+                                    <p>1일</p>
+                                    <p>2일</p>
+                                    <p>3일</p>
+                                    <p>4일</p>
+                                    <p>5일</p>
+                                    <p>6일</p>
+                                </div>
+                                <div class="mon-list">
                                     <ul>
                                         <li>
-                                            <div class="">
+                                            <div class="mon-food-week">
                                                 <p>1주차</p>
                                             </div>
-                                            <div class="">
-                                                <div class="">
+                                            <div class="mon-food-week-text">
+                                                <div class="week-text-inner">
                                                     <p><?php echo preg_replace("/[(4)]/", "", $menunamd) ?></p>
                                                     <p><?php echo preg_replace("/[(4)]/", "", $menunamdd) ?></p>
                                                     <p><?php echo preg_replace("/[(4)]/", "", $menunamddd) ?></p>
                                                 </div>
-                                                <div class="">
+                                                <div class="week-text-inner">
                                                     <p><?php echo $menunamdddd ?></p>
                                                     <p><?php echo $menunamddddd ?></p>
                                                     <p><?php echo $menunamdddddd ?></p>
@@ -3401,16 +3521,16 @@ if ($baby_period == "유아기") {
                                             </div>
                                         </li>
                                         <li>
-                                            <div class="">
+                                            <div class="mon-food-week">
                                                 <p>2주차</p>
                                             </div>
-                                            <div class="">
-                                                <div class="">
+                                            <div class="mon-food-week-text">
+                                                <div class="week-text-inner">
                                                     <p><?php echo preg_replace("/[(4)]/", "", $menunamc) ?></p>
                                                     <p><?php echo preg_replace("/[(4)]/", "", $menunamcc) ?></p>
                                                     <p><?php echo preg_replace("/[(4)]/", "", $menunamccc) ?></p>
                                                 </div>
-                                                <div class="">
+                                                <div class="week-text-inner">
                                                     <p><?php echo $menunamcccc ?></p>
                                                     <p><?php echo $menunamccccc ?></p>
                                                     <p><?php echo $menunamcccccc ?></p>
@@ -3420,16 +3540,16 @@ if ($baby_period == "유아기") {
                                     </ul>
                                     <ul>
                                         <li>
-                                            <div class="">
+                                            <div class="mon-food-week">
                                                 <p>3주차</p>
                                             </div>
-                                            <div class="">
-                                                <div class="">
+                                            <div class="mon-food-week-text">
+                                                <div class="week-text-inner">
                                                     <p><?php echo preg_replace("/[(4)]/", "", $menunamb) ?></p>
                                                     <p><?php echo preg_replace("/[(4)]/", "", $menunambb) ?></p>
                                                     <p><?php echo preg_replace("/[(4)]/", "", $menunambbb) ?></p>
                                                 </div>
-                                                <div class="">
+                                                <div class="week-text-inner">
                                                     <p><?php echo $menunambbbb ?></p>
                                                     <p><?php echo $menunambbbbb ?></p>
                                                     <p><?php echo $menunambbbbbb ?></p>
@@ -3437,16 +3557,16 @@ if ($baby_period == "유아기") {
                                             </div>
                                         </li>
                                         <li>
-                                            <div class="">
+                                            <div class="mon-food-week">
                                                 <p>4주차</p>
                                             </div>
-                                            <div class="">
-                                                <div class="">
+                                            <div class="mon-food-week-text">
+                                                <div class="week-text-inner">
                                                     <p><?php echo preg_replace("/[(4)]/", "", $menunama) ?></p>
                                                     <p><?php echo preg_replace("/[(4)]/", "", $menunamaa) ?></p>
                                                     <p><?php echo preg_replace("/[(4)]/", "", $menunamaaa) ?></p>
                                                 </div>
-                                                <div class="">
+                                                <div class="week-text-inner">
                                                     <p><?php echo $menunamaaaa ?></p>
                                                     <p><?php echo $menunamaaaaa ?></p>
                                                     <p><?php echo $menunamaaaaaa ?></p>
@@ -3455,29 +3575,45 @@ if ($baby_period == "유아기") {
                                         </li>
                                     </ul>
                                 </div>
-                                <div class="">
-                                    <div class="">
+                                <div class="day7">
+                                    <div class="day7-head">
                                         <p></p>
                                         <p>7일(+주말팩)</p>
                                     </div>
-                                    <div class="">
+                                    <div class="day7-week">
                                         <p>1주차</p>
                                         <p><?php echo $weekendmenu1 ?></p>
                                     </div>
-                                    <div class="">
+                                    <div class="day7-week">
                                         <p>2주차</p>
                                         <p><?php echo $weekendmenu2 ?></p>
                                     </div>
-                                    <div class="">
+                                    <div class="day7-week">
                                         <p>3주차</p>
                                         <p><?php echo $weekendmenu3 ?></p>
                                     </div>
-                                    <div class="">
+                                    <div class="day7-week">
                                         <p>4주차</p>
                                         <p><?php echo $weekendmenu4 ?></p>
                                     </div>
                                 </div>
                             </div>
+
+                            <!--새로추가-->
+                            <?php
+                            if ($comment_2 || empty($comment_2)) {
+                            } else {
+                                echo '
+                            <div class="">
+                                <div class="">
+                                </div>
+                                <div class="">
+                                    <p>' . $comment_2 . '</p>
+                                </div>
+                            </div>
+                            ';
+                            }
+                            ?>
 
                             <!--간식식단-->
                             <!-- auth_snack 이 없으면 덮어씌우기 -->
@@ -3493,27 +3629,35 @@ if ($baby_period == "유아기") {
                                             </div>
                                             <div class="sch_bot">
                                                 <div class="floor_one">
-                                                    <p><?php //echo $snack_table_menu[1][1] ?></p>
-                                                    <p><?php //echo $snack_table_menu[1][2] ?></p>
+                                                    <p><?php //echo $snack_table_menu[1][1] 
+                                                        ?></p>
+                                                    <p><?php //echo $snack_table_menu[1][2] 
+                                                        ?></p>
                                                 </div>
                                                 <div class="floor_two">
-                                                    <p><?php //echo $snack_table_menu[1][3] ?></p>
-                                                    <p><?php //echo $snack_table_menu[1][4] ?></p>
+                                                    <p><?php //echo $snack_table_menu[1][3] 
+                                                        ?></p>
+                                                    <p><?php //echo $snack_table_menu[1][4] 
+                                                        ?></p>
                                                 </div>
                                             </div>
                                         </li>
                                         <li>
                                             <div class="sch_top">
-                                                <p>2주차</p>
+                                                <p>72주차</p>
                                             </div>
                                             <div class="sch_bot">
                                                 <div class="floor_one">
-                                                    <p><?php //echo $snack_table_menu[2][1] ?></p>
-                                                    <p><?php //echo $snack_table_menu[2][2] ?></p>
+                                                    <p><?php //echo $snack_table_menu[2][1] 
+                                                        ?></p>
+                                                    <p><?php //echo $snack_table_menu[2][2] 
+                                                        ?></p>
                                                 </div>
                                                 <div class="floor_two">
-                                                    <p><?php //echo $snack_table_menu[2][3] ?></p>
-                                                    <p><?php //echo $snack_table_menu[2][4] ?></p>
+                                                    <p><?php //echo $snack_table_menu[2][3] 
+                                                        ?></p>
+                                                    <p><?php //echo $snack_table_menu[2][4] 
+                                                        ?></p>
                                                 </div>
                                         </li>
                                     </ul>
@@ -3524,12 +3668,16 @@ if ($baby_period == "유아기") {
                                             </div>
                                             <div class="sch_bot">
                                                 <div class="floor_one">
-                                                    <p><?php //echo $snack_table_menu[3][1] ?></p>
-                                                    <p><?php //echo $snack_table_menu[3][2] ?></p>
+                                                    <p><?php //echo $snack_table_menu[3][1] 
+                                                        ?></p>
+                                                    <p><?php //echo $snack_table_menu[3][2] 
+                                                        ?></p>
                                                 </div>
                                                 <div class="floor_two">
-                                                    <p><?php //echo $snack_table_menu[3][3] ?></p>
-                                                    <p><?php //echo $snack_table_menu[3][4] ?></p>
+                                                    <p><?php //echo $snack_table_menu[3][3] 
+                                                        ?></p>
+                                                    <p><?php //echo $snack_table_menu[3][4] 
+                                                        ?></p>
                                                 </div>
                                         </li>
                                         <li>
@@ -3538,54 +3686,60 @@ if ($baby_period == "유아기") {
                                             </div>
                                             <div class="sch_bot">
                                                 <div class="floor_one">
-                                                    <p><?php //echo $snack_table_menu[4][1] ?></p>
-                                                    <p><?php //echo $snack_table_menu[4][2] ?></p>
+                                                    <p><?php //echo $snack_table_menu[4][1] 
+                                                        ?></p>
+                                                    <p><?php //echo $snack_table_menu[4][2] 
+                                                        ?></p>
                                                 </div>
                                                 <div class="floor_two">
-                                                    <p><?php //echo $snack_table_menu[4][3] ?></p>
-                                                    <p><?php //echo $snack_table_menu[4][4] ?></p>
+                                                    <p><?php //echo $snack_table_menu[4][3] 
+                                                        ?></p>
+                                                    <p><?php //echo $snack_table_menu[4][4] 
+                                                        ?></p>
                                                 </div>
                                         </li>
                                     </ul>
                                 </div>
                             </div>-->
 
-                            <div class="">
-                                <div class="">
-                                    <div class="">
+                            <div class="per-box">
+                                <div class="per-box-inner">
+                                    <div class="per-title">
                                         <p>영양소 제공량</p>
                                     </div>
-                                    <div>
+                                    <div class="per-text">
                                         <p>이번달 도담밀의 <b>영양소 제공량</b>은</p>
                                         <p><b>권장 섭취량의 약 <span><?php echo (int)$pers_cal ?>%</span>수준으로 제공</b>되었습니다.</p>
                                     </div>
                                     <div id="per_chart_div"></div>
                                     <!--차트 div-->
-                                    <div class="">
-                                        <p><span style="border-left:20px solid #e7e7e7;"></span>목표량</p>
-                                        <p><span style="border-left:20px solid #8cc364;"></span>제공량</p>
+                                    <div class="per-chart_text">
+                                        <p><span style="border-left:15px solid #c4c4c4;height:13px; padding-right:3px; display: inline-block;"></span>목표량</p>
+                                        <p><span style="border-left:15px solid #F55380; margin-left:3px; padding-right:3px; display: inline-block;"></span>제공량</p>
                                     </div>
-                                    <table class="">
+                                    <table class="per-chart-table">
                                         <tr>
-                                            <td style="width:25%; background-color:#8cc364; border-top-left-radius:9px; border-top:1px solid #e7e7e7; border-left:1px solid #e7e7e7; border-right:1px solid #e7e7e7;"></td>
-                                            <td style="background-color:#e9ec66; font-family:'210gullim'; color:#3e3e3e; font-size:13px; border-top:1px solid #e7e7e7; border-bottom:1px solid #e7e7e7;">열량<span style="font-size:10px; color:#3e3e3e;">( kcal )</span></td>
-                                            <td style="background-color:#e9ec66; font-family:'210gullim'; color:#3e3e3e; font-size:13px; border-top:1px solid #e7e7e7; border-bottom:1px solid #e7e7e7;">탄수화물<span style="font-size:10px; color:#3e3e3e;">( g )</span></td>
-                                            <td style="background-color:#e9ec66; font-family:'210gullim'; color:#3e3e3e; font-size:13px; border-top:1px solid #e7e7e7; border-bottom:1px solid #e7e7e7;">단백질<span style="font-size:10px; color:#3e3e3e;">( g )</span></td>
-                                            <td style="background-color:#e9ec66; font-family:'210gullim'; color:#3e3e3e; font-size:13px; border-top-right-radius:9px; border-top:1px solid #e7e7e7; border-right:1px solid #e7e7e7; border-bottom:1px solid #e7e7e7;">지방<span style="font-size:10px; color:#3e3e3e;">( g )</span></td>
+                                            <td style="width:18%; background-color:#F55380; border-top-left-radius:9px; border-top:1px solid #e7e7e7; border-left:1px solid #e7e7e7; border-right:1px solid #e7e7e7;"></td>
+                                            <td style="background-color:#FF82A0; font-family:'210gullim'; color:#3e3e3e; font-size:12px; border-top:1px solid #e7e7e7; border-bottom:1px solid #e7e7e7;
+											color:#fff">열량<span style="font-size:10px;color:#fff;">( kcal )</span></td>
+                                            <td style="background-color:#FF82A0; font-family:'210gullim'; color:#3e3e3e; font-size:12px; border-top:1px solid #e7e7e7; border-bottom:1px solid #e7e7e7;color:#fff">탄수화물<span style="font-size:10px; color:#fff;">( g )</span></td>
+                                            <td style="background-color:#FF82A0; font-family:'210gullim'; color:#3e3e3e; font-size:12px; border-top:1px solid #e7e7e7; border-bottom:1px solid #e7e7e7;color:#fff">단백질<span style="font-size:10px; color:#fff;">( g )</span></td>
+                                            <td style="background-color:#FF82A0; font-family:'210gullim'; color:#3e3e3e; font-size:12px; border-top-right-radius:9px; border-top:1px solid #e7e7e7; border-right:1px solid #e7e7e7; border-bottom:1px solid #e7e7e7;color:#fff">지방<span style="font-size:10px; color:#fff;">( g )</span></td>
                                         </tr>
                                         <tr>
-                                            <td style="background-color:#8cc364 !important; font-family:'210gullim'; color:#fff; font-size:15px; border-left:1px solid #e7e7e7; border-right:1px solid #e7e7e7;">권장섭취량</td>
-                                            <td><?php echo round($sum_need_cal) ?></td>
-                                            <td><?php echo round($sum_need_car) ?></td>
-                                            <td><?php echo round($sum_need_pro) ?></td>
-                                            <td style="border-right:1px solid #e7e7e7;"><?php echo round($sum_need_pat) ?></td>
+                                            <td style="background-color:#fff !important;color:#777; font-family:'210gullim'; color:#666; font-size:12px; border-left:1px solid #e7e7e7; border-right:1px solid #e7e7e7;
+											border-bottom:1px solid #e7e7e7">권장<br>섭취량</td>
+                                            <td style="vertical-align:middle;"><?php echo round($sum_need_cal) ?></td>
+                                            <td style="vertical-align:middle;"><?php echo round($sum_need_car) ?></td>
+                                            <td style="vertical-align:middle;"><?php echo round($sum_need_pro) ?></td>
+                                            <td style="border-right:1px solid #e7e7e7; vertical-align:middle;"><?php echo round($sum_need_pat) ?></td>
                                         </tr>
                                         <tr>
-                                            <td style="border-bottom-left-radius:9px; background-color:#8cc364; font-family:'210gullim'; color:#fff; font-size:15px; border-left:1px solid #e7e7e7; border-bottom:1px solid #e7e7e7; border-right:1px solid #e7e7e7;">도담밀<br>제공량</td>
-                                            <td style="border-bottom:1px solid #e7e7e7;"><?php echo round($sum_cal) ?></td>
-                                            <td style="border-bottom:1px solid #e7e7e7;"><?php echo round($sum_car) ?></td>
-                                            <td style="border-bottom:1px solid #e7e7e7;"><?php echo round($sum_pro) ?></td>
-                                            <td style="border-bottom-right-radius:9px; border-bottom:1px solid #e7e7e7; border-right:1px solid #e7e7e7;"><?php echo round($sum_pat) ?></td>
+                                            <td style="border-bottom-left-radius:9px; background-color:#fff; color:#777;font-family:'210gullim';  font-size:12px; border-left:1px solid #e7e7e7; border-bottom:1px solid #e7e7e7; border-right:1px solid #e7e7e7;">도담밀<br>제공량</td>
+                                            <td style="border-bottom:1px solid #e7e7e7; vertical-align:middle;"><?php echo round($sum_cal) ?></td>
+                                            <td style="border-bottom:1px solid #e7e7e7; vertical-align:middle;"><?php echo round($sum_car) ?></td>
+                                            <td style="border-bottom:1px solid #e7e7e7; vertical-align:middle;"><?php echo round($sum_pro) ?></td>
+                                            <td style="border-bottom-right-radius:9px; vertical-align:middle; border-bottom:1px solid #e7e7e7; border-right:1px solid #e7e7e7;"><?php echo round($sum_pat) ?></td>
                                         </tr>
                                     </table>
                                 </div>
@@ -3593,27 +3747,42 @@ if ($baby_period == "유아기") {
                                     <p>이유식 초기까지는 섭취연습을 하는 시기로, 분유 또는 모유를 통해 대부분의 영양소를 섭취합니다.</p>
                                 </div>
                             </div>
-                            <div class="">
-                                <div class="">
-                                    <div class="">
+                            <div class="food-grap">
+                                <div class="food-grap-inner">
+                                    <div class="food-grap-title">
                                         <p><span></span>식품군별 제공 비율</p>
                                     </div>
                                     <div id="donutchart"></div>
-                                    <div class="">
+                                    <div class="donutchart-inner">
                                         <p><span></span>곡류</p>
                                         <p><span></span>단백질류</p>
                                         <p><span></span>유제품류</p>
-                                    </div>
-                                    <div class="">
                                         <p><span></span>과일류</p>
                                         <p><span></span>채소류</p>
                                     </div>
                                 </div>
                             </div>
+
+                            <!--새로추가-->
+                            <?php
+                            if ($comment_3 || empty($comment_3)) {
+                            } else {
+                                echo '
+                            <div class="">
+                                <div class="">
+                                </div>
+                                <div class="">
+                                    <p>' . $comment_3 . '</p>
+                                </div>
+                            </div>
+                            ';
+                            }
+                            ?>
+
                             <div class="cont">
                                 <!--빙고판-->
                                 <div class="" id="bingopan">
-                                    <div class="">
+                                    <div class="bingopan-title">
                                         <p>도담밀과 함께 먹어본 재료</p>
                                     </div>
                                     <div class="bingopan">
@@ -3643,23 +3812,20 @@ if ($baby_period == "유아기") {
                                         <p id="rnlfl">귀리</p>
                                         <p id="eksghqkr">단호박</p>
                                         <p id="qlxkals">비타민</p>
-                                        <p id="qka">밤</p>
                                         <p id="tkrhk">사과</p>
                                         <p id="qo">배</p>
-                                        <p id="dkstla">안심</p>
-                                        <p id="dhksenzhdrkfn">완두콩가루</p>
-                                        <p id="shfkszhdrkfn">노란콩가루</p>
+                                        <p id="dhksenzhdrkfn">완두콩<br>가루</p>
+                                        <p id="shfkszhdrkfn">노란콩<br>가루</p>
                                         <p id="tkfrkfn">쌀</p>
                                         <p id="rkdskdzhd">강낭콩</p>
                                         <p id="qhfl">보리</p>
-                                        <p id="znlshdk">퀴노아</p>
                                         <p id="wjsqns">전분</p>
                                         <p id="ekdrms">당근</p>
                                         <p id="gusalrkfn">현미가루</p>
                                         <p id="qlxm">비트</p>
                                         <p id="alfrkfn">밀가루</p>
                                         <p id="vkvmflzk">파프리카</p>
-                                        <p id="rjadmzhdrkfn">검은콩가루</p>
+                                        <p id="rjadmzhdrkfn">검은콩<br>가루</p>
                                         <p id="gkscjs">한천</p>
                                         <p id="qksksk">바나나</p>
                                         <p id="vyrh">표고</p>
@@ -3667,11 +3833,8 @@ if ($baby_period == "유아기") {
                                         <p id="didvk">양파</p>
                                         <p id="ehowlrhrl">돼지고기</p>
                                         <p id="rmseo">근대</p>
-                                        <p id="quddkflzhd">병아리콩</p>
-                                        <p id="qmffnqpfl">블루베리</p>
                                         <p id="dkdnr">아욱</p>
                                         <p id="didthddl">양송이</p>
-                                        <p id="fpsxlfzhd">렌틸콩</p>
                                         <p id="fhapdls">로메인</p>
                                         <p id="smxkfl">느타리</p>
                                         <p id="qocn">배추</p>
@@ -3680,10 +3843,7 @@ if ($baby_period == "유아기") {
                                         <p id="rkwl">가지</p>
                                         <p id="dhrtntn">옥수수</p>
                                         <p id="qhaehd">봄동</p>
-                                        <p id="zhffkql">콜라비</p>
-                                        <p id="rotdlv">깻잎</p>
                                         <p id="dufan">열무</p>
-                                        <p id="qkddnfxhakxh">방울토마토</p>
                                         <p id="rjsvkfo">건파래</p>
                                         <p id="cnlskanf">취나물</p>
                                         <p id="ckaskanf">참나물</p>
@@ -3691,26 +3851,35 @@ if ($baby_period == "유아기") {
                                         <p id="qncn">부추</p>
                                         <p id="rjsxht">건톳</p>
                                         <p id="dndjd">우엉</p>
-                                        <p id="eocn">대추</p>
-                                        <p id="dkahsem">아몬드</p>
-                                        <p id="wkt">잣</p>
                                         <p id="rjsahrdl">건목이</p>
                                         <p id="whrvk">쪽파</p>
-                                        <p id="tpqkfskanf">세발나물</p>
-                                        <p id="fnrhffk">루꼴라</p>
-                                        <p id="vlakd">피망</p>
-                                        <p id="aksmfwhd">마늘쫑</p>
                                         <p id="voddl">팽이</p>
-                                        <p id="ghdal">홍미</p>
                                         <p id="emfrorkfn">들깨가루</p>
                                         <p id="rjsrhtkfl">건고사리</p>
                                         <p id="ckaro">참깨</p>
                                         <p id="ghrn">호두</p>
                                         <p id="rlwkd">기장</p>
+                                        <p id="eocn">대추</p>
+                                        <p id="rotdlv">깻잎</p>
+                                        <p id="aksmfwhd">마늘쫑</p>
+                                        <p id="qkddnfxhakxh">방울<br>토마토</p>
+                                        <p id="quddkflzhd">병아리콩</p>
+                                        <p id="quddkflzhd">세발나물</p>
+                                        <p id="dkahsem">아몬드</p>
                                         <p id="vkxrkfn">팥가루</p>
+                                        <p id="vlakd">피망</p>
+                                        <p id="fpsxlfzhd">렌틸콩</p>
+                                        <p id="fnrhffk">루꼴라</p>
+                                        <p id="qka">밤</p>
+                                        <p id="qmffnqpfl">블루베리</p>
+                                        <p id="dkstla">안심</p>
+                                        <p id="wkt">잣</p>
+                                        <p id="zhffkql">콜라비</p>
+                                        <p id="znlshdk">퀴노아</p>
                                         <p id="xpvmrkfn">테프가루</p>
+                                        <p id="ghdal">홍미</p>
                                     </div>
-                                    <div class="">
+                                    <div class="dodam-food">
                                         <p><span></span>도담밀과 먹어볼재료</p>
                                         <p><span></span>도담밀전에 먹어본재료</p>
                                         <p><span></span>먹은 채소</p>
@@ -3723,13 +3892,30 @@ if ($baby_period == "유아기") {
                             </div>
                         </div>
                     </div>
-                    <div class="">
-                        <div class="">
+
+                    <!--새로추가-->
+                    <?php
+                    if ($comment_4 || empty($comment_4)) {
+                    } else {
+                        echo '
                             <div class="">
                                 <div class="">
-                                    <p>이달의 영양소</p>
                                 </div>
                                 <div class="">
+                                    <p>' . $comment_4 . '</p>
+                                </div>
+                            </div>
+                            ';
+                    }
+                    ?>
+
+                    <div class="box">
+                        <div class="month-nr">
+                            <div class="month-nr-title">
+                                <div class="month-nr-title">
+                                    <p>이달의 영양소</p>
+                                </div>
+                                <div class="month-nr-inner">
                                     <p><span><?php echo $tomonth_nutr ?></span><?php echo $tomonth_nutrinfo ?></p>
                                 </div>
                             </div>
@@ -3738,23 +3924,32 @@ if ($baby_period == "유아기") {
                 </div>
                 <!--유아식탭2-->
                 <div id="tabbox2-yoo" class="tab-inner">
-                    <div class="">
-                        <div class="">
+                    <div class="bg-f2 mon-box">
+                        <div class="mon-food">
                             <p><span></span>지난달 제공된 식단</p>
                         </div>
-                        <div class="">
+                        <div class="mon-list-day">
+                            <p></p>
+                            <p>1일</p>
+                            <p>2일</p>
+                            <p>3일</p>
+                            <p>4일</p>
+                            <p>5일</p>
+                            <p>6일</p>
+                        </div>
+                        <div class="mon-list">
                             <ul>
                                 <li>
-                                    <div class="">
+                                    <div class="mon-food-week">
                                         <p>1주차</p>
                                     </div>
-                                    <div class="">
-                                        <div class="">
+                                    <div class="mon-food-week-text">
+                                        <div class="week-text-inner">
                                             <p><?php echo preg_replace("/[(4)]/", "", $menunamd) ?></p>
                                             <p><?php echo preg_replace("/[(4)]/", "", $menunamdd) ?></p>
                                             <p><?php echo preg_replace("/[(4)]/", "", $menunamddd) ?></p>
                                         </div>
-                                        <div class="">
+                                        <div class="week-text-inner">
                                             <p><?php echo $menunamdddd ?></p>
                                             <p><?php echo $menunamddddd ?></p>
                                             <p><?php echo $menunamdddddd ?></p>
@@ -3762,16 +3957,16 @@ if ($baby_period == "유아기") {
                                     </div>
                                 </li>
                                 <li>
-                                    <div class="">
+                                    <div class="mon-food-week">
                                         <p>2주차</p>
                                     </div>
-                                    <div class="">
-                                        <div class="">
+                                    <div class="mon-food-week-text">
+                                        <div class="week-text-inner">
                                             <p><?php echo preg_replace("/[(4)]/", "", $menunamc) ?></p>
                                             <p><?php echo preg_replace("/[(4)]/", "", $menunamcc) ?></p>
                                             <p><?php echo preg_replace("/[(4)]/", "", $menunamccc) ?></p>
                                         </div>
-                                        <div class="">
+                                        <div class="week-text-inner">
                                             <p><?php echo $menunamcccc ?></p>
                                             <p><?php echo $menunamccccc ?></p>
                                             <p><?php echo $menunamcccccc ?></p>
@@ -3781,16 +3976,16 @@ if ($baby_period == "유아기") {
                             </ul>
                             <ul>
                                 <li>
-                                    <div class="">
+                                    <div class="mon-food-week">
                                         <p>3주차</p>
                                     </div>
-                                    <div class="">
-                                        <div class="">
+                                    <div class="mon-food-week-text">
+                                        <div class="week-text-inner">
                                             <p><?php echo preg_replace("/[(4)]/", "", $menunamb) ?></p>
                                             <p><?php echo preg_replace("/[(4)]/", "", $menunambb) ?></p>
                                             <p><?php echo preg_replace("/[(4)]/", "", $menunambbb) ?></p>
                                         </div>
-                                        <div class="">
+                                        <div class="week-text-inner">
                                             <p><?php echo $menunambbbb ?></p>
                                             <p><?php echo $menunambbbbb ?></p>
                                             <p><?php echo $menunambbbbbb ?></p>
@@ -3798,16 +3993,16 @@ if ($baby_period == "유아기") {
                                     </div>
                                 </li>
                                 <li>
-                                    <div class="">
+                                    <div class="mon-food-week">
                                         <p>4주차</p>
                                     </div>
-                                    <div class="">
-                                        <div class="">
+                                    <div class="mon-food-week-text">
+                                        <div class="week-text-inner">
                                             <p><?php echo preg_replace("/[(4)]/", "", $menunama) ?></p>
                                             <p><?php echo preg_replace("/[(4)]/", "", $menunamaa) ?></p>
                                             <p><?php echo preg_replace("/[(4)]/", "", $menunamaaa) ?></p>
                                         </div>
-                                        <div class="">
+                                        <div class="week-text-inner">
                                             <p><?php echo $menunamaaaa ?></p>
                                             <p><?php echo $menunamaaaaa ?></p>
                                             <p><?php echo $menunamaaaaaa ?></p>
@@ -3816,107 +4011,153 @@ if ($baby_period == "유아기") {
                                 </li>
                             </ul>
                         </div>
-                        <div class="">
-                            <div class="">
+                        <div class="day7">
+                            <div class="day7-head">
                                 <p></p>
                                 <p>7일(+주말팩)</p>
                             </div>
-                            <div class="">
+                            <div class="day7-week">
                                 <p>1주차</p>
                                 <p><?php echo $weekendmenu1 ?></p>
                             </div>
-                            <div class="">
+                            <div class="day7-week">
                                 <p>2주차</p>
                                 <p><?php echo $weekendmenu2 ?></p>
                             </div>
-                            <div class="">
+                            <div class="day7-week">
                                 <p>3주차</p>
                                 <p><?php echo $weekendmenu3 ?></p>
                             </div>
-                            <div class="">
+                            <div class="day7-week">
                                 <p>4주차</p>
                                 <p><?php echo $weekendmenu4 ?></p>
                             </div>
                         </div>
                     </div>
-                    <div class="">
-                        <div class="">
+                    <!--새로추가-->
+                    <?php
+                    if ($comment_2 || empty($comment_2)) {
+                    } else {
+                        echo '
                             <div class="">
+                                <div class="">
+                                </div>
+                                <div class="">
+                                    <p>' . $comment_2 . '</p>
+                                </div>
+                            </div>
+                            ';
+                    }
+                    ?>
+
+                    <div class="food-grap">
+                        <div class="food-grap-inner">
+                            <div class="food-grap-title">
                                 <p><span></span>식품군별 제공 비율</p>
                             </div>
                             <div id="donutchart_2"></div>
-                            <div class="">
+                            <div class="donutchart-inner">
                                 <p><span></span>곡류</p>
                                 <p><span></span>단백질류</p>
                                 <p><span></span>유제품류</p>
-                            </div>
-                            <div class="">
                                 <p><span></span>과일류</p>
                                 <p><span></span>채소류</p>
                             </div>
                         </div>
                     </div>
                     <!--이달의재료-->
-                    <div class="">
-                        <div class="">
+                    <div class="month-ft">
+                        <div class="ft-title">
                             <p>이달의재료</p>
                         </div>
                         <div>
                             <p><?php echo $mate_comm ?></p>
                         </div>
                     </div>
-
-                    <div class="">
-                        <div class="">
+                    <!--새로추가-->
+                    <?php
+                    if ($comment_3 || empty($comment_3)) {
+                    } else {
+                        echo '
                             <div class="">
+                                <div class="">
+                                </div>
+                                <div class="">
+                                    <p>' . $comment_3 . '</p>
+                                </div>
+                            </div>
+                            ';
+                    }
+                    ?>
+                    <div class="per-box">
+                        <div class="per-box-inner">
+                            <div class="per-title">
                                 <p>영양소 제공량</p>
                             </div>
-                            <div>
+                            <div class="per-text">
                                 <p>이번달 도담밀의 <b>영양소 제공량</b>은</p>
                                 <p><b>권장 섭취량의 약 <span><?php echo (int)$pers_cal ?>%</span>수준으로 제공</b>되었습니다.</p>
                             </div>
                             <div id="per_chart_div_2"></div>
                             <!--차트 div-->
-                            <div class="">
-                                <p><span></span>목표량</p>
-                                <p><span></span>제공량</p>
+                            <div class="per-chart_text">
+                                <p><span style="border-left:14px solid #c4c4c4; padding-right:3px;"></span>목표량</p>
+                                <p><span style="border-left:14px solid #F55380; margin-left:3px; padding-right:3px;"></span>제공량</p>
                             </div>
-                            <table class="">
+                            <table class="per-chart-table">
                                 <tr>
-                                    <td></td>
-                                    <td>열량( kcal )</span></td>
-                                    <td>탄수화물( g )</span></td>
-                                    <td>단백질( g )</span></td>
-                                    <td>지방( g )</span></td>
+                                    <td style="width:18%; background-color:#F55380; border-top-left-radius:9px; border-top:1px solid #e7e7e7; border-left:1px solid #e7e7e7; border-right:1px solid #e7e7e7;"></td>
+                                    <td style="background-color:#FF82A0; font-family:'210gullim'; color:#3e3e3e; font-size:12px; border-top:1px solid #e7e7e7; border-bottom:1px solid #e7e7e7;
+										color:#fff">열량<span style="font-size:10px;color:#fff;">( kcal )</span></td>
+                                    <td style="background-color:#FF82A0; font-family:'210gullim'; color:#3e3e3e; font-size:12px; border-top:1px solid #e7e7e7; border-bottom:1px solid #e7e7e7;color:#fff">탄수화물<span style="font-size:10px; color:#fff;">( g )</span></td>
+                                    <td style="background-color:#FF82A0; font-family:'210gullim'; color:#3e3e3e; font-size:12px; border-top:1px solid #e7e7e7; border-bottom:1px solid #e7e7e7;color:#fff">단백질<span style="font-size:10px; color:#fff;">( g )</span></td>
+                                    <td style="background-color:#FF82A0; font-family:'210gullim'; color:#3e3e3e; font-size:12px; border-top-right-radius:9px; border-top:1px solid #e7e7e7; border-right:1px solid #e7e7e7; border-bottom:1px solid #e7e7e7;color:#fff">지방<span style="font-size:10px; color:#fff;">( g )</span></td>
                                 </tr>
                                 <tr>
-                                    <td>권장섭취량</td>
-                                    <td><?php echo round($sum_need_cal) ?></td>
-                                    <td><?php echo round($sum_need_car) ?></td>
-                                    <td><?php echo round($sum_need_pro) ?></td>
-                                    <td><?php echo round($sum_need_pat) ?></td>
+                                    <td style="background-color:#fff !important;color:#777; font-family:'210gullim'; color:#666; font-size:12px; border-left:1px solid #e7e7e7; border-right:1px solid #e7e7e7;
+								border-bottom:1px solid #e7e7e7 ">권장<br>섭취량</td>
+                                    <td style="vertical-align:middle;"><?php echo round($sum_need_cal) ?></td>
+                                    <td style="vertical-align:middle;"><?php echo round($sum_need_car) ?></td>
+                                    <td style="vertical-align:middle;"><?php echo round($sum_need_pro) ?></td>
+                                    <td style="vertical-align:middle;"><?php echo round($sum_need_pat) ?></td>
                                 </tr>
                                 <tr>
-                                    <td>도담밀<br>제공량</td>
-                                    <td><?php echo round($sum_cal) ?></td>
-                                    <td><?php echo round($sum_car) ?></td>
-                                    <td><?php echo round($sum_pro) ?></td>
-                                    <td><?php echo round($sum_pat) ?></td>
+                                    <td style="background-color:#fff !important;color:#777; font-family:'210gullim'; color:#666; font-size:12px; border-left:1px solid #e7e7e7; border-right:1px solid #e7e7e7;
+								border-bottom:1px solid #e7e7e7; border-bottom-left-radius: 10px;">도담밀<br>제공량</td>
+                                    <td style="vertical-align:middle;"><?php echo round($sum_cal) ?></td>
+                                    <td style="vertical-align:middle;"><?php echo round($sum_car) ?></td>
+                                    <td style="vertical-align:middle;"><?php echo round($sum_pro) ?></td>
+                                    <td style="border-right:1px solid #e7e7e7;border-bottom-right-radius: 10px;"><?php echo round($sum_pat) ?></td>
                                 </tr>
                             </table>
                         </div>
                     </div>
 
-                    <div class="">
-                        <div class="">
+                    <div class="nr-box">
+                        <div class="nr-title">
                             <p>이달의 영양소</p>
                         </div>
-                        <div class="">
+                        <div class="nr-inof">
                             <p><span><?php echo $nutr_name ?></span><?php echo $nutr_comm ?></p>
                         </div>
                     </div>
+                    <!--새로추가-->
+                    <?php
+                    if ($comment_4 || empty($comment_4)) {
+                    } else {
+                        echo '
+                            <div class="">
+                                <div class="">
+                                </div>
+                                <div class="">
+                                    <p>' . $comment_4 . '</p>
+                                </div>
+                            </div>
+                            ';
+                    }
+                    ?>
                 </div>
-                <div class="">
+                <div class="nr-info-list">
                     <b>위 자료는 아래의 자료를 참고하여 제작되었습니다.</b>
                     <p>영유아 단체급식 가이드라인</p>
                     <p>식품의약품 안전처·어린이급식관리지원센터 [ 2013.05 ]</p>
@@ -3929,154 +4170,179 @@ if ($baby_period == "유아기") {
             <!--세번째-->
             <div class="tab_box tab3">
                 <div id="tabbox3" class="tab-inner">
-                    <div class="">
-                        <div class="">
-                            <div class="">
-                                <div class="">
-                                    <p><span></span>성장척도 확인하기</p>
+                    <div class="tabbox3-box">
+                        <div class="tabbox3-content">
+                            <div class="tabbox3-content-inner">
+                                <div class="tabbox3-title">
+                                    <p>성장척도 확인하기</p>
+                                    <span class="report-pup">성장도표 보는법?</span>
                                 </div>
-                                <div class="">
+                                <div class="tabbox3-text">
                                     <p>알려주신 신장과 체중정보를 바탕으로 우리아이의 성장 정보를 아래 그래프에 표기해 두었어요.</p>
                                 </div>
-                                <div class="">
-                                    <div class="">
-                                        <p>성장도표 보는 방법</p>
-                                    </div>
-                                    <div class="">
-                                        <p><b>1.</b> 우리아이의 키와 체중을 검은점 으로 표시했어요.</p>
-                                        <p><b>2.</b>빨강 초록 노란선과 아이의 신장, 체중을 비교해주세요</p>
-                                        <p>초록색 선에 가까우면 우리아이가 평균치에 맞게 잘 크고 있는 것이에요. 빨간색 선보다 위에있다면 노란색 선보다 아래에 있으면 성장이 느린 것이에요.</p>
-                                        <p>오랫동안 평균치에서 벗어난다면 전문가와 상담해보시는 것이 좋아요.</p>
-                                        <p>성장지표는 참고용 자료일 뿐이니 과도한 체중관리로 우리아이 성장에 방해가 되게해서는 안됩니다.</p>
-                                    </div>
-                                    <div>
-                                        <div class="">
-                                            <p>현재 신장 : <?php echo $user_height ?> cm</p>
+                                <div class="popup-page_a">
+                                    <div class="dark-box">
+                                        <div class="popup-sub">
+                                            <div class="container">
+                                                <div class="pop-list_a">
+                                                    <h5>성장도표보는법</h5>
+                                                    <img src="/wp-content/themes/storefront-child/con3/image/Frame.png" alt="Arrow1">
+                                                    <div class="pop-text-a">
+                                                        <p class="pop-be">우리아이의 키와 체중을 검은점으로 표시했어요.</p>
+                                                        <p class="pop-be">빨강, 초록, 노란선과 아이의 신장, 체중을 비교해주세요.</p>
+                                                        <p><span class="green-ss">초록색 선</span> 에 가까우면 우리아이가 평균치에 맞게 잘 크고 있는 것이에요.<span class="red-ss">빨간색 선</span>보다 위에있다면 성장이 빠르고, <span class="yellow-ss">노란색 선</span>보다 아래에 있으면 성장이 느린 것이에요.</p>
+                                                        <p>오랫동안 평균치에서 벗어난다면 전문가와 상담해보시는 것이 좋아요.</p>
+                                                        <div class="check-text">
+                                                            <p> 성장지표는 참고용 자료일 뿐이니 과도한 체중관리로 우리아이 성장에 방해가 되게해서는 안됩니다.</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div id="chart_one"></div>
-                                        <div id="chart_thr"></div>
-                                        <div style="position:absolute; background-color:#fff; border-radius:9px; top:800px; left:20%; padding:5px; border:2px solid #ea5514; font-size:15px;">
-                                            <p style="color:#ea5514;"><span style="font-weight:bold;">빨간선</span>은 키 상위 <span style="font-weight:bold;">5%</span></p>
-                                        </div>
-                                        <div style="position:absolute; background-color:#fff; border-radius:9px; top:950px; left:50%; padding:5px; border:2px solid #ffc85a; font-size:15px;">
-                                            <p style="color:#ffc85a;"><span style="font-weight:bold;">노란선</span>은 키 하위 <span style="font-weight:bold;">5%</span></p>
-                                        </div>
-                                        <p class="graph_center" style="text-align:center; font-size:13px;  color:#666;">만나이 (개월)</p>
-                                        <div class="graph_title" style="padding-top:20px;">
-                                            <p>현재 체중 : <?php echo $user_weight ?> kg</p>
-                                        </div>
-                                        <div id="chart_two"></div>
-                                        <div id="chart_fow"></div>
-                                        <div style="position:absolute; background-color:#fff; border-radius:9px; top:1160px; left:15%; padding:5px; border:2px solid #ea5514; font-size:15px;">
-                                            <p style="color:#ea5514;"><span style="font-weight:bold;">빨간선</span>은 체중 상위 <span style="font-weight:bold;">5%</span></p>
-                                        </div>
-                                        <div style="position:absolute; background-color:#fff; border-radius:9px; top:1320px; left:50%; padding:5px; border:2px solid #ffc85a; font-size:15px;">
-                                            <p style="color:#ffc85a;"><span style="font-weight:bold; color:#ffc85a;">노란선</span>은 체중 하위 <span style="font-weight:bold;">5%</span></p>
-                                        </div>
-                                        <p class="graph_center" style="text-align:center; font-size:13px; color:#666; padding-bottom:20px;">만나이 (개월)</p>
                                     </div>
                                 </div>
                             </div>
-                            <div class="cont">
-                                <div class="number">
-                                    <p><span></span>얼마나 자랐을까요?</p>
-                                </div>
-                                <div class="star_text">
-                                    <p>우리아이는 이번달 얼만큼 더 자랐을까요?</p>
-                                </div>
-                                <div class="graph_table">
-                                    <table>
-                                        <tbody>
-                                            <tr>
-                                                <td></td>
-                                                <td>지난달</td>
-                                                <td>이번달</td>
-                                                <td>차이</td>
-                                            </tr>
-                                            <tr>
-                                                <td>신장</td>
-                                                <td><?php echo $before_height ?>cm</td>
-                                                <td><?php echo $after_height ?>cm</td>
-                                                <td><?php echo $sum_height ?>cm</td>
-                                            </tr>
-                                            <tr>
-                                                <td>체중</td>
-                                                <td><?php echo $before_weight ?>kg</td>
-                                                <td><?php echo $after_weight ?>kg</td>
-                                                <td><?php echo $sum_weight ?>kg</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="">
-                                    <p><?php echo $user_babyname ?>(이)는 지난달보다 신장은 <?php echo $sum_height ?> cm 만큼, 체중은 <?php echo $sum_weight ?> kg 더 늘어나 튼튼하게 잘 자라고있습니다.</p>
+                            <div class="grap-two">
+                                <div>
+                                    <div class="grap-title">
+                                        <p>현재 신장 : <?php echo $user_height ?> cm</p>
+                                    </div>
+                                    <div id="chart_one"></div>
+                                    <div id="chart_thr"></div>
+                                    <div style="position:absolute; background-color:#fff; border-radius:9px; top:94px; left:20%; padding:5px; border:2px solid #ea5514; font-size:15px;">
+                                        <p style="color:#ea5514;"><span style="font-weight:bold;">빨간선</span>은 키 상위 <span style="font-weight:bold;">5%</span></p>
+                                    </div>
+                                    <div style="position:absolute; background-color:#fff; border-radius:9px; top:245px; left:50%; padding:5px; border:2px solid #ffc85a; font-size:15px;">
+                                        <p style="color:#ffc85a;"><span style="font-weight:bold;">노란선</span>은 키 하위 <span style="font-weight:bold;">5%</span></p>
+                                    </div>
+                                    <p class="graph_center" style="text-align:center; font-size:13px;  color:#666;">만나이 (개월)</p>
+                                    <div class="graph_title grap-title" style="padding-top:20px;">
+                                        <p>현재 체중 : <?php echo $user_weight ?> kg</p>
+                                    </div>
+                                    <div id="chart_two"></div>
+                                    <div id="chart_fow"></div>
+                                    <div style="position:absolute; background-color:#fff; border-radius:9px; top:485px; left:17%; padding:5px; border:2px solid #ea5514; font-size:15px;">
+                                        <p style="color:#ea5514;"><span style="font-weight:bold;">빨간선</span>은 체중 상위 <span style="font-weight:bold;">5%</span></p>
+                                    </div>
+                                    <div style="position:absolute; background-color:#fff; border-radius:9px; top:627px; left:50%; padding:5px; border:2px solid #ffc85a; font-size:15px;">
+                                        <p style="color:#ffc85a;"><span style="font-weight:bold; color:#ffc85a;">노란선</span>은 체중 하위 <span style="font-weight:bold;">5%</span></p>
+                                    </div>
+                                    <p class="graph_center" style="text-align:center; font-size:13px; color:#666; padding-bottom:20px;">만나이 (개월)</p>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="">
-                        <p>성장도표는 질병관리본부에서 제공하는 2017 소아성정도표를 기준으로 만들어졌습니다.</p>
-                    </div>
-                    <div class="">
-                        <div class="">
-                            <div class="">
-                                <div class="">
-                                    <p><span></span>성장 정도에 따른 도담밀의 팁!</p>
-                                </div>
-                                <div>
-                                    <div class="">
-                                        <div class="" id="cpwndwkrek">
-                                            <b>체중이 적게 나간다면?</b>
-                                            <p>한 끼에 너무 많은 양을 먹으면 다음 끼니의 식사량이 줄어들 수 있어요. 중간중간 적당량의 간식을 먹도록 도와주세요.</p>
-                                        </div>
-                                        <div class="" id="cpwndaksgek">
-                                            <b>체중이 많이 나간다면?</b>
-                                            <p>과도한 체중 관리는 아이의 성장을 방해할 수 있어요. 중기가 지났다면 수유량을 조금씩 줄여주세요.</p>
-                                        </div>
-                                        <div class="" id="zlwkrek">
-                                            <b>키가 작다면?</b>
-                                            <p>단백질이 풍부한 육류를 충분히 섭취할 수 있도록 해주세요. 중기가 지났다면 칼슘 섭취를 위해 어린이용 치즈를 간식으로 주는 것도 좋아요.</p>
-                                        </div>
-                                        <div class="" id="zlzmek">
-                                            <b>키가 크다면?</b>
-                                            <p>아이의 키는 유전적 요인에 영향을 많이 받기 때문에 질환에 의한 과성장이 아니라면 걱정하지 않아도 괜찮아요.</p>
-                                        </div>
-                                    </div>
-                                </div>
+                        <div class="cont count02">
+                            <div class="number">
+                                <p><span></span>얼마나 자랐을까요?</p>
                             </div>
-                            <div class="">
-                                <div class="">
-                                    <p><span></span>발달정도 확인하기</p>
-                                </div>
-                                <div class="">
-                                    <p>생후 <?php echo $user_monthly ?>개월의 <b><?php echo $user_babyname ?></b> (이)의 발달 정도는?</p>
-                                </div>
-                                <!-- 개월령에 맞는 자료의 출력 -->
-                                <table class="evolu">
-                                    <tr>
-                                        <td>신체</td>
-                                        <td><?php echo $physical ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td>사회<br>정서</td>
-                                        <td><?php echo $emotion ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td>언어</td>
-                                        <td><?php echo $language ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td>인지</td>
-                                        <td><?php echo $cognitive ?></td>
-                                    </tr>
+                            <div class="star_text">
+                                <p>우리아이는 이번달 얼만큼 더 자랐을까요?</p>
+                            </div>
+                            <div class="graph_table">
+                                <table>
+                                    <tbody>
+                                        <tr class="table01">
+                                            <td></td>
+                                            <td>지난달</td>
+                                            <td>이번달</td>
+                                            <td>차이</td>
+                                        </tr>
+                                        <tr class="table02">
+                                            <td>신장</td>
+                                            <td><?php echo $before_height ?>cm</td>
+                                            <td><?php echo $after_height ?>cm</td>
+                                            <td><?php echo $sum_height ?>cm</td>
+                                        </tr>
+                                        <tr class="table03">
+                                            <td>체중</td>
+                                            <td><?php echo $before_weight ?>kg</td>
+                                            <td><?php echo $after_weight ?>kg</td>
+                                            <td><?php echo $sum_weight ?>kg</td>
+                                        </tr>
+                                    </tbody>
                                 </table>
-                                <div>
-                                    <p>아이의 성장발달 정도는<br>개인차가 크니 참고용으로 봐주세요.</p>
-                                </div>
+                            </div>
+                            <div class="toolkg">
+                                <p><?php echo $user_babyname ?>(이)는 지난달보다<br> 신장은 <span><?php echo $sum_height ?> cm</span> 만큼, 체중은 <span><?php echo $sum_weight ?> kg</span><br> 더 늘어나 튼튼하게 잘 자라고있습니다.</p>
                             </div>
                         </div>
                     </div>
-                    <div id="tabbox3-yoo">
+                </div>
+                <!--새로추가-->
+                <?php
+                if ($comment_5 || empty($comment_5)) {
+                } else {
+                    echo '
+                            <div class="">
+                                <div class="">
+                                </div>
+                                <div class="">
+                                    <p>' . $comment_5 . '</p>
+                                </div>
+                            </div>
+                            ';
+                }
+                ?>
+                <div class="grow">
+                    <div class="grow-contents">
+                        <div class="grow-inner">
+                            <div class="grow-title">
+                                <p><span></span>성장 정도에 따른 도담밀의 팁!</p>
+                            </div>
+                            <div>
+                                <div class="">
+                                    <div class="" id="cpwndwkrek">
+                                        <b>체중이 적게 나간다면?</b>
+                                        <p>한 끼에 너무 많은 양을 먹으면 다음 끼니의 식사량이 줄어들 수 있어요. 중간중간 적당량의 간식을 먹도록 도와주세요.</p>
+                                    </div>
+                                    <div class="" id="cpwndaksgek">
+                                        <b>체중이 많이 나간다면?</b>
+                                        <p>과도한 체중 관리는 아이의 성장을 방해할 수 있어요. 중기가 지났다면 수유량을 조금씩 줄여주세요.</p>
+                                    </div>
+                                    <div class="" id="zlwkrek">
+                                        <b>키가 작다면?</b>
+                                        <p>단백질이 풍부한 육류를 충분히 섭취할 수 있도록 해주세요. 중기가 지났다면 칼슘 섭취를 위해 어린이용 치즈를 간식으로 주는 것도 좋아요.</p>
+                                    </div>
+                                    <div class="" id="zlzmek">
+                                        <b>키가 크다면?</b>
+                                        <p>아이의 키는 유전적 요인에 영향을 많이 받기 때문에 질환에 의한 과성장이 아니라면 걱정하지 않아도 괜찮아요.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="grow-check">
+                            <div class="grow-check-title">
+                                <p><span></span>발달정도 확인하기</p>
+                            </div>
+                            <div class="grow-check-text">
+                                <p>생후 <?php echo $user_monthly ?>개월의 <b><?php echo $user_babyname ?></b> (이)의 발달 정도는?</p>
+                            </div>
+                            <!-- 개월령에 맞는 자료의 출력 -->
+                            <table class="evolu" id="evolu001">
+                                <tr>
+                                    <td class="evtd">신체</td>
+                                    <td><?php echo $physical ?></td>
+                                </tr>
+                                <tr>
+                                    <td class="evtd">사회<br>정서</td>
+                                    <td><?php echo $emotion ?></td>
+                                </tr>
+                                <tr>
+                                    <td class="evtd">언어</td>
+                                    <td><?php echo $language ?></td>
+                                </tr>
+                                <tr>
+                                    <td class="evtd">인지</td>
+                                    <td><?php echo $cognitive ?></td>
+                                </tr>
+                            </table>
+                            <div class="text-blue">
+                                <p>아이의 성장발달 정도는 개인차가 크니 참고용으로 봐주세요.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="tabbox3-yoo" style="display:none;">
                         <div class="">
                             <div class="">
                                 <div class="">
@@ -4092,32 +4358,24 @@ if ($baby_period == "유아기") {
                         <p>Infant Nutrition and Feeding, 미국농무부(USDA) [ 2019.04 ]</p>
                     </div>
                 </div>
-                <div id="tabbox3-yoo" class="tab-inner">
-                    <div class="">
+
+                <!--네번째-->
+                <div class="tab_box tab4">
+                    <div id="tabbox4" class="tab-inner">
                         <div class="">
                             <div class="">
-                                <img src="/wp-content/themes/storefront-child/image/edudata/<?php echo $edudata ?>.png">
+                                <div class="">
+                                    <img src="/wp-content/themes/storefront-child/image/edudata/<?php echo $edudata ?>.png">
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <!--네번째-->
-            <div class="tab_box tab4">
-                <div id="tabbox4" class="tab-inner">
-                    <div class="">
-                        <div class="">
+                    <div id="tabbox4-yoo">
+                        <div class="" class="tab-inner">
                             <div class="">
-                                <img src="/wp-content/themes/storefront-child/image/edudata/<?php echo $edudata ?>.png">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div id="tabbox4-yoo">
-                    <div class="" class="tab-inner">
-                        <div class="">
-                            <div class="">
-                                <img src="/wp-content/themes/storefront-child/image/edudata/<?php echo $edudata ?>.png">
+                                <div class="">
+                                    <img src="/wp-content/themes/storefront-child/image/edudata/<?php echo $edudata ?>.png">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -4127,26 +4385,35 @@ if ($baby_period == "유아기") {
     </div>
 </div>
 
+<input type="hidden" name="babyperiod" value="<?php echo $baby_period ?>">
+
+
 
 <script>
     var babypart = $("input[name=babypart]").val();
 
-    if (babypart == 1) {
-        $("")
+    if (babypart == "1") {
+
         $("#top_btn01").hide();
         $("#top_btn02").hide();
         $("#top_btn03").hide();
         $("#top_btn04").hide();
+        $("#tabbox1").hide();
+        $("#tabbox1-yoo").show();
+
     } else {
         $("#top_btn05").hide();
         $("#top_btn06").hide();
         $("#top_btn07").hide();
         $("#top_btn08").hide();
+        $("#tabbox1").show();
+        $("#tabbox1-yoo").hide();
+
     }
-
-
-    var zlsms = $("input[name=bigyo_height").val();
-    var cpwnddms = $("input[name=bigyo_weight").val();
+</script>
+<script>
+    var zlsms = $("input[name=bigyo_height]").val();
+    var cpwnddms = $("input[name=bigyo_weight]").val();
     if (zlsms == 0) {
         $("#zlzmek").fadeIn();
         $("#zlwkrek").fadeOut();
@@ -5024,68 +5291,141 @@ if ($baby_period == "유아기") {
     }
 
     var allsum = rhrfbrns + eksqorwlffb + cothrns + rhkdlfrns + dbwpvnarns;
-    $("#rhrfbrns").html(rhrfbrns);
-    $("#eksqorwlffb").html(eksqorwlffb);
-    $("#cothrns").html(cothrns);
-    $("#dbwpvnarns").html(dbwpvnarns);
-    $("#rhkdlfrns").html(rhkdlfrns);
-    $("#allsum").html(allsum);
-    $("#allsum1").html(allsum);
-</script>
-<script>
-    var chogi = $("input[name=chogiview]").val();
-    if (chogi == 1) {
-        $("#chogiview").fadeIn();
-    } else {
-        $("#chogiview").fadeOut();
-    }
-</script>
-<script>
-    var superfood = $("input[name=fhapdls").val();
-    var jungthree = $("input[name=jungthree]").val();
-    if (jungthree == 0) {
-        $("#jungthree").fadeOut();
-    } else {
-        if (superfood == 1) {
-            $("#no_super").fadeOut();
-            $("#yes_super").fadeIn();
-        } else {
-            $("#no_super").fadeIn();
-            $("#yes_super").fadeOut();
-        }
-        $("#bingo_end").fadeIn();
-        $("#jungthree").fadeIn();
-    }
-</script>
-
-<script>
-    $("#top_btn01").click(function() {
-        $(".tab_top").css("background-color", "#33875d");
-        $("html").animate({
-            scrollTop: 0
-        }, 400);
-    });
-    $("#top_btn02").click(function() {
-        $(".tab_top").css("background-color", "#8cc364");
-        $("html").animate({
-            scrollTop: 0
-        }, 400);
-    });
-    $("#top_btn03").click(function() {
-        $(".tab_top").css("background-color", "#ffc85a");
-        $("html").animate({
-            scrollTop: 0
-        }, 400);
-    });
-    $("#top_btn04").click(function() {
-        $(".tab_top").css("background-color", "#ff7864");
-        $("html").animate({
-            scrollTop: 0
-        }, 400);
-    });
 </script>
 
 
+<script>
+    $("#top_btn01").on("click", function() {
+        $(".tab_menu_container").addClass("btn01");
+        $(".tab_menu_btn").removeClass("on");
+        $("#top_btn01").addClass("on");
+        $(".tab_menu_container").removeClass("btn02");
+        $(".tab_menu_container").removeClass("btn03");
+        $(".tab_menu_container").removeClass("btn04");
+    })
+    $("#top_btn02").on("click", function() {
+        $(".tab_menu_container").addClass("btn02");
+        $(".tab_menu_btn").removeClass("on");
+        $("#top_btn02").addClass("on");
+        $(".tab_menu_container").removeClass("btn01");
+        $(".tab_menu_container").removeClass("btn03");
+        $(".tab_menu_container").removeClass("btn04");
+    })
+    $("#top_btn03").on("click", function() {
+        $(".tab_menu_container").addClass("btn03");
+        $(".tab_menu_btn").removeClass("on");
+        $("#top_btn03").addClass("on");
+        $(".tab_menu_container").removeClass("btn01");
+        $(".tab_menu_container").removeClass("btn02");
+        $(".tab_menu_container").removeClass("btn04");
+    })
+    $("#top_btn04").on("click", function() {
+        $(".tab_menu_container").addClass("btn04");
+        $(".tab_menu_btn").removeClass("on");
+        $("#top_btn04").addClass("on");
+        $(".tab_menu_container").removeClass("btn01");
+        $(".tab_menu_container").removeClass("btn02");
+        $(".tab_menu_container").removeClass("btn03");
+    })
+    // 유아식
+
+    $("#top_btn05").on("click", function() {
+        $(".tab_menu_container").addClass("btn01");
+        $(".tab_menu_btn").removeClass("on");
+        $("#top_btn05").addClass("on");
+        $(".tab_menu_container").removeClass("btn06");
+        $(".tab_menu_container").removeClass("btn07");
+        $(".tab_menu_container").removeClass("btn08");
+    })
+    $("#top_btn06").on("click", function() {
+        $(".tab_menu_container").addClass("btn02");
+        $(".tab_menu_btn").removeClass("on");
+        $("#top_btn06").addClass("on");
+        $(".tab_menu_container").removeClass("btn05");
+        $(".tab_menu_container").removeClass("btn07");
+        $(".tab_menu_container").removeClass("btn08");
+    })
+    $("#top_btn07").on("click", function() {
+        $(".tab_menu_container").addClass("btn03");
+        $(".tab_menu_btn").removeClass("on");
+        $("#top_btn07").addClass("on");
+        $(".tab_menu_container").removeClass("btn05");
+        $(".tab_menu_container").removeClass("btn06");
+        $(".tab_menu_container").removeClass("btn08");
+    })
+    $("#top_btn08").on("click", function() {
+        $(".tab_menu_container").addClass("btn04");
+        $(".tab_menu_btn").removeClass("on");
+        $("#top_btn08").addClass("on");
+        $(".tab_menu_container").removeClass("btn05");
+        $(".tab_menu_container").removeClass("btn06");
+        $(".tab_menu_container").removeClass("btn07");
+    })
+</script>
+<script>
+    var pop_btn = $(".btn-check");
+    var btn_img = $(".popup-sub img");
+    var inputa = $(".report-pup");
+    var popupa = $(".popup-page_a")
+    // input checked 확인 및 내용 제거
+    inputa.click(function() {
+        popupa.css({
+            "position": "absolute",
+            "top": "0%"
+        });
+        popupa.css({
+            "opacity": "1"
+        });
+
+    });
+
+    // 보고서 팝업
+    btn_img.click(function() {
+        $(".popup-page_a").css({
+            "position": "absolute",
+            "top": "115%"
+        });
+        $(".popup-page_a").css({
+            "opacity": "0"
+        });
+        $(".btn-check").removeClass("on")
+    });
+</script>
+<script>
+    $("#top_btn01").on("click", function() {
+        $(".tab_box").removeClass("on");
+        $(".tab1").addClass("on");
+    });
+    $("#top_btn01").on("click", function() {
+        $(".tab_box").removeClass("on");
+        $(".tab1").addClass("on");
+    });
+    $("#top_btn01").on("click", function() {
+        $(".tab_box").removeClass("on");
+        $(".tab1").addClass("on");
+    });
+    $("#top_btn01").on("click", function() {
+        $(".tab_box").removeClass("on");
+        $(".tab1").addClass("on");
+    });
+    $("#top_btn01").on("click", function() {
+        $(".tab_box").removeClass("on");
+        $(".tab1").addClass("on");
+    });
+    $("#top_btn01").on("click", function() {
+        $(".tab_box").removeClass("on");
+        $(".tab1").addClass("on");
+    });
+    $("#top_btn01").on("click", function() {
+        $(".tab_box").removeClass("on");
+        $(".tab1").addClass("on");
+    });
+
+    $("#top_btn01").on("click", function() {
+        $(".tab_box").removeClass("on");
+        $(".tab1").addClass("on");
+    });
+</script>
 
 <?php
 mysqli_close($mysqli);

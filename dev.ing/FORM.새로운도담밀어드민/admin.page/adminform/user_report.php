@@ -73,11 +73,13 @@ include 'lib_arr.php';
         <div class="tab_box tab0 on">
 
             <div class="">
-                <form method="POST" action="/wp-content/themes/storefront-child/adminform/active/report_active.php">
+                <form method="POST" action="/wp-content/themes/storefront-child/adminform/active/user_report_get.php">
                     <div class="">
                         <p>회원id</p>
                         <input type="text" name="userid">
                     </div>
+
+                    <input type="submit" value="조회하기">
                 </form>
             </div>
 
