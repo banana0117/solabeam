@@ -34,7 +34,7 @@ $userz[] = $add_row[phone];
 <script>
     $(document).ready(function() {
         var select_array = <?php echo json_encode($userz) ?>;
-        var select_count = <?php echo $select_count ?>;
+        var select_count = <?php echo $data_count ?>;
 
         var json_users = JSON.stringify(select_array);
         console.log(json_users);
