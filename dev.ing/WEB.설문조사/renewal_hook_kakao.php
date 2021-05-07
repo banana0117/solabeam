@@ -1,5 +1,6 @@
 <?php
 
+//function에 여기부터 끝까지 복사해서 맨밑에 이어붙이면 됩니다 - 갱신결제 알림톡
 function banana_renewal_kakao_send($subscription){
 
     if( ! $subscription )
