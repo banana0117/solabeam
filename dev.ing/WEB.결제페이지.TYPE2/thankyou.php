@@ -30,7 +30,7 @@ $mysqli = new mysqli('localhost', 'olivejnainc', 'Goyo5713**', 'olivejnainc');
 $tooday = date("Y-m-d");
 
 $active_check = get_post_meta($subid, '_billing_phone', true);
-if(empty($active_check) || $active_check == ""){
+if (empty($active_check) || $active_check == "") {
     $subid = $subid + 1;
 }
 
@@ -68,6 +68,77 @@ $fee_option_result = mysqli_query($mysqli, $fee_option_query);
 while ($fee_option_row = mysqli_fetch_array($fee_option_result)) {
 
     $select_opts[] = $fee_option_row[order_item_name];
+    $select_opts_nums[] = $fee_option_row[order_itme_id];
+}
+
+if (in_array("적립금할인", $select_opts)) {
+
+    $pointly_query = "SELECT * FROM wp_woocommerce_order_items WHERE order_id = '$subid' AND order_item_name = '적립금할인'";
+    $pointly_result = mysqli_query($mysqli, $pointly_query);
+    $pointly_row = mysqli_fetch_array($pointly_result);
+
+    $pointly_item_id = $pointly_row[order_item_id];
+
+    $point_log_search = "SELECT * FROM wp_woocommerce_order_itemmeta WHERE order_item_id = '$pointly_item_id' AND meta_key = '_fee_amount'";
+    $point_log_result = mysqli_query($mysqli, $point_log_search);
+    $point_log_row = mysqli_fetch_array($point_log_result);
+
+    $point_log_data = $point_log_row[meta_value];
+
+    $log_day = date("Y-m-d");
+
+    $point_log_add = "INSERT INTO `pointlog` (`dates`, `userid`, `type`, `used`, `points`) VALUES ('$log_day','$news_user_id','차감','결제할인','$point_log_data')";
+    mysqli_query($mysqli, $point_log_add);
+}
+
+if ($news == '1') {
+
+    $kmk = 0;
+    $kmk_count = count($select_opts_nums);
+
+    while ($kmk <= $kmk_count) {
+        $pointly_new_query = "SELECT * FROM wp_woocommerce_order_items WHERE order_item_id = '$select_opts_nums[$kmk]' AND meta_key = '_fee_amount'";
+        $pointly_new_result = mysqli_query($mysqli, $pointly_new_query);
+        $pointly_new_row = mysqli_fetch_array($pointly_new_result);
+
+        $pointz = $pointz + $pointly_new_row[meta_value];
+    }
+
+    $numorders = wc_get_customer_order_count($current_user->ID);
+
+    $args = array(
+        'customer_id' => $current_user->ID,
+        'post_status' => 'cancelled',
+        'post_type' => 'shop_order',
+        'return' => 'ids',
+    );
+    $numorders_cancelled = 0;
+    $numorders_cancelled = count(wc_get_orders($args));
+
+    $num_not_cancelled = $numorders - $numorders_cancelled;
+
+    if ($num_not_cancelled <= 1) {
+        $perz = 0.005;
+    } elseif ($num_not_cancelled <= 3) {
+        $perz = 0.01;
+    } elseif ($num_not_cancelled <= 6) {
+        $perz = 0.02;
+    } elseif ($num_not_cancelled <= 9) {
+        $perz = 0.03;
+    } elseif ($num_not_cancelled <= 12) {
+        $perz = 0.04;
+    } elseif ($num_not_cancelled <= 15) {
+        $perz = 0.05;
+    } elseif ($num_not_cancelled <= 18) {
+        $perz = 0.1;
+    } else {
+        $perz = 0.005; 
+    }
+
+    $point_per = $pointz * $perz;
+
+    $point_log_addz = "INSERT INTO `pointlog` (`dates`, `userid`, `type`, `used`, `points`) VALUES ('$log_day','$news_user_id','추가','결제하기','$point_per')";
+    mysqli_query($mysqli, $point_log_addz);
 }
 
 $select_text = implode("/", $select_opts);
@@ -115,20 +186,18 @@ if (strpos($select_text, "유아기") != false) {
     $pkg_counter = 12;
 }
 
-if (strpos($select_text, "균형") != false) {
-    $array_push($table_opt, "A");
-    $table_box = "균형";
-}
 
-if (strpos($select_text, "더하기") != false) {
+
+if (strpos($select_text, "플러스") != false) {
     $array_push($table_opt, "B");
-    $table_box = "더하기";
-}
-
-if (strpos($select_text, "퍼스트") != false) {
+    $table_box = "플러스";
+} elseif (strpos($select_text, "퍼스트") != false) {
     $array_push($table_opt, "P");
     $table_box = "퍼스트";
     $news = "3";
+} elseif (strpos($select_text, "도담") != false) {
+    $array_push($table_opt, "A");
+    $table_box = "기본";
 }
 
 if (strpos($select_text, "간식") != false) {
@@ -156,6 +225,7 @@ if (strpos($select_text, "메이커") != false) {
     $normal_order = "INSERT INTO normalorder (userid, username, phone, address, postcode, status, period, orderid, quantity) VALUES ('$userid', '$new_user_name', '$new_user_phone','$new_user_address','$new_user_postcode','wc-processing','$products','$order_id','1')";
     mysqli_query($mysqli, $normal_order);
 }
+
 
 
 $period_str = implode("", $period_opt);
@@ -348,7 +418,7 @@ if ($news == "1") {
         $new_user_name 님의 첫 식단이 정상적으로 결제되었습니다.
         
         ▶결제일: $tooday
-        ▶식단명: $choice_period $table_box 식단
+        ▶식단명: $choice_period 도담밀 $table_box 식단
         ▶배송지정일: $new_user_date
         
 *도담밀 이용을 위해 아래 버튼을 클릭해서 사전 설문조사를 진행해주세요.
@@ -377,7 +447,7 @@ if ($news == "1") {
         $new_user_name 님의 첫 식단이 정상적으로 결제되었습니다.
         
         ▶결제일: $tooday
-        ▶식단명: $choice_period $table_box 식단
+        ▶식단명: $choice_period 도담밀 $table_box 식단
         ▶배송지정일: $new_user_date
         
 *도담밀 이용을 위해 아래 버튼을 클릭해서 사전 설문조사를 진행해주세요.
@@ -406,7 +476,7 @@ if ($news == "1") {
         $new_user_name 님의 첫 식단이 정상적으로 결제되었습니다.
         
         ▶결제일: $tooday
-        ▶식단명: $choice_period $table_box 식단
+        ▶식단명: $choice_period 도담 $table_box
         ▶배송지정일: $new_user_date
         
 *도담밀 이용을 위해 아래 버튼을 클릭해서 사전 설문조사를 진행해주세요.

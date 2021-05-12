@@ -268,6 +268,66 @@ function bbloomer_checkout_radio_choice_set_session_dis($posted_data)
     }
 }
 
+//적립금부분
+add_action('woocommerce_review_order_before_payment', 'bbloomer_checkout_radio_choice_point', 38, 1);
+
+function bbloomer_checkout_radio_choice_point()
+{
+    $chosen = WC()->session->get('radio_chosen_point');
+    $chosen = empty($chosen) ? WC()->checkout->get_value('radio_choice_point') : $chosen;
+    $chosen = empty($chosen) ? '0' : $chosen;
+
+    $mysqli = new mysqli('localhost', 'olivejnainc', 'Goyo5713**', 'olivejnainc');
+    $current_user = wp_get_current_user();
+    $news_user_id = $current_user->user_login;
+
+    $pointz = 0;
+    $query = "SELECT * FROM pointlog WHERE userid = '$news_user_id'";
+    $result = mysqli_query($mysqli, $query);
+    while ($row = mysqli_fetch_array($result)) {
+        $pointz = $pointz + $row[points];
+    }
+
+    $args = array(
+        'type' => 'number',
+        'class' => array('form-row-wide', 'update_totals_on_change'),
+        'custom_attributes' => array(
+            'min'       =>  0,
+            'max'       =>  $pointz,
+        ),
+        'default' => $chosen
+    );
+
+    echo '<div>';
+    woocommerce_form_field('radio_choice_point', $args, $chosen);
+    echo '<p>보유중 적립금 '.$pointz.'</p>';
+    echo '<script>
+    $( "#radio_choice_point" ).change(function() {
+        var max = '.$pointz.';
+        var min = 0;
+        if ($(this).val() > max)
+        {
+            $(this).val(max);
+        }
+        else if ($(this).val() < min)
+        {
+            $(this).val(min);
+        }       
+      });</script>
+      ';
+    echo '</div>';
+}
+
+add_action('woocommerce_checkout_update_order_review', 'bbloomer_checkout_radio_choice_set_session_point');
+
+function bbloomer_checkout_radio_choice_set_session_point($posted_data)
+{
+    parse_str($posted_data, $output);
+    if (isset($output['radio_choice_point'])) {
+        WC()->session->set('radio_chosen_point', $output['radio_choice_point']);
+    }
+}
+
 
 ////////////////////////
 //////계산 및 금액추가//////
@@ -290,11 +350,22 @@ function bbloomer_checkout_radio_choice_fee($cart)
     $radio_opt_pot = WC()->session->get('radio_chosen_opt_pot'); // 편수냄비
     $radioz = WC()->session->get('radio_chosen_dis');
 
+    $pointly = WC()->session->get('radio_chosen_point');
+    $mysqli = new mysqli('localhost', 'olivejnainc', 'Goyo5713**', 'olivejnainc');
+    $current_user = wp_get_current_user();
+    $news_user_id = $current_user->user_login;
+    $pointz = 0;
+    $query = "SELECT * FROM pointlog WHERE userid = '$news_user_id'";
+    $result = mysqli_query($mysqli, $query);
+    while ($row = mysqli_fetch_array($result)) {
+        $pointz = $pointz + $row[points];
+    }
+
 
     //선택식단더하기
     if ($radio_table == "1") {
-        $period_label = "도담밀";
-        $period_label .= ":균형식단";
+//        $period_label = "도담밀";
+        $period_label = "도담식단";
         $dis_per = "0";
         //시기별요금제추가
         if ($radio == "69000") {
@@ -365,8 +436,7 @@ function bbloomer_checkout_radio_choice_fee($cart)
         } else {
         }
     } elseif ($radio_table == "2") {
-        $period_label = "도담밀";
-        $period_label .= ":더하기식단";
+        $period_label = "도담플러스식단";
         $dis_per = "0";
         //시기별요금제추가
         if ($radio == "69000") {
@@ -568,6 +638,15 @@ function bbloomer_checkout_radio_choice_fee($cart)
         $cart->add_fee('멤버십할인', -$dis_con, false, 'standard');
     }
 
+    if($pointly){
+
+        if($pointly >= $pointz){
+            $pointly = $pointz;   
+        }
+
+        $cart->add_fee('적립금할인', -$pointly, false, 'standard');
+    }
+
     if ($radioz) {
         $discount_total = absint($totalfee) * (absint($disopt) / 100);
         $cart->add_fee('패키지할인', -$discount_total, false, 'standard');
@@ -595,9 +674,9 @@ function banana_dodam_new_order_form()
                 <p>베이직?프리미엄?</p>
             </div>
             <div class="flex">
-                <span id="basic_a_btn" class="checkout-membership-btn">균형식단</span>
-                <span id="basic_b_btn" class="checkout-membership-btn">더하기식단</span>
-                <span id="prm_btn" class="checkout-membership-btn">퍼스트클래스</span>
+                <span id="basic_a_btn" class="checkout-membership-btn">도담식단</span>
+                <span id="basic_b_btn" class="checkout-membership-btn">도담플러스식단</span>
+                <span id="prm_btn" class="checkout-membership-btn">도담퍼스트</span>
             </div>
         </div>
 

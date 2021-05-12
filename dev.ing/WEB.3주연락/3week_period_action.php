@@ -40,6 +40,7 @@ $mysqli = new mysqli('localhost', 'olivejnainc', 'Goyo5713**', 'olivejnainc');
 $post_period = $_POST['period'];
 $post_table = $_POST['table'];
 $post_opt = $_POST['opt'];
+$post_point = $_POST['point'];
 
 $table_str = $post_table;
 $period_str = $post_period;
@@ -89,12 +90,12 @@ if (in_array("Y", $select_opts)) {
 if (in_array("A", $select_opts)) {
     array_push($table_opt, "A");
     $table = "A";
-    $tables = "균형";
+    $tables = "기본";
 }
 if (in_array("B", $select_opts)) {
     array_push($table_opt, "B");
     $table = "B";
-    $tables = "더하기";
+    $tables = "플러스";
 }
 
 if (in_array("K", $select_opts)) {
@@ -379,6 +380,32 @@ while ($qq <= $opt_all_count - 1) {
     }
 
     $qq++;
+}
+
+if($post_point == '' || empty($post_point) || $post_point == '0'){
+
+} else {
+
+    $point = "-".$post_point;
+
+    $point_fee_query = "INSERT INTO `wp_woocommerce_order_items`(`order_item_name`, `order_item_type`, `order_id`) VALUES ('적립금할인','fee','$subid')";
+    mysqli_query($mysqli, $point_fee_query);
+
+    $point_search_query = "SELECT * FROM wp_woocommerce_order_items WHERE order_id = '$subid' AND order_item_name = '적립금할인'";
+    $point_search_result = mysqli_query($mysqli, $point_search_query);
+    $point_search_row = mysqli_fetch_array($point_search_result);
+    $point_order_id = $point_search_row[order_item_id];
+
+    $fee_meta_val_2 = [$point, "0", "taxable", $point, "0", $fake_text];
+    for ($jk = 0; $jk = $fee_meta_count; $jk = $jk + 1) {
+        $new_point_amount_query = "INSERT INTO `wp_woocommerce_order_itemmeta`(`order_item_id`, `meta_key`, `meta_value`) VALUES ('$point_order_id','$fee_meta_key[$jk]','$fee_meta_val[$jk]')";
+        mysqli_query($mysqli, $new_point_amount_query);
+    }
+
+    $log_day = date("Y-m-d");
+    $point_log = "INSERT INTO `pointlog`(`dates`, `userid`, `type`, `used`, `points`) VALUES ('$log_day','$userid','차감','다음결제','$point')";
+    mysqli_query($mysqli, $point_log);
+
 }
 
 //로그남기기

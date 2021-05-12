@@ -1,51 +1,176 @@
-<style>
-    .checkout-custom-form {
-        display: none;
-    }
-</style>
+<?php
+/**
+ * Template Name: con3mpage
+ */
+ 
+get_header(); ?>
 
-<div class="checkout-custom-form" id="meal_kit_form">
-    <!--이유식선택시뜨는것들-->
-    <div class="">
-        <p>주문내역 변경하기</p>
-    </div>
-    <div class="">
-        <div class="">
-            <div class="">
-                <p>서비스 변경</p>
-                <p>베이직?프리미엄?</p>
-            </div>
-            <div class="">
-                <span id="basic_a_btn" class="checkout-membership-btn">베이직 식단A</span>
-                <span id="basic_b_btn" class="checkout-membership-btn">베이직 식단B</span>
-                <span id="prm_btn" class="checkout-membership-btn">퍼스트클래스</span>
-            </div>
-        </div>
 
-        <div class="">
-            <div class="">
-                <p>시기변경</p>
+    <div class="box mt50">
+        <div class="mypage-title">
+            <div class="mypage-title-img">
+                <div class="mypage-title-img-inner">
+                    <img src="/wp-content/themes/storefront-child/con3/image/mypage-face.png" alt="도담밀아이콘">
+                </div>
             </div>
-            <div class="">
-                <span id="jun_btn" class="checkout-period-btn">준비기 4~5M</span>
-                <span id="cho_btn" class="checkout-period-btn">초기 6~7M</span>
-                <span id="jung_btn" class="checkout-period-btn">중기 7~10M</span>
-                <span id="hu_btn" class="checkout-period-btn">후기 10~135M</span>
-                <span id="wan_btn" class="checkout-period-btn">유아식준비기 13~14M</span>
-                <span id="yoo_btn" class="checkout-period-btn">유아기 14M~</span>
+            <div class="mypage-title-text">
+                <p>도담맘님 반갑습니다.</p>
+                <span><a href="con3user-edit">정보수정 ></a></span>
             </div>
         </div>
     </div>
 
-    <div class="">
-        <div class="">
-            <p>추가옵션</p>
-        </div>
-        <div class="">
-            <span id="snack_btn" class="checkout-opt-btn">간식키트</span>
-            <span id="set_btn" class="checkout-opt-btn">올인원냄비세트</span>
-            <span id="pot_btn" class="checkout-opt-btn">이유식냄비16cm</span>
-            <!--<span id="" class="checkout-opt-btn">이유식메이커</span>-->
+    <div class="mypage-sub">
+        <p>김도담이를 위한</p>
+        <p>준비기 밸런스 식단 3주차 진행 중</p>
+        <div class="mypage-sub_star">
+            <p>2021.03.18(목) 시작</p>
+            <p>2021.04.08(목) 종료 <span><a href="/con3delivery">배송조회하기 ></a></span></p>
         </div>
     </div>
-</div>
+    <div class="box">
+        <div class="mypage-point">
+            <div class="mypage-point-inner01">
+                <p>포인트</p>
+                <p>10,000</p>
+            </div>
+            <div class="mypage-point-inner02">
+                <p>추천인내역</p>
+                <p>2</p>
+            </div>
+        </div>
+    </div>
+    <div class="box">
+        <div class="box-contents">
+            <div class="list mypage-list">
+                <div class="col3-00 list-item">
+                    <div class="list-item__imgs">
+                        <a href="/con3deliaddchange">
+                            <div class="mypage-img">
+                                <img src="/wp-content/themes/storefront-child/con3/image/mypage01.png" alt="변송지변경">
+                            </div>
+                            <div class="mypage-text">
+                                <p>배송지변경</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col3-00 list-item">
+                    <div class="list-item__imgs">
+                        <a href="con3shickonly">
+                            <div class="mypage-img">
+                                <img src="/wp-content/themes/storefront-child/con3/image/mypgae02.png" alt="식단확인">
+                            </div>
+                            <div class="mypage-text">
+                                <p>식단확인</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col3-00 list-item">
+                    <div class="list-item__imgs">
+                        <a href="/con3report-check">
+                            <div class="mypage-img">
+                                <img src="/wp-content/themes/storefront-child/con3/image/mypage03.png" alt="보고서확인">
+                            </div>
+                            <div class="mypage-text">
+                                <p>보고서확인</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col3-00 list-item">
+                    <div class="list-item__imgs">
+                        <a href="/con3guide">
+                            <div class="mypage-img">
+                                <img src="/wp-content/themes/storefront-child/con3/image/mypage04.png" alt="도담가이드">
+                            </div>
+                            <div class="mypage-text">
+                                <p>도담가이드</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col3-00 list-item">
+                    <div class="list-item__imgs">
+                        <a href="/con3event">
+                            <div class="mypage-img">
+                                <img src="/wp-content/themes/storefront-child/con3/image/mypage05.png" alt="이벤트">
+                            </div>
+                            <div class="mypage-text">
+                                <p>이벤트</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col3-00 list-item">
+                    <div class="list-item__imgs">
+                        <a href="/con3review_insert">
+                            <div class="mypage-img">
+                                <img src="/wp-content/themes/storefront-child/con3/image/mypage06.png" alt="후기작성하기">
+                            </div>
+                            <div class="mypage-text">
+                                <p>후기작성하기</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="box">
+        <div class="mypage-center">
+            <ul>
+                <li>
+                    <a href="/con3frp">
+                        <p>고객센터</p>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="my-bottom">
+        <ul>
+            <li>
+                <a href="/con3frq">
+                    <div class="my-bottom-img">
+                        <img src="/wp-content/themes/storefront-child/con3/image/my-bottom-img_01.png" alt="이용안내">
+                    </div>
+                    이용안내</a>
+            </li>
+            <li>
+                <a href="/con3delivery">
+                    <div class="my-bottom-img">
+                        <img src="/wp-content/themes/storefront-child/con3/image/my-bottom-img_02.png" alt="배송안내">
+                    </div>
+                    배송안내</a>
+            </li>
+            <li>
+                <a href="/">
+                    <div class="my-bottom-img">
+                        <img src="/wp-content/themes/storefront-child/con3/image/my-bottom-img_03.png" alt="홈">
+                    </div>
+                    홈</a>
+            </li>
+            <li>
+                <a href="/con3shickonly">
+                    <div class="my-bottom-img">
+                        <img src="/wp-content/themes/storefront-child/con3/image/my-bottom-img_04.png" alt="식단확인">
+                    </div>
+                    식단안내</a>
+            </li>
+            <li>
+                <a href="/con3report-check">
+                    <div class="my-bottom-img">
+                        <img src="/wp-content/themes/storefront-child/con3/image/my-bottom-img_05.png" alt="보고서확인">
+                    </div>
+                    보고서확인</a>
+            </li>
+        </ul>
+    </div>
+
+    <!--여기까지-->
+
+    <?php
+do_action( 'storefront_sidebar' );
+get_footer();

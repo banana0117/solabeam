@@ -1,87 +1,93 @@
 <?php
 // Exit if accessed directly
-if ( !defined( 'ABSPATH' ) ) exit;
+if (!defined('ABSPATH')) exit;
 
 // BEGIN ENQUEUE PARENT ACTION
 // AUTO GENERATED - Do not modify or remove comment markers above or below:
 
-if ( !function_exists( 'chld_thm_cfg_locale_css' ) ):
-    function chld_thm_cfg_locale_css( $uri ){
-        if ( empty( $uri ) && is_rtl() && file_exists( get_template_directory() . '/rtl.css' ) )
+if (!function_exists('chld_thm_cfg_locale_css')) :
+    function chld_thm_cfg_locale_css($uri)
+    {
+        if (empty($uri) && is_rtl() && file_exists(get_template_directory() . '/rtl.css'))
             $uri = get_template_directory_uri() . '/rtl.css';
         return $uri;
     }
 endif;
-add_filter( 'locale_stylesheet_uri', 'chld_thm_cfg_locale_css' );
+add_filter('locale_stylesheet_uri', 'chld_thm_cfg_locale_css');
 
 
 // YJ 다음우편번호검색
-add_filter( 'woocommerce_checkout_fields' , 'checkout_fields_postcode_lookup' ,9999);
-function checkout_fields_postcode_lookup( $fields ) {
-$fields['billing']['billing_postcode']['label'] = '<label style="width:100%;">도로명주소</label><input type="button" id="billing_postcode_search" value="우편번호 검색" class="btn" onclick="openDaumPostcode();" style="display:inline-block; width:50%;">';
-return $fields; }
-
-//주소검색창불러오기
-add_action('init','postcode_lookup_load');
-function postcode_lookup_load() {
-wp_enqueue_script('daum_postcode_woocommerce', '//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js',array(),null,false);
+add_filter('woocommerce_checkout_fields', 'checkout_fields_postcode_lookup', 9999);
+function checkout_fields_postcode_lookup($fields)
+{
+    $fields['billing']['billing_postcode']['label'] = '<label style="width:100%;">도로명주소</label><input type="button" id="billing_postcode_search" value="우편번호 검색" class="btn" onclick="openDaumPostcode();" style="display:inline-block; width:50%;">';
+    return $fields;
 }
 
-add_action( 'wp_enqueue_scripts', 'wp_enqueue_scripts_postcode_lookup' );
+//주소검색창불러오기
+add_action('init', 'postcode_lookup_load');
+function postcode_lookup_load()
+{
+    wp_enqueue_script('daum_postcode_woocommerce', '//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js', array(), null, false);
+}
+
+add_action('wp_enqueue_scripts', 'wp_enqueue_scripts_postcode_lookup');
 
 //주소클릭시하단인풋에추가하는함수
-function wp_enqueue_scripts_postcode_lookup() {
+function wp_enqueue_scripts_postcode_lookup()
+{
 ?>
-<script type="text/javascript">
-    //주소넣기
-    function openDaumPostcode() {
-        new daum.Postcode({
-            oncomplete: function(data) {
-                document.getElementById('billing_postcode').value = data.zonecode;
-                document.getElementById('billing_address_1').value = data.address;
-                document.getElementById('billing_address_2').focus();
-            }
-        }).open();
-    }
+    <script type="text/javascript">
+        //주소넣기
+        function openDaumPostcode() {
+            new daum.Postcode({
+                oncomplete: function(data) {
+                    document.getElementById('billing_postcode').value = data.zonecode;
+                    document.getElementById('billing_address_1').value = data.address;
+                    document.getElementById('billing_address_2').focus();
+                }
+            }).open();
+        }
 
-    function openDaumPostcode2() {
-        new daum.Postcode({
-            oncomplete: function(data) {
-                document.getElementById('shipping_postcode').value = data.zonecode;
-                document.getElementById('shipping_address_1').value = data.address;
-                document.getElementById('shipping_address_2').focus();
-            }
-        }).open();
-    }
+        function openDaumPostcode2() {
+            new daum.Postcode({
+                oncomplete: function(data) {
+                    document.getElementById('shipping_postcode').value = data.zonecode;
+                    document.getElementById('shipping_address_1').value = data.address;
+                    document.getElementById('shipping_address_2').focus();
+                }
+            }).open();
+        }
 
 
-    function openDaumPostcode5() {
-        new daum.Postcode({
-            oncomplete: function(data) {
-                document.getElementById('detail_new_postcode').value = data.zonecode;
-                document.getElementById('detail_new_post').value = data.address;
-                document.getElementById('detail_new_sidepost').focus();
-            }
-        }).open();
-    }
+        function openDaumPostcode5() {
+            new daum.Postcode({
+                oncomplete: function(data) {
+                    document.getElementById('detail_new_postcode').value = data.zonecode;
+                    document.getElementById('detail_new_post').value = data.address;
+                    document.getElementById('detail_new_sidepost').focus();
+                }
+            }).open();
+        }
 
-function openDaumPostcode3() {
-        new daum.Postcode({
-            oncomplete: function(data) {
-                document.getElementById('addpostcode').value = data.zonecode;
-                document.getElementById('addaddress_1').value = data.address;
-                document.getElementById('addaddress_2').focus();
-            }
-        }).open();
-    }
-</script>
+        function openDaumPostcode3() {
+            new daum.Postcode({
+                oncomplete: function(data) {
+                    document.getElementById('addpostcode').value = data.zonecode;
+                    document.getElementById('addaddress_1').value = data.address;
+                    document.getElementById('addaddress_2').focus();
+                }
+            }).open();
+        }
+    </script>
 <?php
 }
 
 // YJ 로그인회원가입폼//
 add_filter('wpmem_register_form_before', 'my_register_form_before');
-function my_register_form_before(){
-	$str = '<style>
+function my_register_form_before()
+{
+    $str = '<style>
 .entry-title { display:none; }
 .entry-content { padding-top:50px; }
 </style>
@@ -92,12 +98,13 @@ function my_register_form_before(){
     <div id="newmem_login1" class="new_member newmem_login1">로그인</div>
 </div>';
 
-return $str;
+    return $str;
 }
 
 add_filter('wpmem_login_form_before', 'my_login_form_before');
-function my_login_form_before(){
-$str = '<style>
+function my_login_form_before()
+{
+    $str = '<style>
 .entry-title { display:none; }
 .entry-content { padding-top:50px; }
 </style>
@@ -108,124 +115,124 @@ $str = '<style>
     <div class="divider"></div>
     <div id="newmem_login2" class="member_active new_member newmem_login2">로그인</div>
 </div>';
-return $str;
+    return $str;
 }
 
 add_action('wpmem_post_register_data', 'my_registration_hook', 1);
-function my_registration_hook($fields){
-$user = get_userdata($fields['ID']);
-wp_set_current_user($user->ID, $user->user_login);
-wp_set_auth_cookie($user->ID, false);
-do_action('wp_login', $user->user_login, $user);
+function my_registration_hook($fields)
+{
+    $user = get_userdata($fields['ID']);
+    wp_set_current_user($user->ID, $user->user_login);
+    wp_set_auth_cookie($user->ID, false);
+    do_action('wp_login', $user->user_login, $user);
 }
 
-function woocommerce_login_form( $args = array() ) {
-echo "<style>#login_form { display:none; } #wpmem_login{ display:none; }</style>";
-echo do_shortcode( '[wpmem_form register]' );
-echo do_shortcode( '[wpmem_form login]' );
+function woocommerce_login_form($args = array())
+{
+    echo "<style>#login_form { display:none; } #wpmem_login{ display:none; }</style>";
+    echo do_shortcode('[wpmem_form register]');
+    echo do_shortcode('[wpmem_form login]');
 }
 
-
-
-add_action( 'woocommerce_before_checkout_billing_form', 'my_checkout_billing_form' );
-
-function my_checkout_billing_form( $checkout ) {
-
-    echo '<div style="margin-bottom:20px;"><p style="font-size:16px; font-weight:bold; color:#333; padding-left:20px;">' . __('주문 고객 정보') . '</p></div>';
-
-}
 
 //회원가입주소검색
-add_filter( 'wpmem_register_form_rows', 'my_register_form_rows_filter', 10, 2 );
+add_filter('wpmem_register_form_rows', 'my_register_form_rows_filter', 10, 2);
 
 
-function my_register_form_rows_filter( $rows, $toggle ) {
+function my_register_form_rows_filter($rows, $toggle)
+{
 
-$rows['billing_postcode']['row_after'] = '<input type="button" value="우편번호 검색" onclick="openDaumPostcode()" style="display:inline-block; width:50%; float:left; margin-bottom:10px; margin-top:-13px;">';
+    $rows['billing_postcode']['row_after'] = '<input type="button" value="우편번호 검색" onclick="openDaumPostcode()" style="display:inline-block; width:50%; float:left; margin-bottom:10px; margin-top:-13px;">';
 
-return $rows;
-
+    return $rows;
 }
 
 //마이페이지 - 상단 편집
-add_filter('woocommerce_account_menu_items','my_woocommerce_account_menu_items',10,1);
-function my_woocommerce_account_menu_items($items){
-	$items = array(
-		//'edit-account'    => __( '내 프로필', 'woocommerce' ),
-		'dashboard'       => __( '내 프로필', 'woocommerce' ),
-		'orders'          => __( '내 주문', 'woocommerce' ),
-		'subscriptions' => __( '정기배송', 'woocommerce' ),
-		//'downloads'       => __( 'Downloads', 'woocommerce' ),
-		//'edit-address'    => __( 'Addresses', 'woocommerce' ),
-		//'payment-methods' => __( '결제방법', 'woocommerce' ),
-		'customercenter' => '고객센터',
-		//'customer-logout' => __( 'Logout', 'woocommerce' ),
-	);
-return $items;
+add_filter('woocommerce_account_menu_items', 'my_woocommerce_account_menu_items', 10, 1);
+function my_woocommerce_account_menu_items($items)
+{
+    $items = array(
+        //'edit-account'    => __( '내 프로필', 'woocommerce' ),
+        'dashboard'       => __('내 프로필', 'woocommerce'),
+        'orders'          => __('내 주문', 'woocommerce'),
+        'subscriptions' => __('정기배송', 'woocommerce'),
+        //'downloads'       => __( 'Downloads', 'woocommerce' ),
+        //'edit-address'    => __( 'Addresses', 'woocommerce' ),
+        //'payment-methods' => __( '결제방법', 'woocommerce' ),
+        'customercenter' => '고객센터',
+        //'customer-logout' => __( 'Logout', 'woocommerce' ),
+    );
+    return $items;
 }
 
 
 //마이페이지 내 주문
-function new_orders_columns( $columns = array() ) {
+function new_orders_columns($columns = array())
+{
 
     // Hide the columns
-    if( isset($columns['order-total']) ) {
+    if (isset($columns['order-total'])) {
         // Unsets the columns which you want to hide
-        unset( $columns['order-number'] );
-        unset( $columns['order-date'] );
-        unset( $columns['order-status'] );
-        unset( $columns['order-total'] );
-        unset( $columns['order-actions'] );
+        unset($columns['order-number']);
+        unset($columns['order-date']);
+        unset($columns['order-status']);
+        unset($columns['order-total']);
+        unset($columns['order-actions']);
     }
 
     // Add new columns
     //$columns['order-number'] = __( '넘버', 'woocommerce' );
-    $columns['order-date'] = __( '주문일', 'woocommerce' );
-    $columns['order-total'] = __( '주문금액', 'woocommerce' );
-    $columns['order-status'] = __( '결과', 'woocommerce' );
-    $columns['order-actions'] = __( '&nbsp;', 'woocommerce' );
+    $columns['order-date'] = __('주문일', 'woocommerce');
+    $columns['order-total'] = __('주문금액', 'woocommerce');
+    $columns['order-status'] = __('결과', 'woocommerce');
+    $columns['order-actions'] = __('&nbsp;', 'woocommerce');
 
     return $columns;
 }
-add_filter( 'woocommerce_account_orders_columns', 'new_orders_columns' );
+add_filter('woocommerce_account_orders_columns', 'new_orders_columns');
 
 
- function my_wp_zapier_send_meta( $array, $user, $order_id ) {
+function my_wp_zapier_send_meta($array, $user, $order_id)
+{
 
-	$dtwc_delivery_date = get_order_meta( $order_id, 'dtwc_delivery_date', true );
-	// $meta_key = get_order_meta( $order_id, 'dtwc_delivery_date', true );
+    $dtwc_delivery_date = get_order_meta($order_id, 'dtwc_delivery_date', true);
+    // $meta_key = get_order_meta( $order_id, 'dtwc_delivery_date', true );
 
-	// Add data to the array we are sending to Zapier or another service/webhook.
-	$array['dtwc_delivery_date'] = $dtwc_delivery_date;
+    // Add data to the array we are sending to Zapier or another service/webhook.
+    $array['dtwc_delivery_date'] = $dtwc_delivery_date;
 
-	return $array;
+    return $array;
 }
-add_filter( 'wpzp_send_data_profile_update_array', 'my_wp_zapier_send_meta', 10, 3 );
+add_filter('wpzp_send_data_profile_update_array', 'my_wp_zapier_send_meta', 10, 3);
 
-function book_cpt_columns($columns) {
+function book_cpt_columns($columns)
+{
 
-	$new_columns = array(
-		'dtwc_delivery_date' => __('dtwc_delivery_date', 'storefront'),
-	);
+    $new_columns = array(
+        'dtwc_delivery_date' => __('dtwc_delivery_date', 'storefront'),
+    );
     return array_merge($columns, $new_columns);
 }
-add_filter('manage_shop_subscription_posts_columns' , 'book_cpt_columns');
+add_filter('manage_shop_subscription_posts_columns', 'book_cpt_columns');
 
 
-add_action( 'woocommerce_order_status_changed', 'your_function', 99, 3 );
+add_action('woocommerce_order_status_changed', 'your_function', 99, 3);
 
-function your_function( $order_id, $old_status, $new_status ){
-    if( $new_status == "completed" ) {
-$mysqli = new mysqli('localhost', 'olivejnainc', 'Goyo5713**', 'olivejnainc');
-$change_normal_query = "UPDATE normalorder SET status = 'complete' WHERE orderid = '$order_id'";
-mysqli_query($mysqli,$change_normal_query);
+function your_function($order_id, $old_status, $new_status)
+{
+    if ($new_status == "completed") {
+        $mysqli = new mysqli('localhost', 'olivejnainc', 'Goyo5713**', 'olivejnainc');
+        $change_normal_query = "UPDATE normalorder SET status = 'complete' WHERE orderid = '$order_id'";
+        mysqli_query($mysqli, $change_normal_query);
     }
 }
 
 
-add_filter( 'auth_cookie_expiration', 'keep_me_logged_in_for_1_year' );function keep_me_logged_in_for_1_year( $expirein ) {
+add_filter('auth_cookie_expiration', 'keep_me_logged_in_for_1_year');
+function keep_me_logged_in_for_1_year($expirein)
+{
 
-return 31556926; // 1 year in seconds
+    return 31556926; // 1 year in seconds
 }
 
 // 이 부분은 storefront-child/functions.php 에 맨밑에 붙여넣기 하면됩니다
@@ -479,10 +486,12 @@ function bbloomer_checkout_radio_choice_dis()
         'default' => $chosen
     );
 
-    echo '<div id="checkout-select" class="basic-only">';
+    echo '<div id="checkout-select" class="basic-only checkout-boxes">';
+    echo '<div class="checkout-title"><p>주문일정</p></div>';
     woocommerce_form_field('radio_choice_dis', $args, $chosen);
     echo '</div>';
-    echo '<div class=""><div class=""><p>추천인 아이디</p></div><div class=""><input type="text" id="recommend"></div>';
+    //추천인 아이디는 여기
+    echo '<div class="checkout-recos checkout-boxes"><div class="checkout-title"><p>추천인 아이디</p></div><div class="recos"><input type="text" id="recommend"></div><p class="reco-notice">* 추천인 할인은 첫 4주간만 적용됩니다.</p></div>';
 }
 
 add_action('woocommerce_checkout_update_order_review', 'bbloomer_checkout_radio_choice_set_session_dis');
@@ -492,6 +501,67 @@ function bbloomer_checkout_radio_choice_set_session_dis($posted_data)
     parse_str($posted_data, $output);
     if (isset($output['radio_choice_dis'])) {
         WC()->session->set('radio_chosen_dis', $output['radio_choice_dis']);
+    }
+}
+
+//적립금부분
+add_action('woocommerce_review_order_before_payment', 'bbloomer_checkout_radio_choice_point', 38, 1);
+
+function bbloomer_checkout_radio_choice_point()
+{
+    $chosen = WC()->session->get('radio_chosen_point');
+    $chosen = empty($chosen) ? WC()->checkout->get_value('radio_choice_point') : $chosen;
+    $chosen = empty($chosen) ? '0' : $chosen;
+
+    $mysqli = new mysqli('localhost', 'olivejnainc', 'Goyo5713**', 'olivejnainc');
+    $current_user = wp_get_current_user();
+    $news_user_id = $current_user->user_login;
+
+    $pointz = 0;
+    $query = "SELECT * FROM pointlog WHERE userid = '$news_user_id'";
+    $result = mysqli_query($mysqli, $query);
+    while ($row = mysqli_fetch_array($result)) {
+        $pointz = $pointz + $row[points];
+    }
+
+    $args = array(
+        'type' => 'number',
+        'class' => array('form-row-wide', 'update_totals_on_change'),
+        'custom_attributes' => array(
+            'min'       =>  0,
+            'max'       =>  $pointz,
+        ),
+        'default' => $chosen
+    );
+
+    echo '<div class="checkout-points checkout-boxes">';
+    echo '<div class="checkout-title"><p>할인정보</p></div>';
+    echo '<div class="flexed" style="padding-bottom:10px;"><p style="text-align:left;">적립금사용하기</p><p style="text-align:right;">(보유 : <span>' . $pointz . '</span>P)</p></div>';
+    woocommerce_form_field('radio_choice_point', $args, $chosen);
+    echo '<script>
+    $( "#radio_choice_point" ).change(function() {
+        var max = ' . $pointz . ';
+        var min = 0;
+        if ($(this).val() > max)
+        {
+            $(this).val(max);
+        }
+        else if ($(this).val() < min)
+        {
+            $(this).val(min);
+        }       
+      });</script>
+      ';
+    echo '</div>';
+}
+
+add_action('woocommerce_checkout_update_order_review', 'bbloomer_checkout_radio_choice_set_session_point');
+
+function bbloomer_checkout_radio_choice_set_session_point($posted_data)
+{
+    parse_str($posted_data, $output);
+    if (isset($output['radio_choice_point'])) {
+        WC()->session->set('radio_chosen_point', $output['radio_choice_point']);
     }
 }
 
@@ -517,50 +587,60 @@ function bbloomer_checkout_radio_choice_fee($cart)
     $radio_opt_pot = WC()->session->get('radio_chosen_opt_pot'); // 편수냄비
     $radioz = WC()->session->get('radio_chosen_dis');
 
+    $pointly = WC()->session->get('radio_chosen_point');
+    $mysqli = new mysqli('localhost', 'olivejnainc', 'Goyo5713**', 'olivejnainc');
+    $current_user = wp_get_current_user();
+    $news_user_id = $current_user->user_login;
+    $pointz = 0;
+    $query = "SELECT * FROM pointlog WHERE userid = '$news_user_id'";
+    $result = mysqli_query($mysqli, $query);
+    while ($row = mysqli_fetch_array($result)) {
+        $pointz = $pointz + $row[points];
+    }
+
 
     //선택식단더하기
     if ($radio_table == "1") {
-        $period_label = "도담밀";
-        $period_label .= ":균형식단";
+        //$period_label = "도담밀";
         $dis_per = "0";
         //시기별요금제추가
         if ($radio == "69000") {
-            $period_label .= ":준비기이유식";
+            $period_label = "준비기";
             $period_pay = "69000";
             $water_pay = "0";
             $beef_pay = "0";
             $super_pay = "0";
             $snack_pay = "0";
         } elseif ($radio == "89000") {
-            $period_label .= ":초기이유식";
+            $period_label = "초기";
             $period_pay = "89000";
             $water_pay = "15000";
             $beef_pay = "10000";
             $super_pay = "0";
             $snack_pay = "0";
         } elseif ($radio == "169000") {
-            $period_label .= ":중기이유식";
+            $period_label = "중기";
             $period_pay = "169000";
             $water_pay = "40000";
             $beef_pay = "19000";
             $super_pay = "10000";
             $snack_pay = "98000";
         } elseif ($radio == "239000") {
-            $period_label .= ":후기이유식";
+            $period_label = "후기";
             $period_pay = "239000";
             $water_pay = "60000";
             $beef_pay = "29000";
             $super_pay = "20000";
             $snack_pay = "98000";
         } elseif ($radio == "249000") {
-            $period_label .= ":완료기이유식";
+            $period_label = "유아식준비기";
             $period_pay = "249000";
             $water_pay = "60000";
             $beef_pay = "40000";
             $snack_pay = "98000";
             $super_pay = "20000";
         } elseif ($radio == "199000") {
-            $period_label .= ":유아기유아식";
+            $period_label = "유아기";
             $period_pay = "199000";
             $water_pay = "0";
             $beef_pay = "25000";
@@ -591,48 +671,50 @@ function bbloomer_checkout_radio_choice_fee($cart)
             $snack_pay = "686000";
         } else {
         }
+
+        $period_label .= " 도담 식단";
+
     } elseif ($radio_table == "2") {
-        $period_label = "도담밀";
-        $period_label .= ":더하기식단";
+        
         $dis_per = "0";
         //시기별요금제추가
         if ($radio == "69000") {
-            $period_label .= ":준비기이유식";
+            $period_label = "준비기";
             $period_pay = "69000";
             $water_pay = "0";
             $beef_pay = "0";
             $snack_pay = "0";
             $super_pay = "0";
         } elseif ($radio == "89000") {
-            $period_label .= ":초기이유식";
+            $period_label = "초기";
             $period_pay = "89000";
             $water_pay = "15000";
             $beef_pay = "10000";
             $super_pay = "0";
             $snack_pay = "0";
         } elseif ($radio == "169000") {
-            $period_label .= ":중기이유식";
+            $period_label = "중기";
             $period_pay = "169000";
             $water_pay = "40000";
             $beef_pay = "19000";
             $snack_pay = "98000";
             $super_pay = "10000";
         } elseif ($radio == "239000") {
-            $period_label .= ":후기이유식";
+            $period_label = "후기";
             $period_pay = "239000";
             $water_pay = "60000";
             $beef_pay = "29000";
             $super_pay = "20000";
             $snack_pay = "98000";
         } elseif ($radio == "249000") {
-            $period_label .= ":완료기이유식";
+            $period_label = "유아식준비기";
             $period_pay = "249000";
             $water_pay = "60000";
             $beef_pay = "40000";
             $super_pay = "20000";
             $snack_pay = "98000";
         } elseif ($radio == "199000") {
-            $period_label .= ":유아기유아식";
+            $period_label = "유아기";
             $period_pay = "199000";
             $water_pay = "0";
             $beef_pay = "25000";
@@ -663,39 +745,45 @@ function bbloomer_checkout_radio_choice_fee($cart)
             $snack_pay = "686000";
         } else {
         }
+
+        $period_label .= " 플러스 식단";
+
     } else {
-        $period_label = "도담퍼스트";
+        
         if ($radio == "69000") {
-            $period_label .= ":준비기이유식";
+            $period_label = "준비기";
             $period_pay = "429000";
             $dis_per = "26";
             $snack_pay = "0";
         } elseif ($radio == "89000") {
-            $period_label .= ":초기이유식";
+            $period_label = "초기";
             $period_pay = "429000";
             $dis_per = "23";
             $snack_pay = "0";
         } elseif ($radio == "169000") {
-            $period_label .= ":중기이유식";
+            $period_label = "중기";
             $period_pay = "429000";
             $dis_per = "19";
             $snack_pay = "98000";
         } elseif ($radio == "239000") {
-            $period_label .= ":후기이유식";
+            $period_label = "후기";
             $period_pay = "429000";
             $dis_per = "12";
             $snack_pay = "98000";
         } elseif ($radio == "249000") {
-            $period_label .= ":유아식준비기";
+            $period_label = "유아식준비기";
             $period_pay = "429000";
             $dis_per = "9";
             $snack_pay = "98000";
         } elseif ($radio == "199000") {
-            $period_label .= ":유아기유아식";
+            $period_label = "유아기";
             $period_pay = "429000";
             $dis_per = "19";
             $snack_pay = "98000";
         }
+
+        $period_label .= " 퍼스트";
+
     }
 
     //패키지별할인//
@@ -717,8 +805,9 @@ function bbloomer_checkout_radio_choice_fee($cart)
         }
     }
 
-    $period_label .= $selectedproduct;
-
+    if ($selectedproduct == "7634") {
+        $period_label .= " / 4주";
+    }
     //시기별식단//
     if ($radio) {
         $cart->add_fee($period_label, $period_pay);
@@ -729,6 +818,7 @@ function bbloomer_checkout_radio_choice_fee($cart)
         $cart->add_fee('고기더하기', $beef_pay);
         $cart->add_fee('재료더하기', $super_pay);
     }
+
     //간식추가금액//
     if ($radio_opt_snack) {
         $cart->add_fee('간식키트', $snack_pay);
@@ -737,7 +827,7 @@ function bbloomer_checkout_radio_choice_fee($cart)
 
     //멀티팟금액//
     if ($radio_opt_multipot) {
-        $multipot_pay = "69900";
+        $multipot_pay = "59000";
         if ($radio_opt_counter) {
             $multipot_pay = absint($multipot_pay) * absint($radio_opt_counter);
         }
@@ -771,14 +861,39 @@ function bbloomer_checkout_radio_choice_fee($cart)
         $totalfee = absint($totalfee) - absint($snack_pay);
     }
 
-    $discount_total = absint($totalfee) * (absint($disopt) / 100);
+
 
     if ($radio_table == "3") {
-        $mem_discount = absint($period_pay) * (absint($dis_per) / 100);
-        $cart->add_fee('멤버십할인', -$mem_discount, false, 'standard');
+
+        if ($radio == "69000") {
+            $dis_con = "110000";
+        } elseif ($radio == "89000") {
+            $dis_con = "100000";
+        } elseif ($radio == "169000") {
+            $dis_con = "80000";
+        } elseif ($radio == "239000") {
+            $dis_con = "50000";
+        } elseif ($radio == "249000") {
+            $dis_con = "40000";
+        } elseif ($radio == "199000") {
+            $dis_con = "80000";
+        }
+
+        //$mem_discount = absint($period_pay) - absint($dis_con);
+        $cart->add_fee('멤버십할인', -$dis_con, false, 'standard');
+    }
+
+    if ($pointly) {
+
+        if ($pointly >= $pointz) {
+            $pointly = $pointz;
+        }
+
+        $cart->add_fee('적립금할인', -$pointly, false, 'standard');
     }
 
     if ($radioz) {
+        $discount_total = absint($totalfee) * (absint($disopt) / 100);
         $cart->add_fee('패키지할인', -$discount_total, false, 'standard');
     }
 }
@@ -787,56 +902,94 @@ add_action('woocommerce_review_order_before_payment', 'banana_dodam_new_order_fo
 function banana_dodam_new_order_form()
 {
     echo '
-    <style>
-    .flex {padding:10px 0;}
-    .flex span {padding:5px; border:1px solid #666; margin:2px;}
-    .flex span.checked {background-color:yellow;}
-    </style>
-    <div class="checkout-custom-form" id="meal_kit_form">
+    <div class="checkout-custom-form checkout-boxes" id="meal_kit_form" style="padding-top:30px;">
     <!--이유식선택시뜨는것들-->
-    <div class="">
+    <div class="checkout-custom-wrap">
+    <div class="checkout-slide-box" id="checkout-slide">
         <p>주문내역 변경하기</p>
     </div>
-    <div class="">
+    <div class="checkout-slide-down">
         <div class="">
-            <div class="">
-                <p>서비스 변경</p>
-                <p>베이직?프리미엄?</p>
+            <div class="flexed opt-parts">
+                <p class="flexibled">서비스 변경</p>
+                <p class="flexibled opt-pop-btn" id="table-btns">식단은?</p>
             </div>
-            <div class="flex">
-                <span id="basic_a_btn" class="checkout-membership-btn">균형식단</span>
-                <span id="basic_b_btn" class="checkout-membership-btn">더하기식단</span>
-                <span id="prm_btn" class="checkout-membership-btn">퍼스트클래스</span>
+            <div class="flexed">
+                <span id="basic_a_btn" style="margin-right:6px;" class="checkout-membership-btn checkout-btns flexibled">도담식단</span>
+                <span id="basic_b_btn" style="margin-left:6px;" class="checkout-membership-btn checkout-btns flexibled">도담플러스식단</span>
+            </div>
+            <div>
+                <span id="prm_btn" class="checkout-membership-btn checkout-btns">도담퍼스트</span>
             </div>
         </div>
-
-        <div class="">
-            <div class="">
+        <div class="" style="padding-bottom:30px;">
+            <div class="opt-parts">
                 <p>시기변경</p>
             </div>
-            <div class="flex">
-                <span id="jun_btn" class="checkout-period-btn">준비기 4~5M</span>
-                <span id="cho_btn" class="checkout-period-btn">초기 6~7M</span>
-                <span id="jung_btn" class="checkout-period-btn">중기 7~10M</span>
+            <div class="flexed">
+                <span id="jun_btn" style="margin-right:6px;"class="flexibled checkout-period-btn checkout-btns">준비기<br>4~5M</span>
+                <span id="cho_btn"style="margin-left:6px;" class="flexibled checkout-period-btn checkout-btns">초기<br>6~7M</span>
                 </div>
-                <div class="flex">
-                <span id="hu_btn" class="checkout-period-btn">후기 10~135M</span>
-                <span id="wan_btn" class="checkout-period-btn">유아식준비기 13~14M</span>
-                <span id="yoo_btn" class="checkout-period-btn">유아기 14M~</span>
+                <div class="flexed">
+                <span id="jung_btn"style="margin-right:6px;" class="flexibled checkout-period-btn checkout-btns">중기<br>7~10M</span>
+                <span id="hu_btn"style="margin-left:6px;" class="flexibled checkout-period-btn checkout-btns">후기<br>10~13M</span>
+                </div>
+                <div class="flexed">
+                <span id="wan_btn"style="margin-right:6px;" class="flexibled checkout-period-btn checkout-btns">유아식준비기<br>13~14M</span>
+                <span id="yoo_btn"style="margin-left:6px;" class="flexibled checkout-period-btn checkout-btns">유아기<br>14M~</span>
             </div>
         </div>
     </div>
+    </div>
 
     <div class="">
-        <div class="">
-            <p>추가옵션</p>
+        <div class="flexed opt-parts">
+            <p class="flexibled">추가옵션</p>
+            <p class="flexibled opt-pop-btn" id="etc-btns">추가옵션?</p>
         </div>
-        <div class="flex">
-            <span id="snack_btn" class="checkout-opt-btn">간식키트</span>
-            <span id="set_btn" class="checkout-opt-btn">올인원냄비세트</span>
-            <span id="pot_btn" class="checkout-opt-btn">이유식냄비16cm</span>
-            <!--<span id="" class="checkout-opt-btn">이유식메이커</span>-->
+        <div class="flexed">
+            <span id="snack_btn" style="margin-right:6px;" class="flexibled checkout-opt-btn checkout-btns">간식키트</span>
+            <span id="set_btn" style="margin-right:6px; margin-left:6px;" class="flexibled checkout-opt-btn checkout-btns">올인원냄비세트</span>
+            <span id="pot_btn" style="margin-left:6px;" class="flexibled checkout-opt-btn checkout-btns">이유식냄비16cm</span>
+            <!--<span id="" class="flexibled checkout-opt-btn checkout-btns">이유식메이커</span>-->
         </div>
     </div>
 </div>';
+
+echo '
+
+<div class="table-pop del-pop">
+	<div class="popup">
+		<div class="del-pop-title">
+			<div class="del-pop-title-img">
+			</div>
+			<div class="del-pop-title-text">
+				<p>옵션추가하기</p>
+				<img class="js-deli-closed" src="/wp-content/themes/storefront-child/con3/image/Frame.png" alt="Arrow1">
+			</div>
+		</div>
+        <div class="">
+        </div>
+	</div>
+</div>
+
+<div class="etc-pop del-pop">
+	<div class="popup">
+		<div class="del-pop-title">
+			<div class="del-pop-title-img">
+			</div>
+			<div class="del-pop-title-text">
+				<p>추가옵션</p>
+				<img class="js-deli-closed" src="/wp-content/themes/storefront-child/con3/image/Frame.png" alt="Arrow1">
+			</div>
+		</div>
+        <div class="">
+        </div>
+	</div>
+</div>
+
+
+
+';
+
 }

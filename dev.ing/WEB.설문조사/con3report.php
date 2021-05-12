@@ -42,13 +42,30 @@ $step1_4 = $_POST['mix']; // 재료혼합유무 colum : mix
 $step1_5 = $_POST['foods']; // 하루이유식섭취횟수 colum : foods
 $step1_6 = $_POST['one-time']; // 한번섭취량 colum : onetime
 $step1_7 = $_POST['big-fd']; // 입자감진행 colum : bigfd
-$step2_1_1 = $_POST['average']; // 수유방법 colum : average
-$step2_1_2 = $_POST['averages']; // 수유량 colum : averages
-$step2_2 = $_POST['cooking']; // 이유식어케만듬 colum : cooking
-$step2_2_i = implode("/", $step_2_2); // 배열분리
+
+$new_step_1 = $_POST['average44']; // 이유식진행
+$new_step_1_t = implode("/", $new_step_1);
+
+//없어진것
+//$step2_1_1 = $_POST['average']; // 수유방법 colum : average
+//$step2_1_2 = $_POST['averages']; // 수유량 colum : averages
+//$step2_2 = $_POST['cooking']; // 이유식어케만듬 colum : cooking
+//$step2_2_i = implode("/", $step_2_2); // 배열분리
+
+
 $step2_2_1 = $_POST['one-eat']; // 한번에먹는 이유식 섭취량 colum : oneeat
 $step2_2_2 = $_POST['cook-eat']; // 먹어본재료 모두선택 colum : cookeat
 $step2_2_2_i = implode("/", $step2_2_2); // 배열분리
+
+//추가
+$new_step_2_1 = $_POST['reselect'];
+$new_step_2_1_1 = $_POST['reselect001']; // 완모
+$new_step_2_2_1 = $_POST['reselect002']; // 완모
+$new_step_2_1_2 = $_POST['reselect-text']; // 완모
+$new_step_2_1_2_t = implode("/",$new_step_2_1_2);
+$new_step_2_1_3 = $_POST['reselect-t']; // 완모
+
+
 $step2_3 = $_POST['impo']; // 가장중요하게 생각하는 부분 colum : impo
 $step3_1 = $_POST['family']; // 알러지가족력 colum : family
 $step3_2 = $_POST['allergy']; // 알러지반응이나온재료 colum : allergy
@@ -67,10 +84,14 @@ $step3_3_4 = $_POST['sick004']; // 발열 colum : sick004
 $step3_3_4_i = implode("/", $step3_3_4); // 배열분리  
 $step3_4 = $_POST['DOC_TEXT03']; // 그외특이사항병원진단 colum : otherabout
 
+$step3_5 = $_POST['breath'];
+$step3_5_t = implode("/", $step3_5);
+
 $ystep1_1 = $_POST['recooking']; // 유아기조리방법 colum : recooking
 $ystep1_1_i = implode("/", $ystep1_1); // 배열분리
 $ystep1_2 = $_POST['one-you']; // 이유식 섭취량 colum : oneyou
 $ystep1_3 = $_POST['su-you']; // 유아기 수유량 colum : suyou
+$ystep1_3_1 = $_POST['su-you01']; // 유아기 수유량 colum : suyou
 $ystep1_4 = $_POST['average-you']; // 유아식섭취량 colum : averageyou
 $ystep1_4_1 = $_POST['average-yous']; // 먹을경우용량 colum : averageyous
 $ystep1_5 = $_POST['impo-you']; // 중요하게생각하는것 colum : impoyou
@@ -87,16 +108,21 @@ $ystep3_3_3_1 = $_POST['goo-sick']; // 구토체크
 $ystep3_3_3_2 = $_POST['goo-sicks']; // 구토횟수 colum : goosick
 $ystep3_3_3_3 = $_POST['goo-sickss']; // 구토시기 colum : goosicks
 $ystep3_3_4 = $_POST['foot-sick']; // 발열 colum : footsick
+
+$ystep_4_1 = $_POST['breath-sick'];
+$ystep_4_1_t = implode("/", $ystep_4_1);
+
 $ystep3_3_4_i = implode("/", $ystep3_3_4); // 배열분리
 $ystep3_4 = $_POST['DOC_TEXT05']; // 병원진단특이사항 colum : otheraboutyou
 
-$presearch_add_query = "INSERT INTO `presearch`(`date`, `userid`, `username`, `phone`, `babyname`, `birthday`, `monthly`, `rank`, `gender`, `height`, `weight`, `startperiod`, `ing`, `start`, `eat`, `mix`, `foods`,     `onetime`, `bigfd`, `average`, `averages`, `cooking`, `oneeat`, `cookeat`, `impo`, `family`, `allergy`,`allergyabout`, `sick`, `sick001`, `sick002`, `sick003`, `sick003count`, `sick004`,      `otherabout`, `recooking`, `oneyou`, `suyou`, `averageyou`, `averageyous`, `impoyou`, `cookyou`, `allergyaboutyou`, `sicktwo`, `consick`, `diarsick`, `goosick`, `goosicks`, `footsick`, `otheraboutyou`) VALUES    ('$today','$user_id','','$user_phone','$baby_name','$baby_birth','','$baby_rank','$baby_gender','$baby_cm','$baby_kg','$start_time','$step1_1','$step1_2','$step1_3','$step1_4','$step1_5',    '$step1_6','$step1_7','$step2_1_1','$step2_1_2','$step2_2_i','$step2_2_1','$step2_2_2_i','$step2_3','$step3_1','$step3_2_i','$step3_2_t','$step3_3_i','$step3_3_1_i','$step3_3_2_i','$step3_3_3_2','$step3_3_3_3','$step3_3_4_i',    '$step3_4','$ystep1_1_i','$ystep1_2','$ystep1_3','$ystep1_4','$ystep1_4_1','$ystep1_5','$ystep2_1_i','$ystep2_1_t','$ystep3_3_i','$ystep3_3_1_i','$ystep3_3_2_i','$ystep3_3_3_2','$ystep3_3_3_3','$ystep3_3_4_i', '$ystep3_4')";
+$presearch_add_query = "INSERT INTO `presearch`(`date`, `userid`, `username`, `phone`, `babyname`, `birthday`, `monthly`, `rank`, `gender`, `height`, `weight`, `startperiod`, `ing`, `start`, `eat`, `mix`, `foods`,`onetime`, `bigfd`, `average`, `oneeat`, `cookeat`, `impo`, `family`, `allergy`,`allergyabout`, `sick`, `sick001`, `sick002`, `sick003`, `sick003count`, `sick004`,`otherabout`, `recooking`, `oneyou`, `suyou`, `averageyou`, `averageyous`, `impoyou`, `cookyou`, `allergyaboutyou`, `sicktwo`, `consick`, `diarsick`, `goosick`, `goosicks`, `footsick`, `otheraboutyou`,`breath`,`reselect`,`reselect001`,`reselect002`,`reselecttext`,`reselectt`,`yoobreath`) VALUES    ('$today','$user_id','','$user_phone','$baby_name','$baby_birth','','$baby_rank','$baby_gender','$baby_cm','$baby_kg','$start_time','$step1_1','$step1_2','$step1_3','$step1_4','$step1_5','$step1_6','$step1_7','$new_step_1_t','$step2_2_1','$step2_2_2_i','$step2_3','$step3_1','$step3_2_i','$step3_2_t','$step3_3_i','$step3_3_1_i','$step3_3_2_i','$step3_3_3_2','$step3_3_3_3','$step3_3_4_i',    '$step3_4','$ystep1_1_i','$ystep1_2','$ystep1_3','$ystep1_4','$ystep1_4_1','$ystep1_5','$ystep2_1_i','$ystep2_1_t','$ystep3_3_i','$ystep3_3_1_i','$ystep3_3_2_i','$ystep3_3_3_2','$ystep3_3_3_3','$ystep3_3_4_i', '$ystep3_4','$step3_5_t','$new_step_2_1','$new_step_2_1_1','$new_step_2_2_1','$new_step_2_1_2_t','$new_step_2_1_3','$ystep_4_1_t')";
 mysqli_query($mysqli, $presearch_add_query);
 
 $height_graph = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""];
 $weight_graph = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""];
 $heigth_graph[$baby_after] = $baby_cm;
 $weigth_graph[$baby_after] = $baby_kg;
+
 
 ?>
 
@@ -652,31 +678,27 @@ $weigth_graph[$baby_after] = $baby_kg;
 
             if($step2_3 == "한우" || $ystep1_5 == "한우" || round($per_height) <= 95 || round($per_weight) <= 90 || strpos($ystep3_4,"빈혈") !== false || strpos($step3_4,"빈혈") !== false){
                 //단백질식단추천하세요
-                $alink .= "-c";
-                $table = "단백질";
-            } elseif($step2_3 == "알레르기"){
-                //안전식단
-                $alink .= "-b";
-                $table = "안전";
+                $blink = $alink."p";
+                $alink .= "b";
+                $table = "플러스";
             } elseif($step2_3 == "재료" || $ystep1_5 == "재료"){
                 // 다양다양
-                $alink .= "-d";
-                $table = "다양다양";
+                $blink = $alink."p";
+                $alink .= "b";
+                $table = "플러스";
             } elseif($step2_3 == "마음대로" || $ystep1_5 == "마음대로"){
                 // 내맘대로
-                $alink .= "-e";
-                $table = "내맘대로";
+                $blink = $alink."a";
+                $alink .= "p";
+                $table = "퍼스트";
             } else {
                 //균형식단
-                $alink .= "-a";
-                $table = "균형";
+                $blink = $alink."p";
+                $alink .= "a";
+                $table = "기본";
             }
 
-            if($step2_3 == "한우" || $ystep1_5 == "한우" || strpos($ystep3_4,"빈혈") !== false || strpos($step3_4,"빈혈") !== false ){
-                $cate_no = 2;
-            } else {
                 $cate_no = 1;
-            }
 
             $table_notice_query = "SELECT * FROM tablenotice WHERE tables = '$table' AND after = '$cate_no'";
             $table_notice_result = mysqli_query($mysqli, $table_notice_query);
@@ -698,49 +720,6 @@ $weigth_graph[$baby_after] = $baby_kg;
                         <p><?php echo $baby_name ?>이에게 권장하는<br>도담밀 이유식은 <br> <span class="green-s"> “<?php echo $period ?> <?php echo $table ?> 식단”</span> 입니다.</p>
                     </div>
                     <p class="pt20"><?php echo $table_notice ?></p>
-                </div>
-            </div>
-            <?php
-
-                $opt_1 = "C";
-                $opt_2 = "R";
-
-                if(strpos($step3_4,"거부") != false || strpos($step3_4,"편식") != false || strpos($ystep3_4, "거부") != false || strpos($ystep3_4, "편식") != false){
-                    $opt_2 = "R";
-                }
-
-                if(empty($step3_3) == true || empty($ystep3_3) == true ){
-                    $opt_1 = "C";
-                }
-
-                $option_1 = "육수팩 추가";
-                $option_1_t = "이유식 섭취량이 적거나, 잘 먹지않는 우리 아이는 이유식을 더욱 잘 먹을 수 있도록 합성첨가물 없이 건강하게 만든 도담밀 육수팩으로 이유식에 풍미를 더해보세요.";
-                $option_2 = "도담케어+";
-                $option_2_t = "설사, 변비, 감기 등 우리 아기의 상태나 성장 정도에 맞춰서 식단 변경이 가능한 도담케어 옵션으로 더욱 튼튼하게 이유식을 시작해 보세요.";
-
-            ?>
-            <!--새로 추가된부분-->
-            <div class="">
-                <div class="">
-                    <div class="">
-                        <p>추천드리는 추가옵션</p>
-                    </div>
-                    <div class="">
-                        <div class="">
-                            <p><?php echo $option_1 ?></p>
-                        </div>
-                        <div class="">
-                            <p><?php echo $option_1_t ?></p>
-                        </div>
-                    </div>
-                    <div class="">
-                        <div class="">
-                            <p><?php echo $option_2 ?></p>
-                        </div>
-                        <div class="">
-                            <p><?php echo $option_2_t ?></p>
-                        </div>
-                    </div>
                 </div>
             </div>
 
@@ -772,6 +751,7 @@ $weigth_graph[$baby_after] = $baby_kg;
                 </div>
                 <div class="btn bg-ff btn-md">
                     <p class="go-staring atagsub" data-href="<?php echo $alink ?>">추천받은 식단으로 시작하기 ></p>
+                    <p class="go-staring atagsub" data-href="<?php echo $blink ?>">다른 식단으로 시작하기 ></p>
                 </div>
             </div>
         </div>

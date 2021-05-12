@@ -89,6 +89,8 @@ $baby_name = $baby_name_row[babyname];
     }
 </style>
 
+<!-- action에 3week_period_action.php 연결된 페이지로 넘겨야합니다 -->
+<!-- 서밋으로 넘겨야하는거 잊지마세요!! -->
 <form method="POST" action="">
     <div>
         <div class="">
@@ -147,6 +149,21 @@ $baby_name = $baby_name_row[babyname];
 
     </div>
 
+<?php 
+
+$pointz = 0;
+$query = "SELECT * FROM pointlog WHERE userid = '$userid'";
+$result = mysqli_query($mysqli, $query);
+while ($row = mysqli_fetch_array($result)) {
+    $pointz = $pointz + $row[points];
+}
+
+?>
+<div>
+<input type="number" name="point" max="<?php echo $pointz ?>" min="0">
+<p>보유중 적립금</p>
+<p><?php echo $pointz ?></p>
+</div>
 
     <div class="">
         <div class="">
@@ -196,7 +213,20 @@ $baby_name = $baby_name_row[babyname];
 
 </form>
 
-
+<script>
+    $( "#points" ).change(function() {
+        var max = <?php echo $pointz ?>;
+        var min = 0;
+        if ($(this).val() > max)
+        {
+            $(this).val(max);
+        }
+        else if ($(this).val() < min)
+        {
+            $(this).val(min);
+        }       
+      });
+      </script>
 
 <script>
     var period = <?php echo $period ?>;

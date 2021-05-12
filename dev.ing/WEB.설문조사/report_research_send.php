@@ -7,7 +7,7 @@
     * 완전 완성은 아니지만 어느정도의 완성본
 
     * 3주가 된 연장고객에게 메시지를 전달하는 시스템
-    * 앞의 3week_kakao_send.php 의 내용으로 DB내용을 POST로 전달받아 사용된다
+    * 앞의 report_research_send.php 의 내용으로 DB내용을 POST로 전달받아 사용된다
 
     * KAKAO 알림톡 소스는 TKakaoNotificationTalk.php 와 항상 같은 디렉토리 내에 있어야 한다
     * 템플릿이나 내용의 수정이 필요한 경우 api store에서 템플릿 수정이 가능하다

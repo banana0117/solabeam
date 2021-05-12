@@ -55,6 +55,56 @@ function banana_renewal_kakao_send($subscription){
     ];
 
     $response = $knt->postMessage($body);
+
+    $user_search = "SELECT * FROM userbase WHERE phone = '$order_phone'";
+    $user_result = mysqli_query($mysqli, $user_search);
+    $user_row = mysqli_fetch_array($user_result);
+
+    $user_type = $user_row[news];
+    $user_id = $user_row[userid];
+
+    if($user_type == '1'){
+    $current_user = wp_get_current_user();
+    $numorders = wc_get_customer_order_count($current_user->ID);
+
+    $args = array(
+        'customer_id' => $current_user->ID,
+        'post_status' => 'cancelled',
+        'post_type' => 'shop_order',
+        'return' => 'ids',
+    );
+   
+    $numorders_cancelled = 0;
+    $numorders_cancelled = count(wc_get_orders($args));
+
+    $num_not_cancelled = $numorders - $numorders_cancelled;
+
+    if ($num_not_cancelled <= 1) {
+        $perz = 0.005;
+    } elseif ($num_not_cancelled <= 3) {
+        $perz = 0.01;
+    } elseif ($num_not_cancelled <= 6) {
+        $perz = 0.02;
+    } elseif ($num_not_cancelled <= 9) {
+        $perz = 0.03;
+    } elseif ($num_not_cancelled <= 12) {
+        $perz = 0.04;
+    } elseif ($num_not_cancelled <= 15) {
+        $perz = 0.05;
+    } elseif ($num_not_cancelled <= 18) {
+        $perz = 0.1;
+    } else {
+        $perz = 0.005; 
+    }
+
+    $per_total = $order_total * $perz;
+
+    $point_log = "INSERT INTO `pointlog`(`dates`, `userid`, `type`, `used`, `points`) VALUES ('$order_date', '$user_id', '추가', '갱신결제', '$per_total')";
+    mysqli_query($mysqli, $point_log);
+
+    }
+
+
 }
 
 add_action('woocommerce_subscription_renewal_payment_complete', 'banana_renewal_kakao_send');

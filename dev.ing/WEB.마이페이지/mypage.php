@@ -69,20 +69,31 @@ if (is_user_logged_in()) {
 
     
 </div>
-<!--
+
+<?php 
+
+$pointz = 0;
+$query = "SELECT * FROM pointlog WHERE userid = '$userid'";
+$result = mysqli_query($mysqli, $query);
+while ($row = mysqli_fetch_array($result)) {
+    $pointz = $pointz + $row[points];
+}
+
+?>
+
 <div class="box">
     <div class="mypage-point">
         <div class="mypage-point-inner01">
             <p>포인트</p>
-            <p>10,000</p>
+            <p><?php echo $pointz ?></p>
         </div>
         <div class="mypage-point-inner02">
             <p>추천인내역</p>
-            <p>2</p>
+            <p>준비중입니다</p>
         </div>
     </div>
 </div>
--->
+
 <div class="box">
     <div class="box-contents">
         <div class="list mypage-list">

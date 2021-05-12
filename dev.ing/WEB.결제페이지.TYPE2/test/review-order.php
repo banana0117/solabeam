@@ -31,162 +31,137 @@
 
 defined('ABSPATH') || exit;
 ?>
-<!--이건나중에 지우세용-->
-<style>
-    .opt-btn .flex {
-        display: flex;
-    }
-
-    .opt-btn .flex span {
-        justify-content: space-between;
-        width: 100%;
-        display: block;
-        text-align: center;
-        margin: 5px;
-        padding: 5px 0;
-        border-radius: 5px;
-        border: 1px solid #a6a6a6;
-    }
-
-    .opt-btn .flex span.checked {
-        background-color: blue !important;
-    }
-
-    .opt-btn .flex span.disabled {
-        background-color: gray;
-    }
-</style>
 
 <div class="shop_table woocommerce-checkout-review-order-table">
-    <div>
+    <div class="" style="padding:0 20px;">
         <div class="">
-            <div class="">
+            <div class="checkout-title">
                 <p>주문상품</p>
             </div>
-            <div class="">
-                <p>변경</p>
-            </div>
         </div>
-        <div class="" id="meal_detail">
-            <!--시기별사진-->
-            <div class="">
-                <img id="period_img" src="">
-            </div>
-            <!--시기, 식단명, 가격등 -->
-            <div class="">
-                <?php //건드리지마세용
-                foreach (WC()->cart->get_fees() as $fee) : ?>
-                    <?php $fee_name[] = esc_html($fee->name); ?>
-                    <?php $fee_price[] = esc_html($fee->total); ?>
-                <?php endforeach; ?>
-                <div class="">
-                    <p><?php echo $fee_name[0]; ?></p>
-                    <span><?php echo number_format($fee_price[0]); ?></span>
+        <div id="meal_detail">
+            <div class="flexed">
+                <!--시기별사진-->
+                <div class="flexibled detail-img">
+                    <img id="period_img" src="/wp-content/themes/storefront-child/image/newcheckouttest.png">
                 </div>
-                <div class="">
-                    <p id="deli-start"></p>
-                </div>
-                <div class="">
-                    <p id="deli-end"></p>
-                </div>
-                <div class="">
-                    <p id="deli-day"></p>
+                <!--시기, 식단명, 가격등 -->
+                <div class="flexibled detail-order">
+                    <?php //건드리지마세용
+                    foreach (WC()->cart->get_fees() as $fee) : ?>
+                        <?php $fee_name[] = esc_html($fee->name); ?>
+                        <?php $fee_price[] = esc_html($fee->total); ?>
+                    <?php endforeach; ?>
+                    <div class="period-title">
+                        <p><?php echo $fee_name[0]; ?></p>
+                        <span><?php echo number_format($fee_price[0]); ?>원</span>
+                    </div>
+                    <div class="deli-type">
+                        <p id="deli-start"></p>
+                    </div>
+                    <div class="deli-type">
+                        <p id="deli-end"></p>
+                    </div>
+                    <div class="deli-type">
+                        <p id="deli-day"></p>
+                    </div>
                 </div>
             </div>
             <!--옵션라인-->
-            <div class="">
+            <div class="opt-wrap">
                 <?php
                 $fee_name_count = count($fee_name);
+                $discount_pay = 0;
                 $opt_roop = 1;
                 while ($opt_roop <= $fee_name_count) {
                     // 원하는 클래스명 추가해서 사용하면 됩니다.
-                    if($fee_name[$opt_roop] == ""){
-                    } elseif(strpos($fee_price[$opt_roop], "-") !== true){
+                    if ($fee_name[$opt_roop] == "") {
+                    } elseif (strpos($fee_name[$opt_roop], "할인") != false) {
+                        $discount_pay = $fee_price[$opt_roop];
                     } else {
-                    echo "<div class=''>";
-                    echo "<p>+ <span>" . number_format($fee_price[$opt_roop]) . "</span> 원 " . $fee_name[$opt_roop] . "</p>";
-                    echo "</div>";
+                        echo "<div class='opt-price'>";
+                        echo "<p>+ <span>" . number_format($fee_price[$opt_roop]) . "</span> 원 " . $fee_name[$opt_roop] . "</p>";
+                        echo "</div>";
                     }
                     $opt_roop++;
                 }
                 ?>
             </div>
-            <div class="">
+            <div class="flexed total-prices">
                 <?php
                 $ft = 0;
                 while ($ft <= $fee_name_count) {
                     $fee_all_total = $fee_all_total + $fee_price[$ft];
-
-                    if (strpos($fee_price[$ft], "-") != false) {
-                        $discount_pay = $fee_price[$ft];
-                    }
-
                     $ft++;
                 }
                 ?>
-                <p>상품 금액 <?php echo number_format($fee_all_total) ?></p>
+                <p class="flexibled left">상품 금액</p><p class="flexibled right"><span><?php echo number_format($fee_all_total) ?></span>원</p></span>
+            </div>
+            <div>
                 <?php
-                if ($discount_pay == "") {
+                if ($discount_pay == "0") {
                 } else {
-                    echo '<p>할인금액</p><p>';
+                    echo '<div class="discount-price"><p>할인금액</p><span>';
                     echo number_format($discount_pay);
-                    echo '원</p>';
+                    echo '원</span></div>';
                 }
                 ?>
             </div>
         </div>
         <div class="" id="etc_detail">
-            <!--시기별사진-->
-            <div class="">
-                <img id="etc_img" src="">
-            </div>
-            <!--시기, 식단명, 가격등 -->
-            <div class="">
-                <?php //건드리지마세용
-                foreach (WC()->cart->get_fees() as $fee) : ?>
-                    <?php $fee_names[] = esc_html($fee->name); ?>
-                    <?php $fee_prices[] = esc_html($fee->total); ?>
-                <?php endforeach; ?>
-                <div class="">
-                    <p><?php echo $fee_names[0]; ?></p>
-                    <span><?php echo number_format($fee_prices[0]); ?></span>
+            <div class="flexed">
+                <!--시기별사진-->
+                <div class="flexibled detail-img">
+                    <img id="etc_img" src="/wp-content/themes/storefront-child/image/newcheckouttest.png">
                 </div>
-                <div class="">
-                    <p id="product_detail"></p>
-                </div>
-                <div class="">
-                    <?php
-                        $array = ['1','2','3','4','5','6','7','8','9'];
+                <!--시기, 식단명, 가격등 -->
+                <div class="flexibled detail-order">
+                    <?php //건드리지마세용
+                    foreach (WC()->cart->get_fees() as $fee) : ?>
+                        <?php $fee_names[] = esc_html($fee->name); ?>
+                        <?php $fee_prices[] = esc_html($fee->total); ?>
+                    <?php endforeach; ?>
+                    <div class="period-title">
+                        <p><?php echo $fee_names[0]; ?></p>
+                        <span><?php echo number_format($fee_prices[0]); ?>원</span>
+                    </div>
+                    <div class="period-detail">
+                        <p id="product_detail"></p>
+                    </div>
+                    <div class="checkout-counter">
+                        <?php
+                        $array = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
 
-                        if(strpos($fee_name[0], "편수") != false){
-                            $array_s = ['19900','39800','59700','79600','99500','119400','139300','159200','179100'];
-                        } elseif(strpos($fee_name[0], "세트") != false){
-                            $array_s = ['59000','118000','177000','236000','295000','354000','413000','472000','531000'];
-                        } elseif(strpos($fee_name[0], "메이커") != false){
-                            $array_s = ['1','2','3','4','5','6','7','8','9'];
+                        if (strpos($fee_name[0], "편수") != false) {
+                            $array_s = ['19900', '39800', '59700', '79600', '99500', '119400', '139300', '159200', '179100'];
+                        } elseif (strpos($fee_name[0], "세트") != false) {
+                            $array_s = ['59000', '118000', '177000', '236000', '295000', '354000', '413000', '472000', '531000'];
+                        } elseif (strpos($fee_name[0], "메이커") != false) {
+                            $array_s = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
                         }
 
                         $key = array_search($fee_prices[0], $array_s);
 
                         $number = $array[$key];
-                    ?>
-                    <p id="add_d">-</p>
-                    <p id="add"><?php echo $number ?></p>
-                    <p id="add_p">+</p>
+                        ?>
+                        <p class="minus" id="add_d">-</p>
+                        <p class="counter" id="add"><?php echo $number ?></p>
+                        <p class="plus" id="add_p">+</p>
+                    </div>
                 </div>
             </div>
-            <div class="">
-                <p>상품 금액<?php echo number_format($fee_prices[0]) ?></p>
+            <div class="flexed total-prices">
+                <p class="flexibled left">상품 금액</p><p class="flexibled right"><span><?php echo number_format($fee_prices[0]) ?></span>원</p>
             </div>
         </div>
     </div>
 </div>
-<?php 
- //건드리지마세용
+<?php
+//건드리지마세용
 foreach (WC()->cart->get_fees() as $fee) : ?>
     <?php $fee_name[] = esc_html($fee->name); ?>
 <?php endforeach; ?>
-<?php if(strpos($fee_name[0], ":") != false ){
+<?php if (strpos($fee_name[0], "식단") != false || strpos($fee_name[0], "퍼스트") != false || strpos($fee_name[0], "플러스") != false) {
     echo '<script>$("#etc_detail").hide();</script>';
 } else {
     echo '<script>$("#meal_detail").hide();</script>';

@@ -4,7 +4,6 @@ $today_date = date("Y-m-d");
 
 ?>
 
-
 <link rel="stylesheet" href="/wp-content/themes/storefront-child/css/form_admin.css?ver=<?php echo date('YmdHis') ?>" />
 <script type="text/javascript" src="/wp-content/themes/storefront-child/jquery/jquery-3.4.1.min.js"></script>
 
@@ -34,12 +33,12 @@ include 'lib_arr.php';
                     <li class="flexible"><a class="p" href="/wp-content/themes/storefront-child/adminform/form_post_update.php">송장등록</a></li>
                 </div>
                 <div class="floor flex bg_f9">
-                    <li class="flexible"><a class="p" href="/wp-content/themes/storefront-child/adminform/mate_insert.php">구매량재고</a></li>
-                    <li class="flexible"><a class="p" href="/wp-content/themes/storefront-child/adminform/mate_buying.php">재고입력</a></li>
+                    <li class="flexible"><a class="p" href="/wp-content/themes/storefront-child/adminform/mate_insert.php">재고입력</a></li>
+                    <li class="flexible"><a class="p" href="/wp-content/themes/storefront-child/adminform/mate_buying.php">구매량받기</a></li>
                 </div>
                 <div class="floor flex bg_f9">
                     <li class="flexible"><a class="p" href="/wp-content/themes/storefront-child/adminform/label_form.php">라벨출력</a></li>
-                    <li class="flexible"><a class="p" href="">빈칸</a></li>
+                    <li class="flexible"><a class="p" href="/wp-content/themes/storefront-child/adminform/ask_.php">문의답변</a></li>
                 </div>
             </div>
             <!--셀렉2-->
@@ -51,14 +50,14 @@ include 'lib_arr.php';
             <div class="slide_ready">
                 <div class="floor flex bg_f9">
                     <li class="flexible"><a class="p" href="/">고객정보</a></li>
-                    <li class="flexible"><a class="p" href="//wp-content/themes/storefront-child/adminform/user_cancle.php">배송해지</a></li>
+                    <li class="flexible"><a class="p" href="/wp-content/themes/storefront-child/adminform/user_cancle.php">배송해지</a></li>
                 </div>
                 <div class="floor flex bg_f9">
                     <li class="flexible"><a class="p" href="/wp-content/themes/storefront-child/adminform/user_report.php">보고서 확인</a></li>
                     <li class="flexible"><a class="p" href="/wp-content/themes/storefront-child/adminform/table_edit_form.php">식단확인 및 변경</a></li>
                 </div>
                 <div class="floor flex bg_f9">
-                    <li class="flexible"><a class="p" href="/">빈칸</a></li>
+                <li class="flexible"><a class="p" href="/wp-content/themes/storefront-child/adminform/comment_active.php">보고서코멘트등록</a></li>
                     <li class="flexible"><a class="p" href="">빈칸</a></li>
                 </div>
             </div>
@@ -73,7 +72,7 @@ include 'lib_arr.php';
         <div class="tab_box tab0 on">
 
             <div class="">
-                <form method="POST" action="/wp-content/themes/storefront-child/adminform/active/user_report_get.php">
+                <form method="POST" action="/wp-content/themes/storefront-child/adminform/active/report_active.php">
                     <div class="">
                         <p>회원id</p>
                         <input type="text" name="userid">

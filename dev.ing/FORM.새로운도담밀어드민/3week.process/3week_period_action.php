@@ -89,12 +89,12 @@ if (in_array("Y", $select_opts)) {
 if (in_array("A", $select_opts)) {
     array_push($table_opt, "A");
     $table = "A";
-    $tables = "균형";
+    $tables = "기본";
 }
 if (in_array("B", $select_opts)) {
     array_push($table_opt, "B");
     $table = "B";
-    $tables = "더하기";
+    $tables = "플러스";
 }
 
 if (in_array("K", $select_opts)) {

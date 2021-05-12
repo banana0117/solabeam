@@ -372,9 +372,11 @@ $test_date = date("Y-m-d", strtotime("+1 month", strtotime($today_date)));
             $query = "SELECT * FROM userTest WHERE userid = 'banana'";
             $result = mysqli_query($mysqli, $query);
             while ($row = mysqli_fetch_array($result)) {
+                $pointz = $pointz + $row[opt];
                 $point[] = $row[opt];
             }
 
+            echo $pointz;
             $count = count($point);
 
             $x = 0;
@@ -389,22 +391,43 @@ $test_date = date("Y-m-d", strtotime("+1 month", strtotime($today_date)));
 
             ?>
 
-            <input type="text" id="ass">
-            <input type="text" id="asd">
-
-            <select name="tdas" id="gsa">
-                <option value="1">fadf</option>
-                <option value="2">fadf</option>
-                <option value="3">fadf</option>
-                <option value="4">fadf</option>
-                <option value="5">fadf</option>
-            </select>
 
             <div class="">
-                <p id="add_d">ㅁ</p>
-                        <p id="add">1</p>
-                        <p id="add_p">ㅌ</p>
+                <div class="">
+                    <div class="">
+                        <p>할인정보</p>
+                    </div>
+                    <div class="" style="display:flex;">
+                        <p stlye="text-align:left;">적립금 사용하기</p>
+                        <p style="text-aling:right;">에베베</p>
+                    </div>
+                </div>
+                <div>
+                    <input type="text">
+                </div>
             </div>
+
+            <?php 
+
+            $array = ["후기 플러스 식단 / 4주", "재료더하기", "한우더하기"];
+            $text = implode("/", $array);
+
+            $sample = "도담";
+            $sample .= $text;
+
+            echo $text;
+
+            if(strpos($sample, "초기") != false){
+                $period = "초기";
+            } elseif(strpos($sample, "중기") != false){
+                $period = "중기";
+            }elseif(strpos($sample, "후기") != false){
+                $period = "후기";
+            }
+
+            echo $period;
+
+            ?>
 
         </div>
 

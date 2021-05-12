@@ -141,7 +141,7 @@ while ($z < 3000) {
                         }
                     }
                 }
-            } elseif ($num_code == "NM") {
+            } elseif ($num_code == "MN") {
 
                 $mn_query = "SELECT * FROM menutest WHERE menu = '$usermenuz[$z]'";
                 $mn_result = mysqli_query($mysqli, $mn_query);
